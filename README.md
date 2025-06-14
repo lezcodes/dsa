@@ -50,6 +50,12 @@ make test NAME=0001-linear-search
 
 ### Running Algorithms
 
+Run all algorithms:
+
+```bash
+make run
+```
+
 Run a specific algorithm:
 
 ```bash
