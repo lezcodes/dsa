@@ -21,3 +21,6 @@ test:
 
 run:
 	@./scripts/run.sh "$(NAME)"
+
+modernize:
+	@go tool modernize ./...
