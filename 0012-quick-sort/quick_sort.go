@@ -3,7 +3,6 @@ package quick_sort
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
 func QuickSort(arr []int) []int {
@@ -47,7 +46,6 @@ func QuickSortRandomPivot(arr []int) []int {
 
 	result := make([]int, len(arr))
 	copy(result, arr)
-	rand.Seed(time.Now().UnixNano())
 	quickSortRandomHelper(result, 0, len(result)-1)
 	return result
 }
