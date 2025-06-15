@@ -192,7 +192,7 @@ func (q *ArrayQueue) Clear() {
 func (q *ArrayQueue) ToSlice() []int {
 	result := make([]int, 0, q.size)
 
-	for i := 0; i < q.size; i++ {
+	for i := range q.size {
 		index := (q.front + i) % q.capacity
 		result = append(result, q.data[index])
 	}
@@ -207,7 +207,7 @@ func (q *ArrayQueue) Display() string {
 
 	result := "Queue: ["
 
-	for i := 0; i < q.size; i++ {
+	for i := range q.size {
 		index := (q.front + i) % q.capacity
 		result += fmt.Sprintf("%d", q.data[index])
 		if i < q.size-1 {

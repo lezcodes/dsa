@@ -172,7 +172,7 @@ func TestArrayQueueCircular(t *testing.T) {
 		q.Enqueue(i * 10)
 	}
 
-	for i := 0; i < 5; i++ {
+	for range 5 {
 		dequeued, _ := q.Dequeue()
 		q.Enqueue(dequeued + 100)
 	}
