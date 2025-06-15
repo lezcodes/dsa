@@ -10,24 +10,62 @@ func NewTreeNode(value int) *TreeNode {
 	return &TreeNode{Value: value}
 }
 
+type Queue[T any] struct {
+	items []T
+}
+
+func NewQueue[T any]() *Queue[T] {
+	return &Queue[T]{items: make([]T, 0)}
+}
+
+func (q *Queue[T]) Enqueue(item T) {
+	q.items = append(q.items, item)
+}
+
+func (q *Queue[T]) Dequeue() T {
+	if len(q.items) == 0 {
+		var zero T
+		return zero
+	}
+	item := q.items[0]
+	q.items = q.items[1:]
+	return item
+}
+
+func (q *Queue[T]) IsEmpty() bool {
+	return len(q.items) == 0
+}
+
+func (q *Queue[T]) Size() int {
+	return len(q.items)
+}
+
+func (q *Queue[T]) Peek(index int) T {
+	if index < 0 || index >= len(q.items) {
+		var zero T
+		return zero
+	}
+	return q.items[index]
+}
+
 func BFS(root *TreeNode) []int {
 	if root == nil {
 		return []int{}
 	}
 
 	result := []int{}
-	queue := []*TreeNode{root}
+	queue := NewQueue[*TreeNode]()
+	queue.Enqueue(root)
 
-	for len(queue) > 0 {
-		current := queue[0]
-		queue = queue[1:]
+	for !queue.IsEmpty() {
+		current := queue.Dequeue()
 		result = append(result, current.Value)
 
 		if current.Left != nil {
-			queue = append(queue, current.Left)
+			queue.Enqueue(current.Left)
 		}
 		if current.Right != nil {
-			queue = append(queue, current.Right)
+			queue.Enqueue(current.Right)
 		}
 	}
 
@@ -40,22 +78,22 @@ func BFSLevels(root *TreeNode) [][]int {
 	}
 
 	result := [][]int{}
-	queue := []*TreeNode{root}
+	queue := NewQueue[*TreeNode]()
+	queue.Enqueue(root)
 
-	for len(queue) > 0 {
-		levelSize := len(queue)
+	for !queue.IsEmpty() {
+		levelSize := queue.Size()
 		currentLevel := []int{}
 
 		for range levelSize {
-			current := queue[0]
-			queue = queue[1:]
+			current := queue.Dequeue()
 			currentLevel = append(currentLevel, current.Value)
 
 			if current.Left != nil {
-				queue = append(queue, current.Left)
+				queue.Enqueue(current.Left)
 			}
 			if current.Right != nil {
-				queue = append(queue, current.Right)
+				queue.Enqueue(current.Right)
 			}
 		}
 
@@ -71,24 +109,24 @@ func BFSRightSideView(root *TreeNode) []int {
 	}
 
 	result := []int{}
-	queue := []*TreeNode{root}
+	queue := NewQueue[*TreeNode]()
+	queue.Enqueue(root)
 
-	for len(queue) > 0 {
-		levelSize := len(queue)
+	for !queue.IsEmpty() {
+		levelSize := queue.Size()
 
 		for i := range levelSize {
-			current := queue[0]
-			queue = queue[1:]
+			current := queue.Dequeue()
 
 			if i == levelSize-1 {
 				result = append(result, current.Value)
 			}
 
 			if current.Left != nil {
-				queue = append(queue, current.Left)
+				queue.Enqueue(current.Left)
 			}
 			if current.Right != nil {
-				queue = append(queue, current.Right)
+				queue.Enqueue(current.Right)
 			}
 		}
 	}
@@ -102,24 +140,24 @@ func BFSLeftSideView(root *TreeNode) []int {
 	}
 
 	result := []int{}
-	queue := []*TreeNode{root}
+	queue := NewQueue[*TreeNode]()
+	queue.Enqueue(root)
 
-	for len(queue) > 0 {
-		levelSize := len(queue)
+	for !queue.IsEmpty() {
+		levelSize := queue.Size()
 
 		for i := range levelSize {
-			current := queue[0]
-			queue = queue[1:]
+			current := queue.Dequeue()
 
 			if i == 0 {
 				result = append(result, current.Value)
 			}
 
 			if current.Left != nil {
-				queue = append(queue, current.Left)
+				queue.Enqueue(current.Left)
 			}
 			if current.Right != nil {
-				queue = append(queue, current.Right)
+				queue.Enqueue(current.Right)
 			}
 		}
 	}
@@ -133,16 +171,16 @@ func BFSZigzag(root *TreeNode) [][]int {
 	}
 
 	result := [][]int{}
-	queue := []*TreeNode{root}
+	queue := NewQueue[*TreeNode]()
+	queue.Enqueue(root)
 	leftToRight := true
 
-	for len(queue) > 0 {
-		levelSize := len(queue)
+	for !queue.IsEmpty() {
+		levelSize := queue.Size()
 		currentLevel := make([]int, levelSize)
 
 		for i := range levelSize {
-			current := queue[0]
-			queue = queue[1:]
+			current := queue.Dequeue()
 
 			index := i
 			if !leftToRight {
@@ -151,10 +189,10 @@ func BFSZigzag(root *TreeNode) [][]int {
 			currentLevel[index] = current.Value
 
 			if current.Left != nil {
-				queue = append(queue, current.Left)
+				queue.Enqueue(current.Left)
 			}
 			if current.Right != nil {
-				queue = append(queue, current.Right)
+				queue.Enqueue(current.Right)
 			}
 		}
 
@@ -170,22 +208,22 @@ func MaxDepth(root *TreeNode) int {
 		return 0
 	}
 
-	queue := []*TreeNode{root}
+	queue := NewQueue[*TreeNode]()
+	queue.Enqueue(root)
 	depth := 0
 
-	for len(queue) > 0 {
-		levelSize := len(queue)
+	for !queue.IsEmpty() {
+		levelSize := queue.Size()
 		depth++
 
 		for range levelSize {
-			current := queue[0]
-			queue = queue[1:]
+			current := queue.Dequeue()
 
 			if current.Left != nil {
-				queue = append(queue, current.Left)
+				queue.Enqueue(current.Left)
 			}
 			if current.Right != nil {
-				queue = append(queue, current.Right)
+				queue.Enqueue(current.Right)
 			}
 		}
 	}
@@ -198,25 +236,25 @@ func MinDepth(root *TreeNode) int {
 		return 0
 	}
 
-	queue := []*TreeNode{root}
+	queue := NewQueue[*TreeNode]()
+	queue.Enqueue(root)
 	depth := 1
 
-	for len(queue) > 0 {
-		levelSize := len(queue)
+	for !queue.IsEmpty() {
+		levelSize := queue.Size()
 
 		for range levelSize {
-			current := queue[0]
-			queue = queue[1:]
+			current := queue.Dequeue()
 
 			if current.Left == nil && current.Right == nil {
 				return depth
 			}
 
 			if current.Left != nil {
-				queue = append(queue, current.Left)
+				queue.Enqueue(current.Left)
 			}
 			if current.Right != nil {
-				queue = append(queue, current.Right)
+				queue.Enqueue(current.Right)
 			}
 		}
 
@@ -231,30 +269,30 @@ func LevelSum(root *TreeNode, level int) int {
 		return 0
 	}
 
-	queue := []*TreeNode{root}
+	queue := NewQueue[*TreeNode]()
+	queue.Enqueue(root)
 	currentLevel := 0
 
-	for len(queue) > 0 {
-		levelSize := len(queue)
+	for !queue.IsEmpty() {
+		levelSize := queue.Size()
 
 		if currentLevel == level {
 			sum := 0
 			for i := range levelSize {
-				current := queue[i]
+				current := queue.Peek(i)
 				sum += current.Value
 			}
 			return sum
 		}
 
 		for range levelSize {
-			current := queue[0]
-			queue = queue[1:]
+			current := queue.Dequeue()
 
 			if current.Left != nil {
-				queue = append(queue, current.Left)
+				queue.Enqueue(current.Left)
 			}
 			if current.Right != nil {
-				queue = append(queue, current.Right)
+				queue.Enqueue(current.Right)
 			}
 		}
 
