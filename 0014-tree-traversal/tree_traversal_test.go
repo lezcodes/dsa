@@ -207,9 +207,9 @@ func TestRun(t *testing.T) {
 		t.Fatalf("Expected TraversalResults, got %T", result)
 	}
 
-	expectedPreOrder := []int{1, 2, 4, 5, 3, 6, 7}
-	expectedInOrder := []int{4, 2, 5, 1, 6, 3, 7}
-	expectedPostOrder := []int{4, 5, 2, 6, 7, 3, 1}
+	expectedPreOrder := []int{7, 23, 5, 4, 3, 18, 21}
+	expectedInOrder := []int{5, 23, 4, 7, 18, 3, 21}
+	expectedPostOrder := []int{5, 4, 23, 18, 21, 3, 7}
 
 	if !reflect.DeepEqual(traversalResults.PreOrder, expectedPreOrder) {
 		t.Errorf("PreOrder = %v, want %v", traversalResults.PreOrder, expectedPreOrder)
