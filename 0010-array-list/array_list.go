@@ -154,10 +154,7 @@ func (al *ArrayList[T]) ensureCapacity() {
 
 func (al *ArrayList[T]) shrinkIfNeeded() {
 	if al.capacity > defaultCapacity && float64(al.size) <= float64(al.capacity)*shrinkThreshold {
-		newCapacity := al.capacity / growthFactor
-		if newCapacity < defaultCapacity {
-			newCapacity = defaultCapacity
-		}
+		newCapacity := max(al.capacity/growthFactor, defaultCapacity)
 		al.resize(newCapacity)
 	}
 }
