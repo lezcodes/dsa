@@ -15,8 +15,9 @@ get_next_number() {
   for dir in [0-9][0-9][0-9][0-9]-*; do
     if [ -d "$dir" ]; then
       local num=$(echo "$dir" | sed 's/^\([0-9][0-9][0-9][0-9]\)-.*/\1/')
-      if [ "$num" -gt "$max_num" ]; then
-        max_num="$num"
+      local decimal_num=$((10#$num))
+      if [ "$decimal_num" -gt "$max_num" ]; then
+        max_num="$decimal_num"
       fi
     fi
   done

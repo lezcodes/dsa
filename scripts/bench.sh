@@ -10,7 +10,7 @@ NC='\033[0m'
 
 print_header() {
   echo -e "${BLUE}================================${NC}"
-  echo -e "${BLUE}  DSA Test Runner${NC}"
+  echo -e "${BLUE}  DSA Benchmark Runner${NC}"
   echo -e "${BLUE}================================${NC}"
   echo ""
 }
@@ -44,11 +44,11 @@ resolve_directory() {
   fi
 }
 
-run_tests_in_dir() {
+run_benchmarks_in_dir() {
   local dir="$1"
   local success=true
 
-  echo -e "${YELLOW}Testing: $dir${NC}"
+  echo -e "${YELLOW}Benchmarking: $dir${NC}"
   echo "----------------------------------------"
 
   if [ ! -d "$dir" ]; then
@@ -56,34 +56,17 @@ run_tests_in_dir() {
     return 1
   fi
 
-  echo "Running go test..."
-  if ! go test -v "./$dir"; then
-    echo -e "${RED}Tests failed in $dir${NC}"
+  echo "Running benchmarks..."
+  if ! go test -bench=. -benchmem -run=^$ "./$dir"; then
+    echo -e "${RED}Benchmarks failed in $dir${NC}"
     success=false
-  fi
-
-  echo ""
-  echo "Running go vet..."
-  if ! go vet "./$dir"; then
-    echo -e "${RED}Go vet failed in $dir${NC}"
-    success=false
-  fi
-
-  echo ""
-  echo "Checking gofmt..."
-  if [ -n "$(gofmt -l $dir)" ]; then
-    echo -e "${RED}Code formatting issues found:${NC}"
-    gofmt -l "$dir"
-    success=false
-  else
-    echo -e "${GREEN}Code formatting is correct${NC}"
   fi
 
   if [ "$success" = true ]; then
-    echo -e "${GREEN}✓ All checks passed for $dir${NC}"
+    echo -e "${GREEN}✓ Benchmarks completed for $dir${NC}"
     return 0
   else
-    echo -e "${RED}✗ Some checks failed for $dir${NC}"
+    echo -e "${RED}✗ Benchmarks failed for $dir${NC}"
     return 1
   fi
 }
@@ -102,17 +85,17 @@ main() {
 
   if [ -n "$input_name" ]; then
     local target_dir=$(resolve_directory "$input_name")
-    echo -e "${BLUE}Testing specific directory: $target_dir${NC}"
+    echo -e "${BLUE}Benchmarking specific directory: $target_dir${NC}"
     echo ""
 
-    if run_tests_in_dir "$target_dir"; then
+    if run_benchmarks_in_dir "$target_dir"; then
       passed_dirs=1
     else
       failed_dirs=1
     fi
     total_dirs=1
   else
-    echo -e "${BLUE}Testing all algorithm directories...${NC}"
+    echo -e "${BLUE}Benchmarking all algorithm directories...${NC}"
     echo ""
 
     local dirs=$(get_all_dirs)
@@ -127,7 +110,7 @@ main() {
       dir=$(basename "$dir")
       total_dirs=$((total_dirs + 1))
 
-      if run_tests_in_dir "$dir"; then
+      if run_benchmarks_in_dir "$dir"; then
         passed_dirs=$((passed_dirs + 1))
       else
         failed_dirs=$((failed_dirs + 1))
@@ -138,16 +121,16 @@ main() {
   fi
 
   echo -e "${BLUE}================================${NC}"
-  echo -e "${BLUE}  Test Summary${NC}"
+  echo -e "${BLUE}  Benchmark Summary${NC}"
   echo -e "${BLUE}================================${NC}"
-  echo -e "Total directories tested: $total_dirs"
-  echo -e "${GREEN}Passed: $passed_dirs${NC}"
+  echo -e "Total directories benchmarked: $total_dirs"
+  echo -e "${GREEN}Completed: $passed_dirs${NC}"
 
   if [ $failed_dirs -gt 0 ]; then
     echo -e "${RED}Failed: $failed_dirs${NC}"
     exit 1
   else
-    echo -e "${GREEN}All tests passed!${NC}"
+    echo -e "${GREEN}All benchmarks completed successfully!${NC}"
     exit 0
   fi
 }

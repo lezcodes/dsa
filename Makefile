@@ -1,11 +1,12 @@
 SHELL := /bin/bash
 
-.PHONY: new test run help
+.PHONY: new test bench run help
 
 help:
 	@echo "Available targets:"
 	@echo "  new NAME=<algorithm-name>   - Create a new algorithm/data structure package"
 	@echo "  test [NAME=<directory>]     - Test specific directory or all directories"
+	@echo "  bench [NAME=<directory>]    - Run benchmarks for specific directory or all directories"
 	@echo "  run [NAME=<directory>]      - Run algorithm in specific directory or all directories"
 	@echo "  help                        - Show this help message"
 
@@ -19,8 +20,11 @@ new:
 test:
 	@./scripts/test.sh "$(NAME)"
 
+bench:
+	@./scripts/bench.sh "$(NAME)"
+
 run:
 	@./scripts/run.sh "$(NAME)"
 
-modernize:
-	@go tool modernize ./...
+modern:
+	@go tool modernize -fix ./...
