@@ -27,7 +27,7 @@ XXXX-algorithm-name/
 ### Creating a New Algorithm/Data Structure
 
 ```bash
-make new NAME=binary-search
+make new n=binary-search
 ```
 
 This will create a new directory `0002-binary-search` with all the necessary files. The directory number is automatically incremented based on existing directories.
@@ -40,12 +40,22 @@ Test all algorithms:
 make test
 ```
 
-Test a specific algorithm:
+Test specific algorithms by name:
 
 ```bash
-make test NAME=linear-search
-# or
-make test NAME=0001-linear-search
+make test n=linear-search,binary-search
+```
+
+Test specific algorithms by index:
+
+```bash
+make test n=1,2,15,20
+```
+
+Mix names and indices:
+
+```bash
+make test n=linear-search,2,bubble-sort,12
 ```
 
 ### Running Algorithms
@@ -56,12 +66,36 @@ Run all algorithms:
 make run
 ```
 
-Run a specific algorithm:
+Run specific algorithms by name:
 
 ```bash
-make run NAME=linear-search
-# or
-make run NAME=0001-linear-search
+make run n=linear-search,binary-search
+```
+
+Run specific algorithms by index:
+
+```bash
+make run n=1,2,15,20
+```
+
+### Benchmarking
+
+Run benchmarks for all algorithms:
+
+```bash
+make bench
+```
+
+Run benchmarks for specific algorithms by name:
+
+```bash
+make bench n=linear-search,binary-search
+```
+
+Run benchmarks for specific algorithms by index:
+
+```bash
+make bench n=1,2,15,20
 ```
 
 ### Other Commands
@@ -72,11 +106,22 @@ View available commands:
 make help
 ```
 
+## Selection Formats
+
+The `n` parameter supports multiple selection formats:
+
+- **By algorithm names**: `n=linear-search,binary-search`
+- **By directory indices**: `n=1,2,15,20` (where 1 = 0001-_, 2 = 0002-_, etc.)
+- **Mixed format**: `n=linear-search,2,bubble-sort,15`
+- **Single selection**: `n=linear-search` or `n=1`
+- **Full directory name**: `n=0001-linear-search`
+
 ## Features
 
 - **Automatic Serialization**: Directories are automatically numbered (0001, 0002, etc.)
 - **Complete Package Structure**: Each algorithm gets its own Go package within the main module
-- **Flexible Naming**: Use either full directory names (`0001-linear-search`) or just algorithm names (`linear-search`)
+- **Flexible Selection**: Use algorithm names, indices, or mix both for multi-selection
+- **Comma-separated Multi-selection**: Run multiple algorithms in a single command
 - **Comprehensive Testing**: Includes unit tests, benchmarks, go vet, and formatting checks
 - **Template Generation**: Automatically generates boilerplate code with TODO markers
 - **Colorized Output**: Test runner provides clear, colorized feedback
@@ -87,7 +132,7 @@ make help
 1. Create a new algorithm:
 
    ```bash
-   make new NAME=binary-search
+   make new n=binary-search
    ```
 
 2. Navigate to the directory and implement:
@@ -101,12 +146,20 @@ make help
 3. Test your implementation:
 
    ```bash
-   make test NAME=binary-search
+   make test n=binary-search
    ```
 
 4. Run your algorithm:
+
    ```bash
-   make run NAME=binary-search
+   make run n=binary-search
+   ```
+
+5. Run multiple algorithms:
+   ```bash
+   make run n=1,2,5
+   make test n=linear-search,binary-search,bubble-sort
+   make bench n=1,3,quick-sort,15
    ```
 
 ## Implemented Algorithms
@@ -123,10 +176,14 @@ A complete implementation of linear search with:
 **Usage:**
 
 ```bash
-make run NAME=linear-search
+make run n=linear-search
+# or
+make run n=1
 # Output: map[array:[64 34 25 12 22 11 90] found:true index:4 target:22]
 
-make test NAME=linear-search
+make test n=linear-search
+# or
+make test n=1
 # Runs comprehensive tests and benchmarks
 ```
 
@@ -153,7 +210,7 @@ The test runner performs:
 - The `make run` command creates a temporary main.go file with proper import aliasing
 - Import paths use the directory name: `github.com/celj/dsa/XXXX-algorithm-name`
 - Package names use underscores: `algorithm_name`
-- Both full directory names and algorithm names work for `run` and `test` commands
+- Selection supports both full directory names, algorithm names, and numeric indices
 - Temporary files are automatically cleaned up after execution
 
 ## Repository Scripts
@@ -161,12 +218,13 @@ The test runner performs:
 The repository uses three main scripts:
 
 - `scripts/new.sh` - Creates new algorithm directories
-- `scripts/test.sh` - Runs tests and benchmarks
-- `scripts/run.sh` - Executes algorithms
+- `scripts/test.sh` - Runs tests and benchmarks with multi-selection support
+- `scripts/run.sh` - Executes algorithms with multi-selection support
+- `scripts/bench.sh` - Runs benchmarks with multi-selection support
 
 ## Contributing
 
-1. Create a new algorithm with `make new NAME=your-algorithm`
+1. Create a new algorithm with `make new n=your-algorithm`
 2. Implement the algorithm in the generated files
 3. Add comprehensive tests and benchmarks
 4. Update the algorithm's README.md with complexity analysis

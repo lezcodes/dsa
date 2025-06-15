@@ -4,27 +4,32 @@ SHELL := /bin/bash
 
 help:
 	@echo "Available targets:"
-	@echo "  new NAME=<algorithm-name>   - Create a new algorithm/data structure package"
-	@echo "  test [NAME=<directory>]     - Test specific directory or all directories"
-	@echo "  bench [NAME=<directory>]    - Run benchmarks for specific directory or all directories"
-	@echo "  run [NAME=<directory>]      - Run algorithm in specific directory or all directories"
+	@echo "  new n=<algorithm-name>      - Create a new algorithm/data structure package"
+	@echo "  test [n=<selection>]        - Test specific directories or all directories"
+	@echo "  bench [n=<selection>]       - Run benchmarks for specific directories or all directories"
+	@echo "  run [n=<selection>]         - Run algorithms in specific directories or all directories"
 	@echo "  help                        - Show this help message"
+	@echo ""
+	@echo "Selection formats:"
+	@echo "  n=linear-search,binary-search               - Run by algorithm names"
+	@echo "  n=1,2,15,20                                 - Run by directory indices"
+	@echo "  n=linear-search,8,0002-binary-search,15     - Mix names and indices"
 
 new:
-	@if [ -z "$(NAME)" ]; then \
-		echo "Error: NAME is required. Usage: make new NAME=algorithm-name"; \
+	@if [ -z "$(n)" ]; then \
+		echo "Error: n is required. Usage: make new n=algorithm-name"; \
 		exit 1; \
 	fi
-	@./scripts/new.sh "$(NAME)"
+	@./scripts/new.sh "$(n)"
 
 test:
-	@./scripts/test.sh "$(NAME)"
+	@./scripts/test.sh "$(n)"
 
 bench:
-	@./scripts/bench.sh "$(NAME)"
+	@./scripts/bench.sh "$(n)"
 
 run:
-	@./scripts/run.sh "$(NAME)"
+	@./scripts/run.sh "$(n)"
 
 modern:
 	@go tool modernize -fix ./...

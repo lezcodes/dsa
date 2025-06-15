@@ -76,12 +76,12 @@ TODO: Add description of the algorithm/data structure
 
 ## Usage
 \`\`\`bash
-make run NAME=$DIR_NAME
+make run n=$DIR_NAME
 \`\`\`
 
 ## Testing
 \`\`\`bash
-make test NAME=$DIR_NAME
+make test n=$DIR_NAME
 \`\`\`
 EOF
 
@@ -91,4 +91,4 @@ echo "  - ${PACKAGE_NAME}_test.go (tests and benchmarks)"
 echo "  - README.md (documentation)"
 echo ""
 echo "To get started:"
-echo "  make run NAME=$DIR_NAME"
+echo "  make run n=$DIR_NAME"

@@ -2,48 +2,16 @@
 
 set -e
 
-INPUT_NAME="$1"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/common.sh"
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+INPUT_NAME="$1"
 
 print_header() {
   echo -e "${BLUE}================================${NC}"
   echo -e "${BLUE}  DSA Run All Modules${NC}"
   echo -e "${BLUE}================================${NC}"
   echo ""
-}
-
-resolve_directory() {
-  local input="$1"
-
-  if [ -d "$input" ]; then
-    echo "$input"
-    return 0
-  fi
-
-  local matches=$(find . -maxdepth 1 -type d -name "*-${input}" | sort)
-
-  if [ -z "$matches" ]; then
-    echo "Error: No directory found matching '$input'"
-    echo "Available directories:"
-    find . -maxdepth 1 -type d -name "[0-9][0-9][0-9][0-9]-*" | sort | sed 's|^\./||'
-    exit 1
-  fi
-
-  local count=$(echo "$matches" | wc -l)
-
-  if [ "$count" -eq 1 ]; then
-    echo "$matches" | sed 's|^\./||'
-    return 0
-  else
-    echo "Error: Multiple directories found matching '$input':"
-    echo "$matches" | sed 's|^\./||'
-    exit 1
-  fi
 }
 
 run_module() {
@@ -87,27 +55,44 @@ EOF
   fi
 }
 
-get_all_dirs() {
-  find . -maxdepth 1 -type d -name "[0-9][0-9][0-9][0-9]-*" | sort
-}
-
 main() {
-  local input_name="$1"
+  local input_selections="$1"
   local total_dirs=0
   local passed_dirs=0
   local failed_dirs=0
 
-  if [ -n "$input_name" ]; then
-    local target_dir=$(resolve_directory "$input_name")
-    echo -e "${BLUE}Running specific module: $target_dir${NC}"
+  if [ -n "$input_selections" ]; then
+    local target_dirs
+    if ! target_dirs=$(resolve_target_directories "$input_selections"); then
+      exit 1
+    fi
+
+    echo -e "${BLUE}Running selected modules: $target_dirs${NC}"
     echo ""
 
-    if run_module "$target_dir"; then
-      passed_dirs=1
+    for dir in $target_dirs; do
+      total_dirs=$((total_dirs + 1))
+      if run_module "$dir"; then
+        passed_dirs=$((passed_dirs + 1))
+      else
+        failed_dirs=$((failed_dirs + 1))
+      fi
+      echo ""
+    done
+
+    echo -e "${BLUE}================================${NC}"
+    echo -e "${BLUE}  Run Summary${NC}"
+    echo -e "${BLUE}================================${NC}"
+    echo -e "Total modules run: $total_dirs"
+    echo -e "${GREEN}Successful: $passed_dirs${NC}"
+
+    if [ $failed_dirs -gt 0 ]; then
+      echo -e "${RED}Failed: $failed_dirs${NC}"
+      exit 1
     else
-      failed_dirs=1
+      echo -e "${GREEN}All modules ran successfully!${NC}"
+      exit 0
     fi
-    total_dirs=1
   else
     print_header
     echo -e "${BLUE}Running all algorithm modules...${NC}"
@@ -117,7 +102,7 @@ main() {
 
     if [ -z "$dirs" ]; then
       echo -e "${YELLOW}No algorithm directories found.${NC}"
-      echo "Create one with: make new NAME=algorithm-name"
+      echo "Create one with: make new n=algorithm-name"
       exit 0
     fi
 
