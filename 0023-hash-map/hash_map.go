@@ -1,9 +1,5 @@
 package hash_map
 
-import (
-	"hash/fnv"
-)
-
 type KeyValue struct {
 	Key   string
 	Value any
@@ -11,10 +7,7 @@ type KeyValue struct {
 }
 
 type HashMap struct {
-	buckets    []*KeyValue
-	size       int
-	capacity   int
-	loadFactor float64
+	buckets map[string]any
 }
 
 const (
@@ -25,236 +18,60 @@ const (
 
 func NewHashMap() *HashMap {
 	return &HashMap{
-		buckets:    make([]*KeyValue, DefaultCapacity),
-		size:       0,
-		capacity:   DefaultCapacity,
-		loadFactor: DefaultLoadFactor,
+		buckets: make(map[string]any),
 	}
-}
-
-func NewHashMapWithCapacity(capacity int) *HashMap {
-	if capacity < 1 {
-		capacity = DefaultCapacity
-	}
-	return &HashMap{
-		buckets:    make([]*KeyValue, capacity),
-		size:       0,
-		capacity:   capacity,
-		loadFactor: DefaultLoadFactor,
-	}
-}
-
-func (hm *HashMap) hash(key string) int {
-	h := fnv.New32a()
-	h.Write([]byte(key))
-	return int(h.Sum32()) % hm.capacity
 }
 
 func (hm *HashMap) Set(key string, value any) {
-	if float64(hm.size)/float64(hm.capacity) >= hm.loadFactor {
-		hm.resize()
-	}
-
-	index := hm.hash(key)
-	bucket := hm.buckets[index]
-
-	if bucket == nil {
-		hm.buckets[index] = &KeyValue{Key: key, Value: value}
-		hm.size++
-		return
-	}
-
-	current := bucket
-	for current != nil {
-		if current.Key == key {
-			current.Value = value
-			return
-		}
-		if current.Next == nil {
-			break
-		}
-		current = current.Next
-	}
-
-	current.Next = &KeyValue{Key: key, Value: value}
-	hm.size++
+	hm.buckets[key] = value
 }
 
 func (hm *HashMap) Get(key string) (any, bool) {
-	index := hm.hash(key)
-	bucket := hm.buckets[index]
-
-	current := bucket
-	for current != nil {
-		if current.Key == key {
-			return current.Value, true
-		}
-		current = current.Next
-	}
-
-	return nil, false
+	value, exists := hm.buckets[key]
+	return value, exists
 }
 
 func (hm *HashMap) Delete(key string) bool {
-	index := hm.hash(key)
-	bucket := hm.buckets[index]
-
-	if bucket == nil {
-		return false
-	}
-
-	if bucket.Key == key {
-		hm.buckets[index] = bucket.Next
-		hm.size--
+	if _, exists := hm.buckets[key]; exists {
+		delete(hm.buckets, key)
 		return true
 	}
-
-	current := bucket
-	for current.Next != nil {
-		if current.Next.Key == key {
-			current.Next = current.Next.Next
-			hm.size--
-			return true
-		}
-		current = current.Next
-	}
-
 	return false
 }
 
 func (hm *HashMap) Has(key string) bool {
-	_, exists := hm.Get(key)
+	_, exists := hm.buckets[key]
 	return exists
 }
 
 func (hm *HashMap) Size() int {
-	return hm.size
-}
-
-func (hm *HashMap) IsEmpty() bool {
-	return hm.size == 0
-}
-
-func (hm *HashMap) Clear() {
-	hm.buckets = make([]*KeyValue, hm.capacity)
-	hm.size = 0
+	return len(hm.buckets)
 }
 
 func (hm *HashMap) Keys() []string {
-	keys := make([]string, 0, hm.size)
-	for _, bucket := range hm.buckets {
-		current := bucket
-		for current != nil {
-			keys = append(keys, current.Key)
-			current = current.Next
-		}
+	keys := make([]string, 0, len(hm.buckets))
+	for key := range hm.buckets {
+		keys = append(keys, key)
 	}
 	return keys
 }
 
-func (hm *HashMap) Values() []any {
-	values := make([]any, 0, hm.size)
-	for _, bucket := range hm.buckets {
-		current := bucket
-		for current != nil {
-			values = append(values, current.Value)
-			current = current.Next
-		}
-	}
-	return values
-}
-
-func (hm *HashMap) Entries() []KeyValue {
-	entries := make([]KeyValue, 0, hm.size)
-	for _, bucket := range hm.buckets {
-		current := bucket
-		for current != nil {
-			entries = append(entries, KeyValue{Key: current.Key, Value: current.Value})
-			current = current.Next
-		}
-	}
-	return entries
-}
-
-func (hm *HashMap) LoadFactor() float64 {
-	return float64(hm.size) / float64(hm.capacity)
-}
-
-func (hm *HashMap) Capacity() int {
-	return hm.capacity
-}
-
-func (hm *HashMap) resize() {
-	oldBuckets := hm.buckets
-	oldCapacity := hm.capacity
-
-	hm.capacity *= ResizeFactor
-	hm.buckets = make([]*KeyValue, hm.capacity)
-	hm.size = 0
-
-	for _, bucket := range oldBuckets {
-		current := bucket
-		for current != nil {
-			hm.Set(current.Key, current.Value)
-			current = current.Next
-		}
-	}
-
-	_ = oldCapacity
-}
-
-func (hm *HashMap) ForEach(fn func(key string, value any)) {
-	for _, bucket := range hm.buckets {
-		current := bucket
-		for current != nil {
-			fn(current.Key, current.Value)
-			current = current.Next
-		}
-	}
-}
-
-func (hm *HashMap) GetBucketDistribution() []int {
-	distribution := make([]int, hm.capacity)
-	for i, bucket := range hm.buckets {
-		count := 0
-		current := bucket
-		for current != nil {
-			count++
-			current = current.Next
-		}
-		distribution[i] = count
-	}
-	return distribution
-}
-
 func Run() any {
-	hashMap := NewHashMap()
+	hm := NewHashMap()
 
-	hashMap.Set("name", "Alice")
-	hashMap.Set("age", 30)
-	hashMap.Set("city", "New York")
-	hashMap.Set("country", "USA")
-	hashMap.Set("occupation", "Engineer")
+	hm.Set("name", "Alice")
+	hm.Set("age", 30)
+	hm.Set("city", "New York")
 
-	result := make(map[string]any)
-	result["size"] = hashMap.Size()
-	result["capacity"] = hashMap.Capacity()
-	result["loadFactor"] = hashMap.LoadFactor()
+	name, _ := hm.Get("name")
+	exists := hm.Has("age")
+	hm.Delete("city")
+	keys := hm.Keys()
 
-	data := make(map[string]any)
-	hashMap.ForEach(func(key string, value any) {
-		data[key] = value
-	})
-	result["data"] = data
-
-	name, exists := hashMap.Get("name")
-	result["getName"] = map[string]any{"value": name, "exists": exists}
-
-	deleted := hashMap.Delete("age")
-	result["deleteAge"] = deleted
-	result["sizeAfterDelete"] = hashMap.Size()
-
-	result["keys"] = hashMap.Keys()
-
-	return result
+	return map[string]any{
+		"name":   name,
+		"exists": exists,
+		"size":   hm.Size(),
+		"keys":   keys,
+	}
 }

@@ -1,14 +1,23 @@
 package bubble_sort
 
-func BubbleSort(arr []int) []int {
+func Run() any {
+	arr := []int{64, 34, 25, 12, 22, 11, 90}
+	sorted := BubbleSortInt(arr)
+	return map[string]any{
+		"original": arr,
+		"sorted":   sorted,
+	}
+}
+
+func BubbleSort[T comparable](arr []T, less func(T, T) bool) []T {
 	n := len(arr)
-	result := make([]int, n)
+	result := make([]T, n)
 	copy(result, arr)
 
 	for i := range n - 1 {
 		swapped := false
 		for j := range n - i - 1 {
-			if result[j] > result[j+1] {
+			if !less(result[j], result[j+1]) && result[j] != result[j+1] {
 				result[j], result[j+1] = result[j+1], result[j]
 				swapped = true
 			}
@@ -19,6 +28,10 @@ func BubbleSort(arr []int) []int {
 	}
 
 	return result
+}
+
+func BubbleSortInt(arr []int) []int {
+	return BubbleSort(arr, func(a, b int) bool { return a < b })
 }
 
 func BubbleSortInPlace(arr []int) {
@@ -107,27 +120,4 @@ func BubbleSortWithSteps(arr []int) ([]int, [][]int) {
 	}
 
 	return result, steps
-}
-
-func Run() any {
-	originalArray := []int{64, 34, 25, 12, 22, 11, 90}
-	sortedArray := BubbleSort(originalArray)
-
-	stringArray := []string{"banana", "apple", "cherry", "date"}
-	sortedStrings := BubbleSortStrings(stringArray)
-
-	floatArray := []float64{3.14, 2.71, 1.41, 0.57}
-	sortedFloats := BubbleSortFloat64(floatArray)
-
-	return map[string]any{
-		"original_array":   originalArray,
-		"sorted_array":     sortedArray,
-		"original_strings": stringArray,
-		"sorted_strings":   sortedStrings,
-		"original_floats":  floatArray,
-		"sorted_floats":    sortedFloats,
-		"algorithm":        "Bubble Sort",
-		"time_complexity":  "O(n²) average/worst, O(n) best",
-		"space_complexity": "O(1)",
-	}
 }
