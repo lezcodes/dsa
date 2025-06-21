@@ -208,3 +208,161 @@ The test suite covers:
 - Automatic capacity management with configurable growth factors
 - Error handling for all boundary conditions
 - Comprehensive string representation for debugging
+
+## Visual Representation
+
+### Dynamic Array Structure
+
+```mermaid
+graph LR
+    subgraph "ArrayList Internal Structure"
+        A[data: []T] --> B[size: int]
+        B --> C[capacity: int]
+    end
+
+    subgraph "Memory Layout"
+        D["[0][1][2][3][4][ ][ ][ ][ ][ ]"]
+        E["Used: 5 elements"]
+        F["Capacity: 10 elements"]
+    end
+
+    style A fill:#e1f5fe
+    style E fill:#c8e6c9
+    style F fill:#fff3e0
+```
+
+### Dynamic Resizing Process
+
+```mermaid
+graph TD
+    A[Add element to ArrayList] --> B{size == capacity?}
+    B -->|No| C[Add to current position]
+    B -->|Yes| D[Create new array: 2x capacity]
+    D --> E[Copy all elements to new array]
+    E --> F[Add new element]
+    F --> G[Update capacity and size]
+    C --> H[Increment size]
+    G --> H
+    H --> I[Operation complete]
+
+    style A fill:#e1f5fe
+    style I fill:#c8e6c9
+    style D fill:#fff3e0
+```
+
+### Capacity Growth Visualization
+
+```mermaid
+graph LR
+    subgraph "Growth Pattern"
+        A["Initial: 10"] --> B["Full: 10"]
+        B --> C["Resize: 20"]
+        C --> D["Full: 20"]
+        D --> E["Resize: 40"]
+        E --> F["Full: 40"]
+        F --> G["Resize: 80"]
+    end
+
+    subgraph "Memory Usage"
+        H["Utilization: 50-100%"]
+        I["Growth Factor: 2x"]
+        J["Amortized O(1) insert"]
+    end
+
+    style C fill:#fff3e0
+    style E fill:#fff3e0
+    style G fill:#fff3e0
+    style J fill:#c8e6c9
+```
+
+### Insert Operation at Index
+
+```mermaid
+graph TD
+    A[Insert at index i] --> B{i < size?}
+    B -->|No| C[Add at end]
+    B -->|Yes| D{size == capacity?}
+    D -->|Yes| E[Resize array]
+    D -->|No| F[Shift elements right]
+    E --> F
+    F --> G[Insert element at index i]
+    G --> H[Increment size]
+    C --> H
+    H --> I[Operation complete]
+
+    style A fill:#e1f5fe
+    style I fill:#c8e6c9
+    style E fill:#fff3e0
+```
+
+### Remove Operation Visualization
+
+```mermaid
+graph TD
+    A[Remove at index i] --> B{Valid index?}
+    B -->|No| C[Return error]
+    B -->|Yes| D[Save element to return]
+    D --> E[Shift elements left]
+    E --> F[Decrement size]
+    F --> G{size < capacity/4?}
+    G -->|Yes| H[Shrink array to capacity/2]
+    G -->|No| I[Return removed element]
+    H --> I
+
+    style A fill:#e1f5fe
+    style C fill:#ffcdd2
+    style I fill:#c8e6c9
+    style H fill:#fff3e0
+```
+
+### Amortized Analysis
+
+```mermaid
+graph LR
+    subgraph "Append Operations"
+        A[Op 1: O(1)] --> B[Op 2: O(1)]
+        B --> C[Op 3: O(1)]
+        C --> D["Op n: O(n) - Resize"]
+        D --> E[Next n ops: O(1) each]
+    end
+
+    subgraph "Cost Analysis"
+        F["Total: n + (n-1) operations"]
+        G["Cost: n + (n-1) = 2n-1"]
+        H["Amortized: (2n-1)/n ≈ O(1)"]
+    end
+
+    style D fill:#ffcdd2
+    style H fill:#c8e6c9
+```
+
+### ArrayList vs Other Data Structures
+
+```mermaid
+graph TD
+    A[Data Structure Comparison] --> B[ArrayList]
+    A --> C[Linked List]
+    A --> D[Fixed Array]
+
+    B --> B1["Random Access: O(1)"]
+    B --> B2["Append: O(1) amortized"]
+    B --> B3["Insert/Remove: O(n)"]
+    B --> B4["Dynamic size"]
+
+    C --> C1["Random Access: O(n)"]
+    C --> C2["Append: O(1)"]
+    C --> C3["Insert/Remove: O(1) if node ref"]
+    C --> C4["Dynamic size"]
+
+    D --> D1["Random Access: O(1)"]
+    D --> D2["Append: N/A"]
+    D --> D3["Insert/Remove: N/A"]
+    D --> D4["Fixed size"]
+
+    style B1 fill:#c8e6c9
+    style B2 fill:#c8e6c9
+    style C2 fill:#c8e6c9
+    style D1 fill:#c8e6c9
+```
+
+An Array List (Dynamic Array) is a resizable array data structure that automatically grows and shrinks as elements are added or removed.

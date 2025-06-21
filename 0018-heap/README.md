@@ -4,6 +4,132 @@
 
 Implementation of both Min-Heap and Max-Heap data structures with comparison to Go's built-in `container/heap` package. A heap is a complete binary tree that satisfies the heap property: in a min-heap, each parent node is smaller than or equal to its children; in a max-heap, each parent node is greater than or equal to its children.
 
+## Visual Representation
+
+### Min-Heap Structure
+
+```mermaid
+graph TD
+    A[1] --> B[3]
+    A --> C[2]
+    B --> D[7]
+    B --> E[5]
+    C --> F[4]
+    C --> G[6]
+    D --> H[10]
+    D --> I[8]
+    E --> J[9]
+
+    style A fill:#c8e6c9
+    style B fill:#e8f5e8
+    style C fill:#e8f5e8
+    style D fill:#f1f8e9
+    style E fill:#f1f8e9
+    style F fill:#f1f8e9
+    style G fill:#f1f8e9
+```
+
+### Array Representation
+
+```mermaid
+graph LR
+    subgraph "Index"
+        I0[0] --- I1[1] --- I2[2] --- I3[3] --- I4[4] --- I5[5] --- I6[6] --- I7[7] --- I8[8] --- I9[9]
+    end
+
+    subgraph "Value"
+        V0[1] --- V1[3] --- V2[2] --- V3[7] --- V4[5] --- V5[4] --- V6[6] --- V7[10] --- V8[8] --- V9[9]
+    end
+
+    subgraph "Relationships"
+        R1["Parent(i) = (i-1)/2"]
+        R2["Left(i) = 2*i + 1"]
+        R3["Right(i) = 2*i + 2"]
+    end
+
+    style V0 fill:#c8e6c9
+```
+
+### Insert Operation (Heapify Up)
+
+```mermaid
+graph TD
+    A[Insert element at end] --> B[Compare with parent]
+    B --> C{Parent > child?}
+    C -->|Yes| D[Swap with parent]
+    C -->|No| E[Done]
+    D --> F[Move up to parent position]
+    F --> B
+
+    style A fill:#e1f5fe
+    style E fill:#c8e6c9
+```
+
+### Extract Min Operation (Heapify Down)
+
+```mermaid
+graph TD
+    A[Save root value] --> B[Move last element to root]
+    B --> C[Remove last element]
+    C --> D[Compare with children]
+    D --> E{Has smaller child?}
+    E -->|Yes| F[Swap with smallest child]
+    E -->|No| G[Done]
+    F --> H[Move down to child position]
+    H --> D
+    G --> I[Return saved value]
+
+    style A fill:#e1f5fe
+    style I fill:#c8e6c9
+```
+
+### Heap Sort Visualization
+
+```mermaid
+graph LR
+    subgraph "Step 1: Build Max Heap"
+        A1[Unsorted Array] --> A2[Max Heap]
+    end
+
+    subgraph "Step 2: Extract Max Repeatedly"
+        B1[Extract Max] --> B2[Move to end] --> B3[Heapify remaining]
+    end
+
+    subgraph "Result"
+        C1[Sorted Array]
+    end
+
+    A2 --> B1
+    B3 --> B1
+    B3 --> C1
+
+    style A1 fill:#ffcdd2
+    style C1 fill:#c8e6c9
+```
+
+### Complexity Comparison
+
+```mermaid
+graph TD
+    subgraph "Operations"
+        A[Insert: O(log n)]
+        B[Extract: O(log n)]
+        C[Peek: O(1)]
+        D[Build: O(n)]
+    end
+
+    subgraph "Tree Height"
+        E[Height = log n]
+        F[Complete binary tree]
+    end
+
+    A -.-> E
+    B -.-> E
+
+    style C fill:#c8e6c9
+    style D fill:#c8e6c9
+```
+
 ## Features
 
 - **MinHeap**: Extract minimum element efficiently

@@ -2,7 +2,136 @@
 
 ## Description
 
-A Stack is a fundamental data structure that operates on the **Last In, First Out (LIFO)** principle. Elements are added to the top of the stack (push) and removed from the top (pop), similar to a stack of plates where you can only access the topmost plate.
+A Stack is a linear data structure that follows the Last In, First Out (LIFO) principle. Elements are added (pushed) and removed (popped) from the same end, called the top of the stack.
+
+## Visual Representation
+
+### Stack Structure
+
+```mermaid
+graph TD
+    Top["Top (Push/Pop)"] --> A[40]
+    A --> B[30]
+    B --> C[20]
+    C --> D[10]
+    D --> Bottom[Bottom]
+
+    style Top fill:#e1f5fe
+    style Bottom fill:#f5f5f5
+    style A fill:#c8e6c9
+    style B fill:#e8f5e8
+    style C fill:#f1f8e9
+    style D fill:#f9f9f9
+```
+
+### Push Operation
+
+```mermaid
+graph TD
+    A[New Element: 50] --> B[Check if stack is full]
+    B --> C{Is Full?}
+    C -->|Yes| D[Return Stack Overflow Error]
+    C -->|No| E[Increment top pointer]
+    E --> F[Add element at top]
+    F --> G[Increment size]
+    G --> H[Operation Complete]
+
+    style A fill:#e1f5fe
+    style H fill:#c8e6c9
+    style D fill:#ffcdd2
+```
+
+### Pop Operation
+
+```mermaid
+graph TD
+    A[Pop Request] --> B[Check if stack is empty]
+    B --> C{Is Empty?}
+    C -->|Yes| D[Return Stack Underflow Error]
+    C -->|No| E[Get element from top]
+    E --> F[Decrement top pointer]
+    F --> G[Decrement size]
+    G --> H[Return element]
+
+    style A fill:#e1f5fe
+    style H fill:#c8e6c9
+    style D fill:#ffcdd2
+```
+
+### Stack Operations Flow
+
+```mermaid
+graph LR
+    subgraph "Initial State"
+        S1[Empty Stack]
+    end
+
+    subgraph "After Push(10, 20, 30)"
+        S2["30 ← Top<br/>20<br/>10"]
+    end
+
+    subgraph "After Pop()"
+        S3["20 ← Top<br/>10"]
+    end
+
+    subgraph "After Push(40)"
+        S4["40 ← Top<br/>20<br/>10"]
+    end
+
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+
+    style S1 fill:#f5f5f5
+    style S4 fill:#e8f5e8
+```
+
+### LIFO Principle Visualization
+
+```mermaid
+graph LR
+    subgraph "Stack of Plates"
+        direction TB
+        P1[Plate 3 - Last In]
+        P2[Plate 2]
+        P3[Plate 1 - First In]
+    end
+
+    subgraph "Removal Order"
+        direction TB
+        R1[First Out ← Plate 3]
+        R2[Second Out ← Plate 2]
+        R3[Last Out ← Plate 1]
+    end
+
+    P1 -.->|Pop| R1
+    P2 -.->|Pop| R2
+    P3 -.->|Pop| R3
+
+    style P1 fill:#ffcdd2
+    style R1 fill:#ffcdd2
+```
+
+### Applications Visualization
+
+```mermaid
+graph TD
+    A[Stack Applications] --> B[Function Call Stack]
+    A --> C[Expression Evaluation]
+    A --> D[Undo Operations]
+    A --> E[Browser History]
+    A --> F[Balanced Parentheses]
+
+    B --> B1["main() calls func1()<br/>func1() calls func2()<br/>Return in reverse order"]
+    C --> C1["Convert infix to postfix<br/>Evaluate postfix expressions"]
+    D --> D1["Text editor undo<br/>Game state restoration"]
+    E --> E1["Back button navigation<br/>Page history tracking"]
+    F --> F1["Check matching brackets<br/>Validate syntax"]
+
+    style A fill:#e1f5fe
+```
+
+A Stack is a linear data structure that follows the Last In, First Out (LIFO) principle.
 
 This implementation provides three different stack variants:
 

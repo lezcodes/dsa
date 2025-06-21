@@ -23,6 +23,95 @@ Bubble Sort is one of the simplest sorting algorithms that works by repeatedly s
 **Optimization - Early Termination:**
 The algorithm includes an optimization that stops early if no swaps are made during a pass, indicating the array is already sorted. This improves best-case performance from O(n²) to O(n).
 
+## Visual Representation
+
+### Algorithm Flow
+
+```mermaid
+graph TD
+    A[Start: Array] --> B[Set i = 0]
+    B --> C[Set j = 0]
+    C --> D{j < length - i - 1?}
+    D -->|No| E[Increment i]
+    D -->|Yes| F{arr[j] > arr[j+1]?}
+    F -->|Yes| G[Swap arr[j] and arr[j+1]]
+    F -->|No| H[Increment j]
+    G --> H
+    H --> D
+    E --> I{i < length - 1?}
+    I -->|Yes| C
+    I -->|No| J[Array Sorted]
+
+    style A fill:#e1f5fe
+    style J fill:#c8e6c9
+```
+
+### Bubble Sort Process Example
+
+```mermaid
+graph TD
+    subgraph "Pass 1"
+        A1["[64, 34, 25, 12, 22, 11, 90]"] --> A2["[34, 64, 25, 12, 22, 11, 90]"]
+        A2 --> A3["[34, 25, 64, 12, 22, 11, 90]"]
+        A3 --> A4["[34, 25, 12, 64, 22, 11, 90]"]
+        A4 --> A5["[34, 25, 12, 22, 64, 11, 90]"]
+        A5 --> A6["[34, 25, 12, 22, 11, 64, 90]"]
+        A6 --> A7["[34, 25, 12, 22, 11, 64, 90] ✓"]
+    end
+
+    subgraph "Pass 2"
+        B1["[34, 25, 12, 22, 11, 64, 90]"] --> B2["[25, 34, 12, 22, 11, 64, 90]"]
+        B2 --> B3["[25, 12, 34, 22, 11, 64, 90]"]
+        B3 --> B4["[25, 12, 22, 34, 11, 64, 90]"]
+        B4 --> B5["[25, 12, 22, 11, 34, 64, 90] ✓"]
+    end
+
+    A7 --> B1
+
+    style A7 fill:#fff3e0
+    style B5 fill:#fff3e0
+```
+
+### Bubble Animation
+
+```mermaid
+graph LR
+    subgraph "Before Swap"
+        A1[5] --- A2[2] --- A3[8] --- A4[1]
+    end
+
+    subgraph "Compare 5 > 2"
+        B1["5 > 2"] --> B2["SWAP!"]
+    end
+
+    subgraph "After Swap"
+        C1[2] --- C2[5] --- C3[8] --- C4[1]
+    end
+
+    style A1 fill:#ffcdd2
+    style A2 fill:#ffcdd2
+    style C1 fill:#c8e6c9
+    style C2 fill:#c8e6c9
+```
+
+### Time Complexity Visualization
+
+```mermaid
+graph LR
+    subgraph "Nested Loops"
+        A["Outer Loop: n passes"] --> B["Inner Loop: n comparisons"]
+        B --> C["Total: n × n = O(n²)"]
+    end
+
+    subgraph "Best vs Worst Case"
+        D["Best: O(n) - Already sorted"]
+        E["Worst: O(n²) - Reverse sorted"]
+    end
+
+    style D fill:#c8e6c9
+    style E fill:#ffcdd2
+```
+
 ## Algorithm Implementation
 
 ```go

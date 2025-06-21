@@ -268,3 +268,202 @@ deleteRecursive(node, value):
 - **Game Development**: Spatial partitioning and collision detection
 - **Network Routing**: Routing table implementations
 - **Memory Management**: Free block management in allocators
+
+## Visual Representation
+
+### BST Structure and Property
+
+```mermaid
+graph TD
+    A[50] --> B[30]
+    A --> C[70]
+    B --> D[20]
+    B --> E[40]
+    C --> F[60]
+    C --> G[80]
+    D --> H[10]
+    D --> I[25]
+    E --> J[35]
+    E --> K[45]
+
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#f3e5f5
+    style D fill:#e8f5e8
+    style E fill:#e8f5e8
+    style F fill:#e8f5e8
+    style G fill:#e8f5e8
+```
+
+### BST Property Visualization
+
+```mermaid
+graph LR
+    subgraph "BST Property"
+        A["For every node X:"]
+        B["Left subtree values < X"]
+        C["Right subtree values > X"]
+    end
+
+    subgraph "Example: Node 50"
+        D["Left: 30, 20, 40, 10, 25, 35, 45"]
+        E["Right: 70, 60, 80"]
+        F["All left < 50 < All right"]
+    end
+
+    A --> B
+    A --> C
+
+    style A fill:#e1f5fe
+    style F fill:#c8e6c9
+```
+
+### Insert Operation
+
+```mermaid
+graph TD
+    A[Insert value: 55] --> B[Start at root]
+    B --> C{value < root?}
+    C -->|Yes| D[Go to left child]
+    C -->|No| E[Go to right child]
+    D --> F{left child exists?}
+    E --> G{right child exists?}
+    F -->|Yes| H[Repeat comparison]
+    F -->|No| I[Insert as left child]
+    G -->|Yes| J[Repeat comparison]
+    G -->|No| K[Insert as right child]
+
+    style A fill:#e1f5fe
+    style I fill:#c8e6c9
+    style K fill:#c8e6c9
+```
+
+### Search Operation
+
+```mermaid
+graph TD
+    A[Search for value: 35] --> B[Start at root: 50]
+    B --> C{35 < 50?}
+    C -->|Yes| D[Go left to: 30]
+    D --> E{35 < 30?}
+    E -->|No| F[Go right to: 40]
+    F --> G{35 < 40?}
+    G -->|Yes| H[Go left to: 35]
+    H --> I[Found! Return true]
+
+    C -->|No| J[Go right]
+    E -->|Yes| K[Go left]
+    G -->|No| L[Go right]
+
+    style A fill:#e1f5fe
+    style I fill:#c8e6c9
+```
+
+### Delete Operation Cases
+
+```mermaid
+graph TD
+    A[Delete Node] --> B{Node has children?}
+
+    B -->|No children| C[Case 1: Leaf Node]
+    B -->|One child| D[Case 2: One Child]
+    B -->|Two children| E[Case 3: Two Children]
+
+    C --> C1[Simply remove node]
+    D --> D1[Replace with child]
+    E --> E1[Find inorder successor]
+    E1 --> E2[Replace value]
+    E2 --> E3[Delete successor]
+
+    style A fill:#e1f5fe
+    style C1 fill:#c8e6c9
+    style D1 fill:#fff3e0
+    style E3 fill:#ffcdd2
+```
+
+### Inorder Traversal (Sorted Output)
+
+```mermaid
+graph TD
+    A["BST Inorder Traversal"] --> B["Visit left subtree"]
+    B --> C["Visit root"]
+    C --> D["Visit right subtree"]
+
+    E["Result: 10, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80"]
+
+    D --> E
+
+    style A fill:#e1f5fe
+    style E fill:#c8e6c9
+```
+
+### BST vs Array vs Linked List
+
+```mermaid
+graph TD
+    A[Data Structure Comparison] --> B[BST]
+    A --> C[Sorted Array]
+    A --> D[Linked List]
+
+    B --> B1["Search: O(log n) avg, O(n) worst<br/>Insert: O(log n) avg, O(n) worst<br/>Delete: O(log n) avg, O(n) worst"]
+
+    C --> C1["Search: O(log n)<br/>Insert: O(n)<br/>Delete: O(n)"]
+
+    D --> D1["Search: O(n)<br/>Insert: O(1)<br/>Delete: O(n)"]
+
+    style B1 fill:#c8e6c9
+    style A fill:#e1f5fe
+```
+
+### Balanced vs Unbalanced BST
+
+```mermaid
+graph LR
+    subgraph "Balanced BST"
+        A1[50] --> B1[30]
+        A1 --> C1[70]
+        B1 --> D1[20]
+        B1 --> E1[40]
+        C1 --> F1[60]
+        C1 --> G1[80]
+    end
+
+    subgraph "Unbalanced BST (Skewed)"
+        A2[10] --> B2[20]
+        B2 --> C2[30]
+        C2 --> D2[40]
+        D2 --> E2[50]
+    end
+
+    subgraph "Performance"
+        P1["Balanced: O(log n)"]
+        P2["Skewed: O(n)"]
+    end
+
+    style A1 fill:#c8e6c9
+    style A2 fill:#ffcdd2
+    style P1 fill:#c8e6c9
+    style P2 fill:#ffcdd2
+```
+
+### Common BST Applications
+
+```mermaid
+graph TD
+    A[BST Applications] --> B[Database Indexing]
+    A --> C[File Systems]
+    A --> D[Expression Parsing]
+    A --> E[Priority Queues]
+    A --> F[Set Operations]
+
+    B --> B1["B-trees and B+ trees<br/>Fast database queries"]
+    C --> C1["Directory structures<br/>File organization"]
+    D --> D1["Operator precedence<br/>Parse trees"]
+    E --> E1["Heap alternatives<br/>Ordered processing"]
+    F --> F1["Union, intersection<br/>Sorted collections"]
+
+    style A fill:#e1f5fe
+    style B1 fill:#c8e6c9
+    style C1 fill:#c8e6c9
+    style D1 fill:#c8e6c9
+```

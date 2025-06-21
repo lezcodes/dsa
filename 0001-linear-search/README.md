@@ -4,6 +4,42 @@
 
 Linear search is a simple search algorithm that finds the position of a target value within a list. It sequentially checks each element of the list until a match is found or the whole list has been searched.
 
+## Visual Representation
+
+```mermaid
+graph TD
+    A[Start: Array and Target] --> B[Set index = 0]
+    B --> C[Compare array[index] with target]
+    C --> D{Found match?}
+    D -->|Yes| E[Return index]
+    D -->|No| F{End of array?}
+    F -->|No| G[Increment index]
+    G --> C
+    F -->|Yes| H[Return -1]
+
+    style A fill:#e1f5fe
+    style E fill:#c8e6c9
+    style H fill:#ffcdd2
+```
+
+```mermaid
+graph LR
+    subgraph "Array: [10, 20, 30, 40, 50]"
+        A1[10] --> A2[20] --> A3[30] --> A4[40] --> A5[50]
+    end
+
+    subgraph "Search for 30"
+        B1[Step 1: Check 10] --> B2[Step 2: Check 20] --> B3[Step 3: Check 30 ✓]
+    end
+
+    A1 -.->|Compare| B1
+    A2 -.->|Compare| B2
+    A3 -.->|Found!| B3
+
+    style A3 fill:#c8e6c9
+    style B3 fill:#c8e6c9
+```
+
 This implementation provides:
 
 - `SearchInt(arr []int, target int) int` - Search for integers

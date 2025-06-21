@@ -235,3 +235,113 @@ This reduces average access time from O(n) to O(n/2) in practice.
 - **Return Values**: Delete operations return the removed values
 - **Modern API**: Follows contemporary interface patterns
 - **Optimization**: Automatically chooses optimal traversal direction
+
+## Visual Representation
+
+### Basic Structure
+
+```mermaid
+graph LR
+    Head[Head] --> A["Node 1<br/>Prev: null<br/>Data: 10<br/>Next: →"]
+    A --> B["Node 2<br/>Prev: ←<br/>Data: 20<br/>Next: →"]
+    B --> C["Node 3<br/>Prev: ←<br/>Data: 30<br/>Next: →"]
+    C --> D["Node 4<br/>Prev: ←<br/>Data: 40<br/>Next: null"]
+    D --> Tail[Tail]
+
+    A -.->|prev| Head
+    B -.->|prev| A
+    C -.->|prev| B
+    D -.->|prev| C
+
+    style Head fill:#e1f5fe
+    style Tail fill:#e1f5fe
+    style A fill:#f3e5f5
+    style B fill:#f3e5f5
+    style C fill:#f3e5f5
+    style D fill:#f3e5f5
+```
+
+### Insert at Head Operation
+
+```mermaid
+graph TD
+    A[New Node: 5] --> B[Set new.next = head]
+    B --> C[Set new.prev = null]
+    C --> D{head != null?}
+    D -->|Yes| E[Set head.prev = new]
+    D -->|No| F[Set tail = new]
+    E --> G[Set head = new]
+    F --> G
+    G --> H[Increment size]
+
+    style A fill:#e1f5fe
+    style H fill:#c8e6c9
+```
+
+### Insert at Tail Operation
+
+```mermaid
+graph TD
+    A[New Node: 50] --> B[Set new.prev = tail]
+    B --> C[Set new.next = null]
+    C --> D{tail != null?}
+    D -->|Yes| E[Set tail.next = new]
+    D -->|No| F[Set head = new]
+    E --> G[Set tail = new]
+    F --> G
+    G --> H[Increment size]
+
+    style A fill:#e1f5fe
+    style H fill:#c8e6c9
+```
+
+### Bidirectional Access Optimization
+
+```mermaid
+graph TD
+    A[Access by Index i] --> B{i <= size/2?}
+    B -->|Yes| C[Start from HEAD<br/>Traverse FORWARD]
+    B -->|No| D[Start from TAIL<br/>Traverse BACKWARD]
+    C --> E[Optimize for first half]
+    D --> F[Optimize for second half]
+
+    style A fill:#e1f5fe
+    style E fill:#c8e6c9
+    style F fill:#c8e6c9
+```
+
+### Delete Operation
+
+```mermaid
+graph TD
+    A[Delete Node] --> B{node.prev != null?}
+    B -->|Yes| C[node.prev.next = node.next]
+    B -->|No| D[head = node.next]
+    C --> E{node.next != null?}
+    D --> E
+    E -->|Yes| F[node.next.prev = node.prev]
+    E -->|No| G[tail = node.prev]
+    F --> H[Decrement size]
+    G --> H
+
+    style A fill:#e1f5fe
+    style H fill:#c8e6c9
+```
+
+### Forward vs Backward Traversal
+
+```mermaid
+graph LR
+    subgraph "Forward Traversal"
+        A1[Head] --> B1[10] --> C1[20] --> D1[30] --> E1[null]
+    end
+
+    subgraph "Backward Traversal"
+        A2[Tail] --> B2[30] --> C2[20] --> D2[10] --> E2[null]
+    end
+
+    style A1 fill:#e1f5fe
+    style A2 fill:#e1f5fe
+```
+
+A Doubly Linked List is a linear data structure where each node contains data and two references: one pointing to the next node and another pointing to the previous node.

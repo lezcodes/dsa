@@ -2,17 +2,232 @@
 
 ## Description
 
-Dijkstra's algorithm is a graph search algorithm that finds the shortest path from a single source vertex to all other vertices in a weighted graph with non-negative edge weights. It was conceived by computer scientist Edsger W. Dijkstra in 1956.
+Dijkstra's Algorithm is a graph search algorithm that finds the shortest path between nodes in a weighted graph with non-negative edge weights. It's widely used in network routing protocols, GPS navigation systems, and social networking analysis.
 
-The algorithm maintains a set of vertices whose shortest distance from the source is known, and repeatedly selects the vertex with the minimum distance to expand the search. It uses a greedy approach and is guaranteed to find the optimal solution for graphs with non-negative weights.
+## Visual Representation
 
-### Key Features
+### Graph Example
 
-- **Single-source shortest path**: Finds shortest paths from one source to all other vertices
-- **Optimal for non-negative weights**: Guarantees optimal solutions when edge weights ≥ 0
-- **Priority queue based**: Uses min-heap for efficient vertex selection
-- **Path reconstruction**: Tracks predecessors to rebuild actual shortest paths
-- **Handles disconnected graphs**: Correctly identifies unreachable vertices
+```mermaid
+graph LR
+    A[A] -->|4| B[B]
+    A -->|2| C[C]
+    B -->|1| C[C]
+    B -->|5| D[D]
+    C -->|8| D[D]
+    C -->|10| E[E]
+    D -->|2| E[E]
+    D -->|6| F[F]
+    E -->|3| F[F]
+
+    style A fill:#e1f5fe
+    style F fill:#c8e6c9
+```
+
+### Algorithm Step-by-Step Execution
+
+```mermaid
+graph TD
+    A[Initialize] --> B[Set source distance to 0]
+    B --> C[Add all vertices to priority queue]
+    C --> D[Extract minimum distance vertex]
+    D --> E[Update distances to neighbors]
+    E --> F{Queue empty?}
+    F -->|No| D
+    F -->|Yes| G[Algorithm Complete]
+
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+```
+
+### Dijkstra's Execution Example
+
+```mermaid
+graph LR
+    subgraph "Step 1: Initialize (Source: A)"
+        A1[A:0] --> B1[B:∞]
+        A1 --> C1[C:∞]
+        B1 --> D1[D:∞]
+        C1 --> D1
+        D1 --> E1[E:∞]
+        D1 --> F1[F:∞]
+        E1 --> F1
+    end
+
+    subgraph "Step 2: Process A"
+        A2[A:0✓] -->|4| B2[B:4]
+        A2 -->|2| C2[C:2]
+        B2 --> D2[D:∞]
+        C2 --> D2
+        D2 --> E2[E:∞]
+        D2 --> F2[F:∞]
+        E2 --> F2
+    end
+
+    subgraph "Step 3: Process C (min distance)"
+        A3[A:0✓] --> B3[B:3]
+        A3 --> C3[C:2✓]
+        B3 --> D3[D:10]
+        C3 --> D3
+        D3 --> E3[E:12]
+        D3 --> F3[F:∞]
+        E3 --> F3
+    end
+
+    style A1 fill:#e1f5fe
+    style A2 fill:#c8e6c9
+    style C3 fill:#c8e6c9
+```
+
+### Priority Queue Operations
+
+```mermaid
+graph TD
+    A[Priority Queue in Dijkstra] --> B[Min-Heap Implementation]
+    B --> C[Extract-Min: O(log V)]
+    B --> D[Decrease-Key: O(log V)]
+
+    E[Alternative: Simple Array] --> F[Extract-Min: O(V)]
+    E --> G[Decrease-Key: O(1)]
+
+    H[Total Complexity] --> I["Heap: O((V + E) log V)"]
+    H --> J["Array: O(V²)"]
+
+    style A fill:#e1f5fe
+    style I fill:#c8e6c9
+    style J fill:#fff3e0
+```
+
+### Distance Relaxation Process
+
+```mermaid
+graph LR
+    subgraph "Current State"
+        A[Source] -->|5| B[Current: dist=8]
+        A -->|3| C[Via: dist=3]
+        C -->|2| B
+    end
+
+    subgraph "Relaxation Check"
+        D["dist[B] = 8"]
+        E["dist[C] + weight(C,B) = 3 + 2 = 5"]
+        F["5 < 8? YES → Update dist[B] = 5"]
+    end
+
+    subgraph "After Relaxation"
+        G[Source] -->|3| H[Via: dist=3]
+        H -->|2| I[Updated: dist=5]
+    end
+
+    style F fill:#c8e6c9
+    style I fill:#c8e6c9
+```
+
+### Path Reconstruction
+
+```mermaid
+graph TD
+    A[Dijkstra Complete] --> B[Backtrack from destination]
+    B --> C[Follow parent pointers]
+    C --> D[Build path in reverse]
+    D --> E[Reverse to get final path]
+
+    F[Example: A to F] --> G["F ← E ← D ← B ← A"]
+    G --> H["Path: A → B → D → E → F"]
+
+    style A fill:#e1f5fe
+    style H fill:#c8e6c9
+```
+
+### Dijkstra vs Other Algorithms
+
+```mermaid
+graph TD
+    A[Shortest Path Algorithms] --> B[Dijkstra]
+    A --> C[Bellman-Ford]
+    A --> D[Floyd-Warshall]
+    A --> E[A*]
+
+    B --> B1["Single-source<br/>Non-negative weights<br/>O((V+E)log V)"]
+    C --> C1["Single-source<br/>Negative weights OK<br/>O(VE)"]
+    D --> D1["All-pairs<br/>Any weights<br/>O(V³)"]
+    E --> E1["Single-pair<br/>Heuristic-guided<br/>Often faster in practice"]
+
+    style B1 fill:#c8e6c9
+    style A fill:#e1f5fe
+```
+
+### Algorithm Limitations
+
+```mermaid
+graph LR
+    subgraph "Dijkstra Limitations"
+        A[Negative Weights] --> A1["Cannot handle<br/>negative edge weights"]
+        B[Single Source] --> B1["Only one source<br/>at a time"]
+        C[Memory Usage] --> C1["O(V) space for<br/>distances and queue"]
+    end
+
+    subgraph "When to Use Alternatives"
+        D[Negative weights] --> E[Use Bellman-Ford]
+        F[All pairs] --> G[Use Floyd-Warshall]
+        H[Known target] --> I[Use A* with heuristic]
+    end
+
+    style A1 fill:#ffcdd2
+    style E fill:#c8e6c9
+    style G fill:#c8e6c9
+    style I fill:#c8e6c9
+```
+
+### Real-World Applications
+
+```mermaid
+graph TD
+    A[Dijkstra Applications] --> B[GPS Navigation]
+    A --> C[Network Routing]
+    A --> D[Social Networks]
+    A --> E[Game Development]
+    A --> F[Transportation]
+
+    B --> B1["Find shortest route<br/>Traffic-aware navigation"]
+    C --> C1["OSPF protocol<br/>Internet packet routing"]
+    D --> D1["Friend suggestions<br/>Shortest connection path"]
+    E --> E1["Pathfinding in games<br/>AI movement"]
+    F --> F1["Flight connections<br/>Public transit routing"]
+
+    style A fill:#e1f5fe
+    style B1 fill:#c8e6c9
+    style C1 fill:#c8e6c9
+    style D1 fill:#c8e6c9
+```
+
+### Pseudocode Visualization
+
+```mermaid
+graph TD
+    A["function dijkstra(graph, source)"] --> B["dist[source] = 0"]
+    B --> C["for each vertex v ≠ source"]
+    C --> D["dist[v] = ∞"]
+    D --> E["add all vertices to Q"]
+    E --> F["while Q is not empty"]
+    F --> G["u = extract_min(Q)"]
+    G --> H["for each neighbor v of u"]
+    H --> I["alt = dist[u] + weight(u,v)"]
+    I --> J{"alt < dist[v]?"}
+    J -->|Yes| K["dist[v] = alt"]
+    J -->|No| L["continue"]
+    K --> L
+    L --> M["next neighbor"]
+    M --> H
+    H --> N["next vertex"]
+    N --> F
+    F --> O["return dist"]
+
+    style A fill:#e1f5fe
+    style O fill:#c8e6c9
+```
+
+Dijkstra's Algorithm is a graph search algorithm that finds the shortest path between nodes in a weighted graph with non-negative edge weights.
 
 ## Implementation Details
 

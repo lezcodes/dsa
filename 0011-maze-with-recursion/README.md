@@ -224,3 +224,189 @@ make test NAME=0011-maze-with-recursion
 - Tracks complete path during traversal
 - Provides both solving and visualization capabilities
 - Comprehensive error handling and validation
+
+## Visual Representation
+
+### Recursive Backtracking Algorithm
+
+```mermaid
+graph TD
+    A[Start: solveMaze(row, col)] --> B{Valid position?}
+    B -->|No| C[Return false]
+    B -->|Yes| D{Is wall or visited?}
+    D -->|Yes| C
+    D -->|No| E[Mark as visited]
+    E --> F{Reached end?}
+    F -->|Yes| G[Return true - FOUND!]
+    F -->|No| H[Try all 4 directions]
+    H --> I[Try UP: solveMaze(row-1, col)]
+    H --> J[Try DOWN: solveMaze(row+1, col)]
+    H --> K[Try LEFT: solveMaze(row, col-1)]
+    H --> L[Try RIGHT: solveMaze(row, col+1)]
+    I --> M{Any direction successful?}
+    J --> M
+    K --> M
+    L --> M
+    M -->|Yes| G
+    M -->|No| N[Backtrack: unmark visited]
+    N --> C
+
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+    style C fill:#ffcdd2
+    style N fill:#fff3e0
+```
+
+### Maze Exploration Example
+
+```mermaid
+graph LR
+    subgraph "Step 1: Start at S"
+        A1["#####E#<br/>#     #<br/>#S#####"]
+    end
+
+    subgraph "Step 2: Try Right"
+        A2["#####E#<br/># *   #<br/>#S#####"]
+    end
+
+    subgraph "Step 3: Continue Right"
+        A3["#####E#<br/># **  #<br/>#S#####"]
+    end
+
+    subgraph "Step 4: Reach Dead End, Backtrack"
+        A4["#####E#<br/># *** #<br/>#S#####"]
+    end
+
+    subgraph "Step 5: Try Up"
+        A5["#####E#<br/># ****#<br/>#S#####"]
+    end
+
+    subgraph "Step 6: Found End!"
+        A6["#####E#<br/># ****#<br/>#S#####"]
+    end
+
+    A1 --> A2 --> A3 --> A4 --> A5 --> A6
+
+    style A1 fill:#e1f5fe
+    style A6 fill:#c8e6c9
+    style A4 fill:#fff3e0
+```
+
+### Recursion Call Stack Visualization
+
+```mermaid
+graph TD
+    subgraph "Call Stack Growth"
+        A["solve(2,1) - Start"] --> B["solve(1,1) - Up"]
+        B --> C["solve(1,2) - Right"]
+        C --> D["solve(1,3) - Right"]
+        D --> E["solve(1,4) - Right"]
+        E --> F["solve(1,5) - Right"]
+        F --> G["solve(0,5) - Up (END!)"]
+    end
+
+    subgraph "Stack States"
+        H["Depth 1: At S"]
+        I["Depth 2: Move up"]
+        J["Depth 3: Move right"]
+        K["Depth 4: Continue right"]
+        L["Depth 5: Continue right"]
+        M["Depth 6: Continue right"]
+        N["Depth 7: Found E!"]
+    end
+
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+    style N fill:#c8e6c9
+```
+
+### Backtracking Process
+
+```mermaid
+graph TD
+    A[Try direction] --> B{Path found?}
+    B -->|Yes| C[Return true]
+    B -->|No| D[Try next direction]
+    D --> E{More directions?}
+    E -->|Yes| A
+    E -->|No| F[All directions failed]
+    F --> G[Unmark current cell]
+    G --> H[Return false]
+
+    style A fill:#e1f5fe
+    style C fill:#c8e6c9
+    style H fill:#ffcdd2
+    style G fill:#fff3e0
+```
+
+### Maze State Tracking
+
+```mermaid
+graph LR
+    subgraph "Original Maze"
+        A["# = Wall<br/>  = Path<br/>S = Start<br/>E = End"]
+    end
+
+    subgraph "During Solving"
+        B["visited[i][j] = true<br/>path[i][j] = true<br/>Temporary markings"]
+    end
+
+    subgraph "Final Solution"
+        C["* = Solution path<br/>S = Start<br/>E = End<br/>Path preserved"]
+    end
+
+    A --> B --> C
+
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#c8e6c9
+```
+
+### DFS vs BFS for Maze Solving
+
+```mermaid
+graph TD
+    A[Maze Solving Comparison] --> B[DFS (Recursive)]
+    A --> C[BFS (Queue)]
+
+    B --> B1["Memory: O(depth)"]
+    B --> B2["Stack-based recursion"]
+    B --> B3["Finds A path (not shortest)"]
+    B --> B4["Natural backtracking"]
+    B --> B5["Simple implementation"]
+
+    C --> C1["Memory: O(width)"]
+    C --> C2["Queue-based iteration"]
+    C --> C3["Finds shortest path"]
+    C --> C4["No natural backtracking"]
+    C --> C5["More complex bookkeeping"]
+
+    style B3 fill:#fff3e0
+    style C3 fill:#c8e6c9
+    style B4 fill:#c8e6c9
+    style B5 fill:#c8e6c9
+```
+
+### Algorithm Complexity Analysis
+
+```mermaid
+graph LR
+    subgraph "Time Complexity"
+        A["Worst case: O(4^(m×n))"]
+        B["Each cell: 4 choices"]
+        C["Path length: up to m×n"]
+        D["Exponential growth"]
+    end
+
+    subgraph "Space Complexity"
+        E["Recursion stack: O(m×n)"]
+        F["Visited array: O(m×n)"]
+        G["Path storage: O(path_length)"]
+        H["Total: O(m×n)"]
+    end
+
+    style A fill:#ffcdd2
+    style H fill:#c8e6c9
+```
+
+Maze solving with recursion uses a backtracking algorithm to find a path from start to end in a maze.

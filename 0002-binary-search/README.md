@@ -15,6 +15,88 @@ All functions return the index of the target element if found, or -1 if not foun
 
 **Important**: Binary search only works on sorted arrays. The array must be sorted in ascending order before using these functions.
 
+## Visual Representation
+
+### Algorithm Flow
+
+```mermaid
+graph TD
+    A[Start: Sorted Array and Target] --> B[Set left = 0, right = length-1]
+    B --> C[Calculate middle = (left + right) / 2]
+    C --> D{array[middle] == target?}
+    D -->|Yes| E[Return middle]
+    D -->|No| F{array[middle] < target?}
+    F -->|Yes| G[Set left = middle + 1]
+    F -->|No| H[Set right = middle - 1]
+    G --> I{left <= right?}
+    H --> I
+    I -->|Yes| C
+    I -->|No| J[Return -1]
+
+    style A fill:#e1f5fe
+    style E fill:#c8e6c9
+    style J fill:#ffcdd2
+```
+
+### Search Process Example
+
+```mermaid
+graph LR
+    subgraph "Array: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]"
+        A1[1] --- A2[3] --- A3[5] --- A4[7] --- A5[9] --- A6[11] --- A7[13] --- A8[15] --- A9[17] --- A10[19]
+    end
+
+    subgraph "Search for 7"
+        B1["Step 1: mid=4, arr[4]=9 > 7"]
+        B2["Step 2: mid=1, arr[1]=3 < 7"]
+        B3["Step 3: mid=3, arr[3]=7 = 7 ✓"]
+    end
+
+    A5 -.->|Compare| B1
+    A2 -.->|Compare| B2
+    A4 -.->|Found!| B3
+
+    style A4 fill:#c8e6c9
+    style B3 fill:#c8e6c9
+```
+
+### Divide and Conquer Visualization
+
+```mermaid
+graph TD
+    A["Array [1,3,5,7,9,11,13,15,17,19]<br/>Target: 7"]
+    A --> B["Left: [1,3,5,7]<br/>Middle: 9 > 7"]
+    B --> C["Left: [5,7]<br/>Middle: 3 < 7"]
+    C --> D["Found: 7<br/>Middle: 7 = 7"]
+
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#fff3e0
+    style D fill:#c8e6c9
+```
+
+### Binary vs Linear Search Comparison
+
+```mermaid
+graph LR
+    subgraph "Binary Search O(log n)"
+        A1[Array Size: 1000] --> A2[Max Comparisons: ~10]
+        A3[Array Size: 1,000,000] --> A4[Max Comparisons: ~20]
+    end
+
+    subgraph "Linear Search O(n)"
+        B1[Array Size: 1000] --> B2[Max Comparisons: 1000]
+        B3[Array Size: 1,000,000] --> B4[Max Comparisons: 1,000,000]
+    end
+
+    style A2 fill:#c8e6c9
+    style A4 fill:#c8e6c9
+    style B2 fill:#ffcdd2
+    style B4 fill:#ffcdd2
+```
+
+Binary search is a highly efficient search algorithm that works on sorted arrays by repeatedly dividing the search interval in half.
+
 ## Algorithm
 
 1. Initialize two pointers: `left` at the start (0) and `right` at the end (length-1) of the array

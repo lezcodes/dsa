@@ -4,6 +4,248 @@
 
 A complete LRU (Least Recently Used) cache implementation from scratch using a combination of a doubly-linked list and hash map. This provides O(1) time complexity for both get and put operations while maintaining the LRU eviction policy. When the cache reaches its capacity, the least recently used item is automatically evicted to make room for new entries.
 
+## Visual Representation
+
+### LRU Cache Architecture
+
+```mermaid
+graph TD
+    subgraph "LRU Cache Structure"
+        A[Hash Map] --> B[Key → Node Mapping]
+        C[Doubly Linked List] --> D[Access Order Tracking]
+    end
+
+    subgraph "Memory Layout"
+        E["head ↔ Node1 ↔ Node2 ↔ Node3 ↔ tail"]
+        F["MRU (Most Recent) ← → LRU (Least Recent)"]
+    end
+
+    subgraph "Node Structure"
+        G[key: string]
+        H[value: interface{}]
+        I[prev: *Node]
+        J[next: *Node]
+    end
+
+    style A fill:#e1f5fe
+    style E fill:#c8e6c9
+    style G fill:#fff3e0
+```
+
+### Get Operation Flow
+
+```mermaid
+graph TD
+    A[Get(key)] --> B{Key exists in hash map?}
+    B -->|No| C[Return nil, false]
+    B -->|Yes| D[Get node from hash map]
+    D --> E[Remove node from current position]
+    E --> F[Move node to head (most recent)]
+    F --> G[Return node.value, true]
+
+    subgraph "List Update"
+        H[node.prev.next = node.next]
+        I[node.next.prev = node.prev]
+        J[Insert at head]
+    end
+
+    E --> H
+
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+    style C fill:#ffcdd2
+```
+
+### Put Operation Flow
+
+```mermaid
+graph TD
+    A[Put(key, value)] --> B{Key exists?}
+    B -->|Yes| C[Update existing node]
+    B -->|No| D{Cache at capacity?}
+
+    C --> E[Update value]
+    E --> F[Move to head]
+
+    D -->|No| G[Create new node]
+    D -->|Yes| H[Remove LRU node]
+    H --> I[Remove from hash map]
+    I --> G
+
+    G --> J[Add to hash map]
+    J --> K[Insert at head]
+    K --> L[Update size]
+
+    style A fill:#e1f5fe
+    style F fill:#c8e6c9
+    style K fill:#c8e6c9
+    style H fill:#fff3e0
+```
+
+### LRU Eviction Process
+
+```mermaid
+graph LR
+    subgraph "Before Eviction (Capacity: 3)"
+        A1["head ↔ C ↔ B ↔ A ↔ tail"]
+        A2["MRU: C, LRU: A"]
+    end
+
+    subgraph "Add new item D (triggers eviction)"
+        B1["Remove A (LRU)"]
+        B2["Add D at head"]
+    end
+
+    subgraph "After Eviction"
+        C1["head ↔ D ↔ C ↔ B ↔ tail"]
+        C2["MRU: D, LRU: B"]
+    end
+
+    A1 --> B1 --> C1
+
+    style A2 fill:#ffcdd2
+    style C2 fill:#c8e6c9
+    style B1 fill:#fff3e0
+```
+
+### Access Pattern Visualization
+
+```mermaid
+graph TD
+    A[Access Pattern Example] --> B[Initial: empty cache]
+    B --> C["Put(A, 1): [A]"]
+    C --> D["Put(B, 2): [B, A]"]
+    D --> E["Put(C, 3): [C, B, A]"]
+    E --> F["Get(A): [A, C, B] - A moves to front"]
+    F --> G["Put(D, 4): [D, A, C] - B evicted"]
+    G --> H["Get(C): [C, D, A] - C moves to front"]
+
+    subgraph "Cache States"
+        I["MRU → LRU order"]
+        J["Capacity: 3"]
+        K["Eviction: Remove tail"]
+    end
+
+    style B fill:#e1f5fe
+    style H fill:#c8e6c9
+    style G fill:#fff3e0
+```
+
+### Hash Map + Doubly Linked List Synergy
+
+```mermaid
+graph LR
+    subgraph "Hash Map (O(1) lookup)"
+        A["key1 → Node1"]
+        B["key2 → Node2"]
+        C["key3 → Node3"]
+    end
+
+    subgraph "Doubly Linked List (O(1) reorder)"
+        D[head] --> E[Node3]
+        E --> F[Node1]
+        F --> G[Node2]
+        G --> H[tail]
+        E -.->|prev| D
+        F -.->|prev| E
+        G -.->|prev| F
+        H -.->|prev| G
+    end
+
+    A -.-> F
+    B -.-> G
+    C -.-> E
+
+    style A fill:#e1f5fe
+    style E fill:#c8e6c9
+```
+
+### Cache Hit vs Miss Scenarios
+
+```mermaid
+graph TD
+    A[Cache Access] --> B{Data in cache?}
+
+    B -->|Yes - Cache Hit| C[Fast retrieval]
+    C --> D[Move to MRU position]
+    C --> E[Return cached data]
+
+    B -->|No - Cache Miss| F[Expensive operation]
+    F --> G[Fetch from source]
+    G --> H[Store in cache]
+    H --> I{Cache full?}
+    I -->|Yes| J[Evict LRU item]
+    I -->|No| K[Add to cache]
+    J --> K
+    K --> L[Return data]
+
+    style C fill:#c8e6c9
+    style F fill:#ffcdd2
+    style J fill:#fff3e0
+```
+
+### LRU vs Other Eviction Policies
+
+```mermaid
+graph TD
+    A[Cache Eviction Policies] --> B[LRU]
+    A --> C[FIFO]
+    A --> D[LFU]
+    A --> E[Random]
+
+    B --> B1["Evict: Least recently used"]
+    B --> B2["Good: Temporal locality"]
+    B --> B3["Complexity: O(1) with good design"]
+
+    C --> C1["Evict: First inserted"]
+    C --> C2["Simple: Queue-based"]
+    C --> C3["Poor: Ignores access patterns"]
+
+    D --> D1["Evict: Least frequently used"]
+    D --> D2["Good: Frequency matters"]
+    D --> D3["Complex: Counter maintenance"]
+
+    E --> E1["Evict: Random selection"]
+    E --> E2["Simple: No bookkeeping"]
+    E --> E3["Poor: No pattern consideration"]
+
+    style B2 fill:#c8e6c9
+    style B3 fill:#c8e6c9
+    style C3 fill:#ffcdd2
+    style E3 fill:#ffcdd2
+```
+
+### Performance Analysis
+
+```mermaid
+graph LR
+    subgraph "Time Complexity"
+        A["Get: O(1)"]
+        B["Put: O(1)"]
+        C["Delete: O(1)"]
+        D["All operations constant time"]
+    end
+
+    subgraph "Space Complexity"
+        E["Storage: O(capacity)"]
+        F["Hash map: O(n)"]
+        G["Linked list: O(n)"]
+        H["Total: O(capacity)"]
+    end
+
+    subgraph "Real-world Benefits"
+        I["Predictable memory usage"]
+        J["Fast access times"]
+        K["Automatic cleanup"]
+        L["Temporal locality exploitation"]
+    end
+
+    style A fill:#c8e6c9
+    style B fill:#c8e6c9
+    style C fill:#c8e6c9
+    style I fill:#c8e6c9
+```
+
 ## Key Features
 
 - **O(1) Operations**: Both get and put operations run in constant time
@@ -212,3 +454,217 @@ The LRU (Least Recently Used) policy works as follows:
 - **Operating Systems**: Page replacement algorithms (though often use LRU approximations)
 - **Web Browsers**: Cache management for web pages and resources
 - **Database Systems**: Buffer pool management and query result caching
+
+## Visual Representation
+
+### LRU Cache Architecture
+
+```mermaid
+graph TD
+    subgraph "LRU Cache Structure"
+        A[Hash Map] --> B[Key → Node Reference]
+        C[Doubly Linked List] --> D[MRU ← → ← → LRU]
+
+        B --> E["Key1 → Node1"]
+        B --> F["Key2 → Node2"]
+        B --> G["Key3 → Node3"]
+
+        D --> H["Head ← → Node1 ← → Node2 ← → Node3 ← → Tail"]
+    end
+
+    style A fill:#e1f5fe
+    style C fill:#f3e5f5
+    style H fill:#c8e6c9
+```
+
+### Detailed Structure Visualization
+
+```mermaid
+graph LR
+    subgraph "Hash Map"
+        H1["'A' → Node_A"]
+        H2["'B' → Node_B"]
+        H3["'C' → Node_C"]
+    end
+
+    subgraph "Doubly Linked List (MRU → LRU)"
+        Head[Head] --> A["Node_C<br/>Key:'C', Val:3"]
+        A --> B["Node_A<br/>Key:'A', Val:1"]
+        B --> C["Node_B<br/>Key:'B', Val:2"]
+        C --> Tail[Tail]
+
+        B -.->|prev| A
+        C -.->|prev| B
+        A -.->|prev| Head
+    end
+
+    H1 -.-> A
+    H2 -.-> C
+    H3 -.-> A
+
+    style Head fill:#e1f5fe
+    style Tail fill:#e1f5fe
+    style A fill:#c8e6c9
+```
+
+### Get Operation Flow
+
+```mermaid
+graph TD
+    A[Get(key)] --> B{Key exists in HashMap?}
+    B -->|No| C[Return -1]
+    B -->|Yes| D[Get node reference]
+    D --> E[Remove node from current position]
+    E --> F[Move node to head (MRU)]
+    F --> G[Return node value]
+
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+    style C fill:#ffcdd2
+```
+
+### Put Operation Flow
+
+```mermaid
+graph TD
+    A[Put(key, value)] --> B{Key exists?}
+    B -->|Yes| C[Update value]
+    B -->|No| D{Cache at capacity?}
+
+    C --> E[Move to head]
+    C --> F[Operation complete]
+
+    D -->|No| G[Create new node]
+    D -->|Yes| H[Remove LRU node]
+
+    H --> I[Remove from HashMap]
+    I --> G
+    G --> J[Add to head]
+    J --> K[Add to HashMap]
+    K --> L[Operation complete]
+
+    E --> F
+
+    style A fill:#e1f5fe
+    style F fill:#c8e6c9
+    style L fill:#c8e6c9
+```
+
+### LRU Eviction Example
+
+```mermaid
+graph LR
+    subgraph "Before: Cache Full (capacity=3)"
+        A1[Head] --> B1["C:3 (MRU)"]
+        B1 --> C1["A:1"]
+        C1 --> D1["B:2 (LRU)"]
+        D1 --> E1[Tail]
+    end
+
+    subgraph "After: Put(D, 4)"
+        A2[Head] --> B2["D:4 (MRU)"]
+        B2 --> C2["C:3"]
+        C2 --> D2["A:1"]
+        D2 --> E2[Tail]
+        F2["B:2 EVICTED"]
+    end
+
+    style B1 fill:#c8e6c9
+    style D1 fill:#ffcdd2
+    style B2 fill:#c8e6c9
+    style F2 fill:#ffcdd2
+```
+
+### Access Pattern Example
+
+```mermaid
+graph TD
+    A[Initial: Put A,B,C] --> B[Cache: C→A→B]
+    B --> C[Get(A)] --> D[Cache: A→C→B]
+    D --> E[Put(D)] --> F[Cache: D→A→C (B evicted)]
+    F --> G[Get(C)] --> H[Cache: C→D→A]
+    H --> I[Put(E)] --> J[Cache: E→C→D (A evicted)]
+
+    style A fill:#e1f5fe
+    style J fill:#c8e6c9
+```
+
+### Node Structure Detail
+
+```mermaid
+graph TD
+    A[LRU Node] --> B[Key]
+    A --> C[Value]
+    A --> D[Prev Pointer]
+    A --> E[Next Pointer]
+
+    F[Example Node] --> G["Key: 'user123'"]
+    F --> H["Value: UserData"]
+    F --> I["Prev: Previous Node"]
+    F --> J["Next: Next Node"]
+
+    style A fill:#e1f5fe
+    style F fill:#c8e6c9
+```
+
+### Time Complexity Analysis
+
+```mermaid
+graph TD
+    A[LRU Cache Operations] --> B[Get Operation]
+    A --> C[Put Operation]
+
+    B --> B1["HashMap lookup: O(1)"]
+    B --> B2["List update: O(1)"]
+    B --> B3["Total: O(1)"]
+
+    C --> C1["HashMap operations: O(1)"]
+    C --> C2["List operations: O(1)"]
+    C --> C3["Total: O(1)"]
+
+    D[Space Complexity] --> E["O(capacity)"]
+
+    style B3 fill:#c8e6c9
+    style C3 fill:#c8e6c9
+    style E fill:#c8e6c9
+```
+
+### LRU vs Other Eviction Policies
+
+```mermaid
+graph TD
+    A[Cache Eviction Policies] --> B[LRU]
+    A --> C[FIFO]
+    A --> D[LFU]
+    A --> E[Random]
+
+    B --> B1["Evict least recently used<br/>Good temporal locality<br/>O(1) operations"]
+    C --> C1["Evict first inserted<br/>Simple implementation<br/>Poor for access patterns"]
+    D --> D1["Evict least frequently used<br/>Good for frequency patterns<br/>More complex tracking"]
+    E --> E1["Evict random item<br/>Simple implementation<br/>Unpredictable performance"]
+
+    style B1 fill:#c8e6c9
+    style A fill:#e1f5fe
+```
+
+### Real-World Applications
+
+```mermaid
+graph TD
+    A[LRU Cache Applications] --> B[CPU Caches]
+    A --> C[Operating Systems]
+    A --> D[Web Browsers]
+    A --> E[Database Management]
+    A --> F[CDN Systems]
+
+    B --> B1["Page replacement<br/>Memory hierarchy"]
+    C --> C1["Virtual memory<br/>Buffer management"]
+    D --> D1["Browser cache<br/>Recently visited pages"]
+    E --> E1["Buffer pools<br/>Query result caching"]
+    F --> F1["Content distribution<br/>Edge caching"]
+
+    style A fill:#e1f5fe
+    style B1 fill:#c8e6c9
+    style C1 fill:#c8e6c9
+    style D1 fill:#c8e6c9
+```

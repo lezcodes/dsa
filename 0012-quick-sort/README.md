@@ -4,6 +4,97 @@
 
 Quick Sort is a highly efficient divide-and-conquer sorting algorithm that works by selecting a 'pivot' element from the array and partitioning the other elements into two sub-arrays according to whether they are less than or greater than the pivot. The sub-arrays are then sorted recursively.
 
+## Visual Representation
+
+### Algorithm Flow
+
+```mermaid
+graph TD
+    A[Choose Pivot] --> B[Partition Array]
+    B --> C[Elements < Pivot]
+    B --> D[Pivot]
+    B --> E[Elements > Pivot]
+    C --> F[Recursively Sort Left]
+    E --> G[Recursively Sort Right]
+    F --> H[Combine Results]
+    G --> H
+    D --> H
+    H --> I[Sorted Array]
+
+    style A fill:#e1f5fe
+    style D fill:#fff3e0
+    style I fill:#c8e6c9
+```
+
+### Partitioning Process
+
+```mermaid
+graph LR
+    subgraph "Initial Array"
+        A1[3] --- A2[6] --- A3[8] --- A4[10] --- A5[1] --- A6[2] --- A7[1]
+    end
+
+    subgraph "Choose Pivot (last element = 1)"
+        B1[3] --- B2[6] --- B3[8] --- B4[10] --- B5[1] --- B6[2] --- B7["1 (pivot)"]
+    end
+
+    subgraph "After Partitioning"
+        C1["1 (pivot)"] --- C2[3] --- C3[6] --- C4[8] --- C5[10] --- C6[2]
+        C7["< pivot"]
+        C8["> pivot"]
+    end
+
+    style B7 fill:#fff3e0
+    style C1 fill:#fff3e0
+    style C7 fill:#e8f5e8
+    style C8 fill:#ffebee
+```
+
+### Divide and Conquer Visualization
+
+```mermaid
+graph TD
+    A["[3,6,8,10,1,2,1]"] --> B["Pivot: 1"]
+    B --> C["Left: []"]
+    B --> D["Right: [3,6,8,10,2,1]"]
+
+    D --> E["Pivot: 1"]
+    E --> F["Left: []"]
+    E --> G["Right: [3,6,8,10,2]"]
+
+    G --> H["Pivot: 2"]
+    H --> I["Left: []"]
+    H --> J["Right: [3,6,8,10]"]
+
+    J --> K["Pivot: 10"]
+    K --> L["Left: [3,6,8]"]
+    K --> M["Right: []"]
+
+    L --> N["Continue recursion..."]
+
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style E fill:#fff3e0
+    style H fill:#fff3e0
+    style K fill:#fff3e0
+```
+
+### Time Complexity Scenarios
+
+```mermaid
+graph LR
+    subgraph "Best Case: O(n log n)"
+        A1[Balanced partitions] --> A2[log n levels] --> A3[n work per level]
+    end
+
+    subgraph "Worst Case: O(n²)"
+        B1[Unbalanced partitions] --> B2[n levels] --> B3[n work per level]
+    end
+
+    style A1 fill:#c8e6c9
+    style B1 fill:#ffcdd2
+```
+
 This implementation includes multiple variants:
 
 - **Basic Quick Sort**: Uses the last element as pivot

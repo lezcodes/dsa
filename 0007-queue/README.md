@@ -2,7 +2,109 @@
 
 ## Description
 
-A Queue is a fundamental data structure that operates on the **First In, First Out (FIFO)** principle. Elements are added to the rear (back) of the queue and removed from the front, similar to a line of people waiting for service.
+A Queue is a linear data structure that follows the First In, First Out (FIFO) principle. Elements are added (enqueued) at the rear and removed (dequeued) from the front.
+
+## Visual Representation
+
+### Queue Structure
+
+```mermaid
+graph LR
+    subgraph "Queue (FIFO)"
+        Front["Front<br/>Dequeue"] --> A[10]
+        A --> B[20]
+        B --> C[30]
+        C --> D[40]
+        D --> Rear["Rear<br/>Enqueue"]
+    end
+
+    style Front fill:#ffcdd2
+    style Rear fill:#c8e6c9
+    style A fill:#f3e5f5
+    style B fill:#f3e5f5
+    style C fill:#f3e5f5
+    style D fill:#f3e5f5
+```
+
+### Enqueue Operation
+
+```mermaid
+graph TD
+    A[New Element: 50] --> B[Check if queue is full]
+    B --> C{Is Full?}
+    C -->|Yes| D[Return Error]
+    C -->|No| E[Add element at rear]
+    E --> F[Increment rear pointer]
+    F --> G[Increment size]
+    G --> H[Operation Complete]
+
+    style A fill:#e1f5fe
+    style H fill:#c8e6c9
+    style D fill:#ffcdd2
+```
+
+### Dequeue Operation
+
+```mermaid
+graph TD
+    A[Dequeue Request] --> B[Check if queue is empty]
+    B --> C{Is Empty?}
+    C -->|Yes| D[Return Error]
+    C -->|No| E[Get element from front]
+    E --> F[Increment front pointer]
+    F --> G[Decrement size]
+    G --> H[Return element]
+
+    style A fill:#e1f5fe
+    style H fill:#c8e6c9
+    style D fill:#ffcdd2
+```
+
+### Queue Operations Flow
+
+```mermaid
+graph LR
+    subgraph "Initial State"
+        Q1[Empty Queue]
+    end
+
+    subgraph "After Enqueue(10, 20, 30)"
+        Q2["[10, 20, 30]<br/>Front → 10, Rear → 30"]
+    end
+
+    subgraph "After Dequeue()"
+        Q3["[20, 30]<br/>Front → 20, Rear → 30"]
+    end
+
+    subgraph "After Enqueue(40)"
+        Q4["[20, 30, 40]<br/>Front → 20, Rear → 40"]
+    end
+
+    Q1 --> Q2
+    Q2 --> Q3
+    Q3 --> Q4
+
+    style Q1 fill:#f5f5f5
+    style Q4 fill:#e8f5e8
+```
+
+### Implementation Types
+
+```mermaid
+graph TD
+    A[Queue Implementations] --> B[Array-based]
+    A --> C[Linked List-based]
+    A --> D[Circular Buffer]
+
+    B --> B1["Fixed size<br/>Fast access<br/>Memory waste"]
+    C --> C1["Dynamic size<br/>Extra memory overhead<br/>Pointer management"]
+    D --> D1["Fixed size<br/>Memory efficient<br/>Circular indexing"]
+
+    style A fill:#e1f5fe
+    style B1 fill:#fff3e0
+    style C1 fill:#fff3e0
+    style D1 fill:#fff3e0
+```
 
 This implementation provides three different queue variants:
 

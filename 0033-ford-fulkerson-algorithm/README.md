@@ -4,6 +4,161 @@
 
 The Ford-Fulkerson algorithm is a method for computing the maximum flow in a flow network. It uses the concept of augmenting paths to iteratively increase the flow until no more augmenting paths can be found. The algorithm also finds the minimum cut of the network, which by the Max-Flow Min-Cut theorem has the same value as the maximum flow.
 
+## Flow Network Visualization
+
+```mermaid
+graph LR
+    subgraph "Flow Network Example"
+        S((Source<br/>S)) --> A((A))
+        S --> B((B))
+        A --> C((C))
+        B --> C
+        A --> T((Sink<br/>T))
+        C --> T
+    end
+
+    subgraph "Edge Labels: capacity/flow"
+        S2((S)) --"16/0"--> A2((A))
+        S2 --"13/0"--> B2((B))
+        A2 --"10/0"--> C2((C))
+        B2 --"4/0"--> C2
+        A2 --"12/0"--> T2((T))
+        C2 --"14/0"--> T2
+    end
+
+    style S fill:#e1f5fe
+    style T fill:#c8e6c9
+    style S2 fill:#e1f5fe
+    style T2 fill:#c8e6c9
+```
+
+## Algorithm Flow
+
+```mermaid
+flowchart TD
+    A[Initialize Flow Network<br/>All flows = 0] --> B{Find Augmenting Path<br/>using DFS or BFS}
+    B -->|Path Found| C[Find Bottleneck<br/>min capacity along path]
+    C --> D[Augment Flow<br/>along the path]
+    D --> E[Update Residual Graph<br/>forward & backward edges]
+    E --> B
+    B -->|No Path Found| F[Maximum Flow Found<br/>Compute Min-Cut]
+    F --> G[Return Result<br/>Max Flow = Min Cut]
+
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+    style B fill:#fff3e0
+    style F fill:#c8e6c9
+```
+
+## Step-by-Step Execution
+
+```mermaid
+graph TD
+    subgraph "Step 1: Find First Augmenting Path"
+        S1((S)) --"16"--> A1((A))
+        S1 --"13"--> B1((B))
+        A1 --"12"--> T1((T))
+        A1 --"10"--> C1((C))
+        B1 --"4"--> C1
+        C1 --"14"--> T1
+    end
+
+    subgraph "Step 2: Augment Flow (Bottleneck = 12)"
+        S2((S)) --"16/12"--> A2((A))
+        S2 --"13/0"--> B2((B))
+        A2 --"12/12"--> T2((T))
+        A2 --"10/0"--> C2((C))
+        B2 --"4/0"--> C2
+        C2 --"14/0"--> T2
+    end
+
+    subgraph "Step 3: Find Second Path & Final Flow"
+        S3((S)) --"16/16"--> A3((A))
+        S3 --"13/13"--> B3((B))
+        A3 --"12/12"--> T3((T))
+        A3 --"10/4"--> C3((C))
+        B3 --"4/4"--> C3
+        C3 --"14/4"--> T3
+    end
+
+    style S1 fill:#e1f5fe
+    style S2 fill:#fff3e0
+    style S3 fill:#c8e6c9
+    style T1 fill:#c8e6c9
+    style T2 fill:#c8e6c9
+    style T3 fill:#c8e6c9
+```
+
+## Residual Graph Concept
+
+```mermaid
+graph LR
+    subgraph "Original Graph"
+        A1((A)) --"10/6"--> B1((B))
+    end
+
+    subgraph "Residual Graph"
+        A2((A)) --"4<br/>(10-6)"--> B2((B))
+        B2 --"6<br/>(flow)"--> A2
+    end
+
+    subgraph "Legend"
+        L1[Forward Edge: remaining capacity] --- L2[Backward Edge: current flow]
+    end
+
+    style A1 fill:#e1f5fe
+    style B1 fill:#c8e6c9
+    style A2 fill:#e1f5fe
+    style B2 fill:#c8e6c9
+```
+
+## Min-Cut Visualization
+
+```mermaid
+graph LR
+    subgraph "Minimum Cut Partition"
+        subgraph "Source Side (S-reachable)"
+            S((S))
+            A((A))
+        end
+
+        subgraph "Sink Side (T-reachable)"
+            B((B))
+            C((C))
+            T((T))
+        end
+
+        S -.->|Cut Edge<br/>16/16| A
+        A -.->|Cut Edge<br/>10/4| C
+        S --> B
+        B --> C
+        C --> T
+    end
+
+    style S fill:#e1f5fe
+    style A fill:#e1f5fe
+    style B fill:#ffcdd2
+    style C fill:#ffcdd2
+    style T fill:#ffcdd2
+```
+
+## Algorithm Comparison
+
+```mermaid
+graph TB
+    subgraph "Ford-Fulkerson Variants"
+        A[Ford-Fulkerson<br/>with DFS] --> A1[Time: O(E × f)<br/>Can be exponential]
+        B[Edmonds-Karp<br/>with BFS] --> B1[Time: O(V × E²)<br/>Polynomial guarantee]
+        C[Dinic's Algorithm] --> C1[Time: O(V² × E)<br/>Best for dense graphs]
+        D[Push-Relabel] --> D1[Time: O(V³)<br/>Good for sparse graphs]
+    end
+
+    style A fill:#fff3e0
+    style B fill:#c8e6c9
+    style C fill:#e1f5fe
+    style D fill:#e1f5fe
+```
+
 This implementation provides:
 
 - **DFS-based Path Finding**: Uses depth-first search to find augmenting paths

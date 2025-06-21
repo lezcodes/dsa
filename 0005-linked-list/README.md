@@ -4,6 +4,83 @@
 
 A Single Linked List (also called Singly Linked List) is a linear data structure where elements are stored in nodes, and each node contains data and a reference (or link) to the next node in the sequence. Unlike arrays, linked lists don't store elements in contiguous memory locations.
 
+## Visual Representation
+
+### Basic Structure
+
+```mermaid
+graph LR
+    Head --> A["Node 1<br/>Data: 10<br/>Next: →"]
+    A --> B["Node 2<br/>Data: 20<br/>Next: →"]
+    B --> C["Node 3<br/>Data: 30<br/>Next: →"]
+    C --> D["Node 4<br/>Data: 40<br/>Next: null"]
+
+    style Head fill:#e1f5fe
+    style A fill:#f3e5f5
+    style B fill:#f3e5f5
+    style C fill:#f3e5f5
+    style D fill:#f3e5f5
+```
+
+### Insert at Head Operation
+
+```mermaid
+graph LR
+    subgraph "Before Insert"
+        Head1[Head] --> A1["10"]
+        A1 --> B1["20"]
+        B1 --> C1["30"]
+        C1 --> null1[null]
+    end
+
+    subgraph "After Insert (5)"
+        Head2[Head] --> New["5"]
+        New --> A2["10"]
+        A2 --> B2["20"]
+        B2 --> C2["30"]
+        C2 --> null2[null]
+    end
+
+    style New fill:#c8e6c9
+```
+
+### Insert at Index Operation
+
+```mermaid
+graph TD
+    A[Start: Insert value X at index i] --> B[Check if i = 0]
+    B -->|Yes| C[Insert at Head]
+    B -->|No| D[Traverse to position i-1]
+    D --> E[Create new node]
+    E --> F[Set new.next = current.next]
+    F --> G[Set current.next = new]
+    G --> H[Increment size]
+    H --> I[End]
+    C --> I
+
+    style A fill:#e1f5fe
+    style I fill:#c8e6c9
+```
+
+### Search Operation
+
+```mermaid
+graph TD
+    A[Start: Search for value X] --> B[Set current = head]
+    B --> C[Set index = 0]
+    C --> D{current != null?}
+    D -->|No| E[Return -1]
+    D -->|Yes| F{current.data == X?}
+    F -->|Yes| G[Return index]
+    F -->|No| H[current = current.next]
+    H --> I[index++]
+    I --> D
+
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+    style E fill:#ffcdd2
+```
+
 **Structure:**
 
 ```
