@@ -31,21 +31,21 @@ graph TD
 
 ```mermaid
 graph TD
-    A[dfs(node)] --> B{node == null?}
-    B -->|Yes| C[Return]
-    B -->|No| D{Traversal Type?}
+    A["dfs(node)"] --> B{"node == null?"}
+    B -->|Yes| C["Return"]
+    B -->|No| D{"Traversal Type?"}
 
-    D -->|Preorder| E[Visit node]
-    E --> F[dfs(left)]
-    F --> G[dfs(right)]
+    D -->|Preorder| E["Visit node"]
+    E --> F["dfs(left)"]
+    F --> G["dfs(right)"]
 
-    D -->|Inorder| H[dfs(left)]
-    H --> I[Visit node]
-    I --> J[dfs(right)]
+    D -->|Inorder| H["dfs(left)"]
+    H --> I["Visit node"]
+    I --> J["dfs(right)"]
 
-    D -->|Postorder| K[dfs(left)]
-    K --> L[dfs(right)]
-    L --> M[Visit node]
+    D -->|Postorder| K["dfs(left)"]
+    K --> L["dfs(right)"]
+    L --> M["Visit node"]
 
     style A fill:#e1f5fe
     style C fill:#c8e6c9

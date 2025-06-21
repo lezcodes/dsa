@@ -15,10 +15,10 @@ graph TD
     end
 
     subgraph "Expected Groups"
-        G1[Group 1: [0,0,0,0] - Single cell]
-        G2[Group 2: [1,1,2,2] - 2×2 rectangle]
-        G3[Group 3: [1,5,2,6] - 2×2 rectangle]
-        G4[Group 4: [3,3,4,3] - 2×1 rectangle]
+        G1["Group 1: [0,0,0,0] - Single cell"]
+        G2["Group 2: [1,1,2,2] - 2×2 rectangle"]
+        G3["Group 3: [1,5,2,6] - 2×2 rectangle"]
+        G4["Group 4: [3,3,4,3] - 2×1 rectangle"]
     end
 
     style M fill:#e1f5fe
@@ -32,19 +32,19 @@ graph TD
 
 ```mermaid
 flowchart TD
-    A[Start: Scan matrix from top-left] --> B[Current cell = 1?]
-    B -->|No| C[Move to next cell]
-    B -->|Yes| D[Found farmland - start new group]
+    A["Start: Scan matrix from top-left"] --> B["Current cell = 1?"]
+    B -->|No| C["Move to next cell"]
+    B -->|Yes| D["Found farmland - start new group"]
 
-    D --> E[Expand right: find rightmost column]
-    E --> F[Expand down: find bottom row]
-    F --> G[Mark all cells in rectangle as visited]
-    G --> H[Record group coordinates]
+    D --> E["Expand right: find rightmost column"]
+    E --> F["Expand down: find bottom row"]
+    F --> G["Mark all cells in rectangle as visited"]
+    G --> H["Record group coordinates"]
 
-    H --> I{More cells to scan?}
+    H --> I{"More cells to scan?"}
     C --> I
     I -->|Yes| B
-    I -->|No| J[Return all groups]
+    I -->|No| J["Return all groups"]
 
     style A fill:#e1f5fe
     style D fill:#fff3e0
@@ -57,26 +57,26 @@ flowchart TD
 graph TD
     subgraph "Step 1: Find First Group at (0,0)"
         S1["Matrix:<br/>[[1,0,0,0]<br/> [0,1,1,0]<br/> [0,1,1,0]<br/> [0,0,0,1]]"]
-        S1 --> A1[Scan finds 1 at (0,0)]
-        A1 --> B1[Expand right: only (0,0)]
-        B1 --> C1[Expand down: only (0,0)]
-        C1 --> D1[Group: [0,0,0,0]]
+        S1 --> A1["Scan finds 1 at (0,0)"]
+        A1 --> B1["Expand right: only (0,0)"]
+        B1 --> C1["Expand down: only (0,0)"]
+        C1 --> D1["Group: [0,0,0,0]"]
     end
 
     subgraph "Step 2: Find Second Group at (1,1)"
         S2["Matrix after marking (0,0):<br/>[[0,0,0,0]<br/> [0,1,1,0]<br/> [0,1,1,0]<br/> [0,0,0,1]]"]
-        S2 --> A2[Scan finds 1 at (1,1)]
-        A2 --> B2[Expand right: (1,1) to (1,2)]
-        B2 --> C2[Expand down: (1,1) to (2,2)]
-        C2 --> D2[Group: [1,1,2,2]]
+        S2 --> A2["Scan finds 1 at (1,1)"]
+        A2 --> B2["Expand right: (1,1) to (1,2)"]
+        B2 --> C2["Expand down: (1,1) to (2,2)"]
+        C2 --> D2["Group: [1,1,2,2]"]
     end
 
     subgraph "Step 3: Find Third Group at (3,3)"
         S3["Matrix after marking (1,1)-(2,2):<br/>[[0,0,0,0]<br/> [0,0,0,0]<br/> [0,0,0,0]<br/> [0,0,0,1]]"]
-        S3 --> A3[Scan finds 1 at (3,3)]
-        A3 --> B3[Expand right: only (3,3)]
-        B3 --> C3[Expand down: only (3,3)]
-        C3 --> D3[Group: [3,3,3,3]]
+        S3 --> A3["Scan finds 1 at (3,3)"]
+        A3 --> B3["Expand right: only (3,3)"]
+        B3 --> C3["Expand down: only (3,3)"]
+        C3 --> D3["Group: [3,3,3,3]"]
     end
 
     style S1 fill:#e1f5fe
@@ -92,20 +92,20 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Right Expansion"
-        A1[Start at (r,c)] --> B1[Check (r,c+1)]
-        B1 --> C1{Value = 1?}
-        C1 -->|Yes| D1[Extend right boundary]
-        C1 -->|No| E1[Stop expansion]
-        D1 --> F1[Check (r,c+2)]
+        A1["Start at (r,c)"] --> B1["Check (r,c+1)"]
+        B1 --> C1["Value = 1?"]
+        C1 -->|Yes| D1["Extend right boundary"]
+        C1 -->|No| E1["Stop expansion"]
+        D1 --> F1["Check (r,c+2)"]
         F1 --> C1
     end
 
     subgraph "Down Expansion"
-        A2[Right boundary found] --> B2[Check entire next row]
-        B2 --> C2{All cells in row = 1?}
-        C2 -->|Yes| D2[Extend down boundary]
-        C2 -->|No| E2[Stop expansion]
-        D2 --> F2[Check next row]
+        A2["Right boundary found"] --> B2["Check entire next row"]
+        B2 --> C2["All cells in row = 1?"]
+        C2 -->|Yes| D2["Extend down boundary"]
+        C2 -->|No| E2["Stop expansion"]
+        D2 --> F2["Check next row"]
         F2 --> C2
     end
 
@@ -149,18 +149,18 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Greedy Rectangular Expansion] --> B[Advantages]
-    A --> C[Guarantees]
+    A["Greedy Rectangular Expansion"] --> B["Advantages"]
+    A --> C["Guarantees"]
 
-    B --> B1[Single pass O(m×n) time]
-    B --> B2[Constant space O(1) extra]
-    B --> B3[Simple implementation]
-    B --> B4[No backtracking needed]
+    B --> B1["Single pass O(m×n) time"]
+    B --> B2["Constant space O(1) extra"]
+    B --> B3["Simple implementation"]
+    B --> B4["No backtracking needed"]
 
-    C --> C1[Finds optimal rectangles]
-    C --> C2[No overlapping groups]
-    C --> C3[Handles all valid inputs]
-    C --> C4[Preserves rectangular property]
+    C --> C1["Finds optimal rectangles"]
+    C --> C2["No overlapping groups"]
+    C --> C3["Handles all valid inputs"]
+    C --> C4["Preserves rectangular property"]
 
     style A fill:#e1f5fe
     style B1 fill:#c8e6c9

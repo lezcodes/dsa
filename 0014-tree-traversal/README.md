@@ -122,13 +122,13 @@ graph TD
 
 ```mermaid
 graph TD
-    A[traverse(node)] --> B{node == null?}
+    A["traverse(node)"] --> B{"node == null?"}
     B -->|Yes| C[Return]
     B -->|No| D[Apply traversal pattern]
 
-    D --> E[Inorder:<br/>traverse(left)<br/>visit(node)<br/>traverse(right)]
-    D --> F[Preorder:<br/>visit(node)<br/>traverse(left)<br/>traverse(right)]
-    D --> G[Postorder:<br/>traverse(left)<br/>traverse(right)<br/>visit(node)]
+    D --> E["Inorder:<br/>traverse(left)<br/>visit(node)<br/>traverse(right)"]
+    D --> F["Preorder:<br/>visit(node)<br/>traverse(left)<br/>traverse(right)"]
+    D --> G["Postorder:<br/>traverse(left)<br/>traverse(right)<br/>visit(node)"]
 
     style A fill:#e1f5fe
     style C fill:#c8e6c9

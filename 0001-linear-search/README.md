@@ -9,7 +9,7 @@ Linear search is a simple search algorithm that finds the position of a target v
 ```mermaid
 graph TD
     A[Start: Array and Target] --> B[Set index = 0]
-    B --> C[Compare array[index] with target]
+    B --> C["Compare array[index] with target"]
     C --> D{Found match?}
     D -->|Yes| E[Return index]
     D -->|No| F{End of array?}

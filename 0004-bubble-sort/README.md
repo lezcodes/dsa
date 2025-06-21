@@ -33,7 +33,7 @@ graph TD
     B --> C[Set j = 0]
     C --> D{j < length - i - 1?}
     D -->|No| E[Increment i]
-    D -->|Yes| F{arr[j] > arr[j+1]?}
+    D -->|Yes| F{"`arr[j] > arr[j+1]`?"}
     F -->|Yes| G[Swap arr[j] and arr[j+1]]
     F -->|No| H[Increment j]
     G --> H

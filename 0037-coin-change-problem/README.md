@@ -12,27 +12,27 @@ Given an integer array of coin denominations and a target amount, finds the mini
 
 ```mermaid
 graph TD
-    A[Start: coins array, amount] --> B[Initialize dp array size amount+1]
-    B --> C[Set dp[0] = 0]
-    C --> D[Set dp[i] = infinity for i > 0]
-    D --> E[For each amount i from 1 to target]
-    E --> F[For each coin in coins]
-    F --> G{coin <= i?}
-    G -->|No| H[Skip this coin]
-    G -->|Yes| I[Calculate dp[i-coin] + 1]
-    I --> J{New value < dp[i]?}
-    J -->|Yes| K[Update dp[i]]
-    J -->|No| L[Keep current dp[i]]
-    K --> M[Store coin used]
-    H --> N{More coins?}
+    A["Start: coins array, amount"] --> B["Initialize dp array size amount+1"]
+    B --> C["Set dp[0] = 0"]
+    C --> D["Set dp[i] = infinity for i > 0"]
+    D --> E["For each amount i from 1 to target"]
+    E --> F["For each coin in coins"]
+    F --> G{"coin <= i?"}
+    G -->|No| H["Skip this coin"]
+    G -->|Yes| I["Calculate dp[i-coin] + 1"]
+    I --> J{"New value < dp[i]?"}
+    J -->|Yes| K["Update dp[i]"]
+    J -->|No| L["Keep current dp[i]"]
+    K --> M["Store coin used"]
+    H --> N{"More coins?"}
     L --> N
     M --> N
     N -->|Yes| F
-    N -->|No| O{More amounts?}
+    N -->|No| O{"More amounts?"}
     O -->|Yes| E
-    O -->|No| P{dp[amount] == infinity?}
-    P -->|Yes| Q[Return -1]
-    P -->|No| R[Return dp[amount]]
+    O -->|No| P{"dp[amount] == infinity?"}
+    P -->|Yes| Q["Return -1"]
+    P -->|No| R["Return dp[amount]"]
 
     style A fill:#e1f5fe
     style R fill:#c8e6c9
@@ -54,7 +54,7 @@ graph LR
     end
 
     subgraph "Optimal Solution"
-        H["Amount 6 = coin 3 + coin 3"]
+        H["Amount 6 = coin 3 + coin 3"] --> H1["coin 3"]
         I["Minimum coins: 2"]
     end
 
@@ -70,15 +70,15 @@ graph LR
 
 ```mermaid
 graph TD
-    A[For amount i, coin c] --> B{c <= i?}
-    B -->|No| C[Cannot use this coin]
-    B -->|Yes| D[Check dp[i-c]]
-    D --> E{dp[i-c] is valid?}
-    E -->|No| F[This coin path invalid]
-    E -->|Yes| G[Calculate: dp[i-c] + 1]
-    G --> H{New value < current dp[i]?}
-    H -->|Yes| I[Update dp[i] = dp[i-c] + 1]
-    H -->|No| J[Keep current dp[i]]
+    A["For amount i, coin c"] --> B{"c <= i?"}
+    B -->|No| C["Cannot use this coin"]
+    B -->|Yes| D["Check dp[i-c]"]
+    D --> E{"dp[i-c] is valid?"}
+    E -->|No| F["This coin path invalid"]
+    E -->|Yes| G["Calculate: dp[i-c] + 1"]
+    G --> H{"New value < current dp[i]?"}
+    H -->|Yes| I["Update dp[i] = dp[i-c] + 1"]
+    H -->|No| J["Keep current dp[i]"]
 
     style A fill:#e1f5fe
     style I fill:#c8e6c9
@@ -110,17 +110,17 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Backtrack from dp[amount]] --> B[Find which coin was used]
-    B --> C[Subtract coin value from amount]
-    C --> D[Repeat until amount = 0]
-    D --> E[Collect all coins used]
+    A["Backtrack from dp[amount]"] --> B["Find which coin was used"]
+    B --> C["Subtract coin value from amount"]
+    C --> D["Repeat until amount = 0"]
+    D --> E["Collect all coins used"]
 
     subgraph "Example: amount=6, coins=[1,3,4]"
-        F["dp[6] = 2 (used coin 3)"]
-        G["amount = 6-3 = 3"]
-        H["dp[3] = 1 (used coin 3)"]
+        F["dp[6] = 2 (used coin 3)"] --> F1["coin 3"]
+        G["amount = 6-3 = 3"] --> G1["amount = 3"]
+        H["dp[3] = 1 (used coin 3)"] --> H1["coin 3"]
         I["amount = 3-3 = 0"]
-        J["Solution: [3, 3]"]
+        J["Solution: [3, 3]"] --> J1["[3, 3]"]
     end
 
     A --> F
@@ -158,9 +158,9 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Coin Change Approaches] --> B[Dynamic Programming]
-    A --> C[Greedy Algorithm]
-    A --> D[Recursive (Brute Force)]
+    A["Coin Change Approaches"] --> B["Dynamic Programming"]
+    A --> C["Greedy Algorithm"]
+    A --> D["Recursive (Brute Force)"]
 
     B --> B1["Time: O(amount × coins)"]
     B --> B2["Space: O(amount)"]
@@ -187,10 +187,10 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Coin Change Applications] --> B[Currency Systems]
-    A --> C[Resource Allocation]
-    A --> D[Network Routing]
-    A --> E[Manufacturing]
+    A["Coin Change Applications"] --> B["Currency Systems"]
+    A --> C["Resource Allocation"]
+    A --> D["Network Routing"]
+    A --> E["Manufacturing"]
 
     B --> B1["Making change with fewest coins<br/>Currency conversion<br/>ATM cash dispensing"]
 

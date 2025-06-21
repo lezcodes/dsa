@@ -40,26 +40,26 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Insert word: "cat"] --> B[Start at root]
-    B --> C[Get first char: 'c']
-    C --> D{Child 'c' exists?}
-    D -->|No| E[Create new node 'c']
-    D -->|Yes| F[Go to existing 'c' node]
-    E --> G[Move to 'c' node]
+    A["Insert word: 'cat'"] --> B["Start at root"]
+    B --> C["Get first char: 'c'"]
+    C --> D["Child 'c' exists?"]
+    D -->|No| E["Create new node 'c'"]
+    D -->|Yes| F["Go to existing 'c' node"]
+    E --> G["Move to 'c' node"]
     F --> G
-    G --> H[Get next char: 'a']
-    H --> I{Child 'a' exists?}
-    I -->|No| J[Create new node 'a']
-    I -->|Yes| K[Go to existing 'a' node]
-    J --> L[Move to 'a' node]
+    G --> H["Get next char: 'a'"]
+    H --> I["Child 'a' exists?"]
+    I -->|No| J["Create new node 'a'"]
+    I -->|Yes| K["Go to existing 'a' node"]
+    J --> L["Move to 'a' node"]
     K --> L
-    L --> M[Get next char: 't']
-    M --> N{Child 't' exists?}
-    N -->|No| O[Create new node 't']
-    N -->|Yes| P[Go to existing 't' node]
-    O --> Q[Move to 't' node]
+    L --> M["Get next char: 't'"]
+    M --> N["Child 't' exists?"]
+    N -->|No| O["Create new node 't'"]
+    N -->|Yes| P["Go to existing 't' node"]
+    O --> Q["Move to 't' node"]
     P --> Q
-    Q --> R[Mark as end of word]
+    Q --> R["Mark as end of word"]
 
     style A fill:#e1f5fe
     style R fill:#c8e6c9
@@ -69,21 +69,21 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Search word: "car"] --> B[Start at root]
-    B --> C[Get first char: 'c']
-    C --> D{Child 'c' exists?}
-    D -->|No| E[Return false]
-    D -->|Yes| F[Move to 'c' node]
-    F --> G[Get next char: 'a']
-    G --> H{Child 'a' exists?}
+    A["Search word: 'car'"] --> B["Start at root"]
+    B --> C["Get first char: 'c'"]
+    C --> D["Child 'c' exists?"]
+    D -->|No| E["Return false"]
+    D -->|Yes| F["Move to 'c' node"]
+    F --> G["Get next char: 'a'"]
+    G --> H["Child 'a' exists?"]
     H -->|No| E
-    H -->|Yes| I[Move to 'a' node]
-    I --> J[Get next char: 'r']
-    J --> K{Child 'r' exists?}
+    H -->|Yes| I["Move to 'a' node"]
+    I --> J["Get next char: 'r'"]
+    J --> K["Child 'r' exists?"]
     K -->|No| E
-    K -->|Yes| L[Move to 'r' node]
-    L --> M{Is end of word?}
-    M -->|Yes| N[Return true]
+    K -->|Yes| L["Move to 'r' node"]
+    L --> M["Is end of word?"]
+    M -->|Yes| N["Return true"]
     M -->|No| E
 
     style A fill:#e1f5fe
@@ -95,21 +95,21 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Autocomplete prefix: "ca"] --> B[Navigate to prefix end]
-    B --> C{Prefix exists?}
-    C -->|No| D[Return empty list]
-    C -->|Yes| E[Start DFS from prefix node]
-    E --> F[Collect all words in subtree]
-    F --> G[Sort results alphabetically]
-    G --> H[Limit to max suggestions]
-    H --> I[Return suggestions]
+    A["Autocomplete prefix: 'ca'"] --> B["Navigate to prefix end"]
+    B --> C["Prefix exists?"]
+    C -->|No| D["Return empty list"]
+    C -->|Yes| E["Start DFS from prefix node"]
+    E --> F["Collect all words in subtree"]
+    F --> G["Sort results alphabetically"]
+    G --> H["Limit to max suggestions"]
+    H --> I["Return suggestions"]
 
     subgraph "DFS Collection"
-        J[Current node] --> K{Is end of word?}
-        K -->|Yes| L[Add to results]
-        K -->|No| M[Continue to children]
+        J["Current node"] --> K["Is end of word?"]
+        K -->|Yes| L["Add to results"]
+        K -->|No| M["Continue to children"]
         L --> M
-        M --> N[Visit all children recursively]
+        M --> N["Visit all children recursively"]
     end
 
     E --> J
@@ -123,7 +123,7 @@ graph TD
 
 ```mermaid
 graph TD
-    A[String Search Comparison] --> B[Trie]
+    A["String Search Comparison"] --> B[Trie]
     A --> C[Hash Table]
 
     B --> B1["Prefix operations: O(p)"]
@@ -148,7 +148,7 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Trie Applications] --> B[Autocomplete Systems]
+    A["Trie Applications"] --> B[Autocomplete Systems]
     A --> C[Spell Checkers]
     A --> D[IP Routing]
     A --> E[Text Processing]
@@ -170,9 +170,9 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Trie Node Structure"
-        A[children: map[rune]*Node]
-        B[isEndOfWord: bool]
-        C[value: interface{}]
+        A["children: map[rune]*Node"]
+        B["isEndOfWord: bool"]
+        C["value: interface{}"]
     end
 
     subgraph "Memory Layout Example"
@@ -392,24 +392,24 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Insert word: "CAR"] --> B[Start at root]
-    B --> C[Current char: 'C']
-    C --> D{Child 'C' exists?}
-    D -->|No| E[Create new node 'C']
-    D -->|Yes| F[Move to child 'C']
+    A["Insert word: 'CAR'"] --> B["Start at root"]
+    B --> C["Current char: 'C'"]
+    C --> D["Child 'C' exists?"]
+    D -->|No| E["Create new node 'C'"]
+    D -->|Yes| F["Move to child 'C'"]
     E --> F
-    F --> G[Current char: 'A']
-    G --> H{Child 'A' exists?}
-    H -->|No| I[Create new node 'A']
-    H -->|Yes| J[Move to child 'A']
+    F --> G["Current char: 'A'"]
+    G --> H["Child 'A' exists?"]
+    H -->|No| I["Create new node 'A'"]
+    H -->|Yes| J["Move to child 'A'"]
     I --> J
-    J --> K[Current char: 'R']
-    K --> L{Child 'R' exists?}
-    L -->|No| M[Create new node 'R']
-    L -->|Yes| N[Move to child 'R']
+    J --> K["Current char: 'R'"]
+    K --> L["Child 'R' exists?"]
+    L -->|No| M["Create new node 'R'"]
+    L -->|Yes| N["Move to child 'R'"]
     M --> N
-    N --> O[Mark as end of word]
-    O --> P[Insert Complete]
+    N --> O["Mark as end of word"]
+    O --> P["Insert Complete"]
 
     style A fill:#e1f5fe
     style P fill:#c8e6c9
@@ -419,22 +419,22 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Search word: "CAT"] --> B[Start at root]
-    B --> C[Current char: 'C']
-    C --> D{Child 'C' exists?}
-    D -->|No| E[Return false]
-    D -->|Yes| F[Move to child 'C']
-    F --> G[Current char: 'A']
-    G --> H{Child 'A' exists?}
-    H -->|No| I[Return false]
-    H -->|Yes| J[Move to child 'A']
-    J --> K[Current char: 'T']
-    K --> L{Child 'T' exists?}
-    L -->|No| M[Return false]
-    L -->|Yes| N[Move to child 'T']
-    N --> O{Is end of word?}
-    O -->|Yes| P[Return true]
-    O -->|No| Q[Return false]
+    A["Search word: 'CAT'"] --> B["Start at root"]
+    B --> C["Current char: 'C'"]
+    C --> D["Child 'C' exists?"]
+    D -->|No| E["Return false"]
+    D -->|Yes| F["Move to child 'C'"]
+    F --> G["Current char: 'A'"]
+    G --> H["Child 'A' exists?"]
+    H -->|No| I["Return false"]
+    H -->|Yes| J["Move to child 'A'"]
+    J --> K["Current char: 'T'"]
+    K --> L["Child 'T' exists?"]
+    L -->|No| M["Return false"]
+    L -->|Yes| N["Move to child 'T'"]
+    N --> O["Is end of word?"]
+    O -->|Yes| P["Return true"]
+    O -->|No| Q["Return false"]
 
     style A fill:#e1f5fe
     style P fill:#c8e6c9
@@ -449,12 +449,12 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Trie with words: [car, card, care, cat, dog]"
-        Root1[Root] --> C1[c] --> A1[a] --> R1[r]
+        Root1["Root"] --> C1["c"] --> A1["a"] --> R1["r"]
         R1 --> End1["● (car)"]
-        R1 --> D1[d] --> End2["● (card)"]
-        R1 --> E1[e] --> End3["● (care)"]
-        A1 --> T1[t] --> End4["● (cat)"]
-        Root1 --> D2[d] --> O1[o] --> G1[g] --> End5["● (dog)"]
+        R1 --> D1["d"] --> End2["● (card)"]
+        R1 --> E1["e"] --> End3["● (care)"]
+        A1 --> T1["t"] --> End4["● (cat)"]
+        Root1 --> D2["d"] --> O1["o"] --> G1["g"] --> End5["● (dog)"]
     end
 
     subgraph "Prefix 'ca' finds:"
@@ -471,16 +471,16 @@ graph LR
 
 ```mermaid
 graph TD
-    A[User types: "ca"] --> B[Find prefix node]
-    B --> C[DFS from prefix node]
-    C --> D[Collect all complete words]
-    D --> E[Return suggestions]
+    A["User types: 'ca'"] --> B["Find prefix node"]
+    B --> C["DFS from prefix node"]
+    C --> D["Collect all complete words"]
+    D --> E["Return suggestions"]
 
     subgraph "Suggestions"
-        F[car]
-        G[card]
-        H[care]
-        I[cat]
+        F["car"]
+        G["card"]
+        H["care"]
+        I["cat"]
     end
 
     E --> F
@@ -496,9 +496,9 @@ graph TD
 
 ```mermaid
 graph TD
-    A[String Operations Comparison] --> B[Trie]
-    A --> C[Hash Table]
-    A --> D[Binary Search Tree]
+    A["String Operations Comparison"] --> B["Trie"]
+    A --> C["Hash Table"]
+    A --> D["Binary Search Tree"]
 
     B --> B1["Insert: O(m)<br/>Search: O(m)<br/>Prefix: O(p + k)<br/>Space: O(ALPHABET_SIZE * N * M)"]
 
@@ -521,9 +521,9 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Trie Memory Optimization] --> B[Compressed Trie]
-    A --> C[Ternary Search Trie]
-    A --> D[Patricia Trie]
+    A["Trie Memory Optimization"] --> B["Compressed Trie"]
+    A --> C["Ternary Search Trie"]
+    A --> D["Patricia Trie"]
 
     B --> B1["Merge single-child chains<br/>Reduces space complexity"]
     C --> C1["Each node has 3 children<br/>Less memory per node"]

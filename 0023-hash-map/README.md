@@ -11,9 +11,9 @@ A complete hash map (hash table) implementation from scratch using separate chai
 ```mermaid
 graph LR
     subgraph "Hash Map with Chaining"
-        A[Key: "apple"] --> H1[Hash Function] --> I1[Index: 2]
-        B[Key: "banana"] --> H2[Hash Function] --> I2[Index: 5]
-        C[Key: "cherry"] --> H3[Hash Function] --> I3[Index: 2]
+        A["Key: 'apple'"] --> H1["Hash Function"] --> I1["Index: 2"]
+        B["Key: 'banana'"] --> H2["Hash Function"] --> I2["Index: 5"]
+        C["Key: 'cherry'"] --> H3["Hash Function"] --> I3["Index: 2"]
     end
 
     subgraph "Bucket Array"
@@ -40,14 +40,14 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Input: key string] --> B[Initialize hash = FNV_OFFSET]
-    B --> C[For each byte in key]
-    C --> D[hash = hash XOR byte]
-    D --> E[hash = hash * FNV_PRIME]
-    E --> F{More bytes?}
+    A["Input: key string"] --> B["Initialize hash = FNV_OFFSET"]
+    B --> C["For each byte in key"]
+    C --> D["hash = hash XOR byte"]
+    D --> E["hash = hash * FNV_PRIME"]
+    E --> F{"More bytes?"}
     F -->|Yes| C
-    F -->|No| G[hash = hash % capacity]
-    G --> H[Return bucket index]
+    F -->|No| G["hash = hash % capacity"]
+    G --> H["Return bucket index"]
 
     subgraph "FNV-1a Constants"
         I["FNV_OFFSET = 2166136261"]
@@ -63,18 +63,18 @@ graph TD
 ```mermaid
 graph LR
     subgraph "No Collision"
-        A1[Key: "apple"] --> B1[Hash: 2] --> C1["Bucket 2: [apple]"]
+        A1["Key: 'apple'"] --> B1["Hash: 2"] --> C1["Bucket 2: [apple]"]
     end
 
     subgraph "Collision Occurs"
-        A2[Key: "cherry"] --> B2[Hash: 2] --> C2["Bucket 2: [apple→cherry]"]
+        A2["Key: 'cherry'"] --> B2["Hash: 2"] --> C2["Bucket 2: [apple→cherry]"]
     end
 
     subgraph "Chain Traversal"
-        D[Search "cherry"] --> E[Go to bucket 2]
-        E --> F[Check "apple" ≠ "cherry"]
-        F --> G[Follow next pointer]
-        G --> H[Check "cherry" = "cherry" ✓]
+        D["Search 'cherry'"] --> E["Go to bucket 2"]
+        E --> F["Check 'apple' ≠ 'cherry'"]
+        F --> G["Follow next pointer"]
+        G --> H["Check 'cherry' = 'cherry' ✓"]
     end
 
     style C1 fill:#c8e6c9
@@ -86,15 +86,15 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Insert new key-value] --> B[Calculate load factor]
-    B --> C{Load factor > 0.75?}
-    C -->|No| D[Insert into current table]
-    C -->|Yes| E[Trigger resize]
-    E --> F[Create new table: 2x capacity]
-    F --> G[Rehash all existing entries]
-    G --> H[Insert into new table]
-    H --> I[Replace old table]
-    I --> J[Insert new key-value pair]
+    A["Insert new key-value"] --> B["Calculate load factor"]
+    B --> C{"Load factor > 0.75?"}
+    C -->|No| D["Insert into current table"]
+    C -->|Yes| E["Trigger resize"]
+    E --> F["Create new table: 2x capacity"]
+    F --> G["Rehash all existing entries"]
+    G --> H["Insert into new table"]
+    H --> I["Replace old table"]
+    I --> J["Insert new key-value pair"]
 
     style A fill:#e1f5fe
     style D fill:#c8e6c9
@@ -135,8 +135,8 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Hash Map Operations] --> B[Average Case O(1)]
-    A --> C[Worst Case O(n)]
+    A["Hash Map Operations"] --> B["Average Case O(1)"]
+    A --> C["Worst Case O(n)"]
 
     B --> B1["Get: Direct bucket access"]
     B --> B2["Set: Hash + bucket insert"]
@@ -162,9 +162,9 @@ graph TD
 ```mermaid
 graph TD
     subgraph "Hash Map Memory Structure"
-        A[HashMap struct] --> B[buckets: []*Node]
-        A --> C[size: int]
-        A --> D[capacity: int]
+        A["HashMap struct"] --> B["buckets: []*Node"]
+        A --> C["size: int"]
+        A --> D["capacity: int"]
     end
 
     subgraph "Bucket Array"
@@ -175,9 +175,9 @@ graph TD
     end
 
     subgraph "Node Structure"
-        I[key: string]
-        J[value: interface{}]
-        K[next: *Node]
+        I["key: string"]
+        J["value: interface{}"]
+        K["next: *Node"]
     end
 
     B --> E
@@ -190,9 +190,9 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Key-Value Storage Comparison] --> B[Hash Map]
+    A["Key-Value Storage Comparison"] --> B[Hash Map]
     A --> C[Binary Search Tree]
-    A --> D[Array/Slice]
+    A --> D["Array/Slice"]
 
     B --> B1["Average: O(1) operations"]
     B --> B2["Memory: Sparse arrays"]

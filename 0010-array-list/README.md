@@ -216,8 +216,8 @@ The test suite covers:
 ```mermaid
 graph LR
     subgraph "ArrayList Internal Structure"
-        A[data: []T] --> B[size: int]
-        B --> C[capacity: int]
+        A["data: []T"] --> B["size: int"]
+        B --> C["capacity: int"]
     end
 
     subgraph "Memory Layout"
@@ -320,10 +320,10 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Append Operations"
-        A[Op 1: O(1)] --> B[Op 2: O(1)]
-        B --> C[Op 3: O(1)]
+        A["Op 1: O(1)"] --> B["Op 2: O(1)"]
+        B --> C["Op 3: O(1)"]
         C --> D["Op n: O(n) - Resize"]
-        D --> E[Next n ops: O(1) each]
+        D --> E["Next n ops: O(1) each"]
     end
 
     subgraph "Cost Analysis"

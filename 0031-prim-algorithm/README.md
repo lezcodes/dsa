@@ -134,7 +134,7 @@ graph TD
     D -->|Yes| E[MST Complete]
     D -->|No| F[Extract minimum weight edge]
     F --> G{Both vertices in MST?}
-    G -->|Yes| H[Skip edge (would create cycle)]
+    G -->|Yes| H["Skip edge (would create cycle)"]
     G -->|No| I[Add edge to MST]
     I --> J[Add new vertex to MST set]
     J --> K[Add new adjacent edges to queue]

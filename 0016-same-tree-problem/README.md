@@ -67,19 +67,19 @@ graph LR
 
 ```mermaid
 graph TD
-    A[isSameTree(tree1, tree2)] --> B{Both trees null?}
-    B -->|Yes| C[Return true]
-    B -->|No| D{One tree null?}
-    D -->|Yes| E[Return false]
-    D -->|No| F{Values equal?}
+    A["isSameTree(tree1, tree2)"] --> B{"Both trees null?"}
+    B -->|Yes| C["Return true"]
+    B -->|No| D{"One tree null?"}
+    D -->|Yes| E["Return false"]
+    D -->|No| F{"Values equal?"}
     F -->|No| E
-    F -->|Yes| G[Check left subtrees]
-    G --> H[isSameTree(tree1.left, tree2.left)]
-    H --> I{Left subtrees same?}
+    F -->|Yes| G["Check left subtrees"]
+    G --> H["isSameTree(tree1.left, tree2.left)"]
+    H --> I{"Left subtrees same?"}
     I -->|No| E
-    I -->|Yes| J[Check right subtrees]
-    J --> K[isSameTree(tree1.right, tree2.right)]
-    K --> L[Return result]
+    I -->|Yes| J["Check right subtrees"]
+    J --> K["isSameTree(tree1.right, tree2.right)"]
+    K --> L["Return result"]
 
     style A fill:#e1f5fe
     style C fill:#c8e6c9

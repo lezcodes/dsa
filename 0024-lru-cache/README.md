@@ -11,7 +11,7 @@ A complete LRU (Least Recently Used) cache implementation from scratch using a c
 ```mermaid
 graph TD
     subgraph "LRU Cache Structure"
-        A[Hash Map] --> B[Key → Node Mapping]
+        A[Hash Map] --> B["Key → Node Mapping"]
         C[Doubly Linked List] --> D[Access Order Tracking]
     end
 
@@ -21,10 +21,10 @@ graph TD
     end
 
     subgraph "Node Structure"
-        G[key: string]
-        H[value: interface{}]
-        I[prev: *Node]
-        J[next: *Node]
+        G["key: string"]
+        H["value: interface{}"]
+        I["prev: *Node"]
+        J["next: *Node"]
     end
 
     style A fill:#e1f5fe
@@ -36,17 +36,17 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Get(key)] --> B{Key exists in hash map?}
-    B -->|No| C[Return nil, false]
-    B -->|Yes| D[Get node from hash map]
-    D --> E[Remove node from current position]
-    E --> F[Move node to head (most recent)]
-    F --> G[Return node.value, true]
+    A["Get(key)"] --> B{"Key exists in hash map?"}
+    B -->|No| C["Return nil, false"]
+    B -->|Yes| D["Get node from hash map"]
+    D --> E["Remove node from current position"]
+    E --> F["Move node to head (most recent)"]
+    F --> G["Return node.value, true"]
 
     subgraph "List Update"
-        H[node.prev.next = node.next]
-        I[node.next.prev = node.prev]
-        J[Insert at head]
+        H["node.prev.next = node.next"]
+        I["node.next.prev = node.prev"]
+        J["Insert at head"]
     end
 
     E --> H
@@ -60,16 +60,16 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Put(key, value)] --> B{Key exists?}
-    B -->|Yes| C[Update existing node]
-    B -->|No| D{Cache at capacity?}
+    A["Put(key, value)"] --> B{"Key exists?"}
+    B -->|Yes| C["Update existing node"]
+    B -->|No| D{"Cache at capacity?"}
 
-    C --> E[Update value]
-    E --> F[Move to head]
+    C --> E["Update value"]
+    E --> F["Move to head"]
 
     D -->|No| G[Create new node]
-    D -->|Yes| H[Remove LRU node]
-    H --> I[Remove from hash map]
+    D -->|Yes| H["Remove LRU node"]
+    H --> I["Remove from hash map"]
     I --> G
 
     G --> J[Add to hash map]
@@ -164,20 +164,20 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Cache Access] --> B{Data in cache?}
+    A["Cache Access"] --> B{"Data in cache?"}
 
-    B -->|Yes - Cache Hit| C[Fast retrieval]
-    C --> D[Move to MRU position]
-    C --> E[Return cached data]
+    B -->|Yes - Cache Hit| C["Fast retrieval"]
+    C --> D["Move to MRU position"]
+    C --> E["Return cached data"]
 
-    B -->|No - Cache Miss| F[Expensive operation]
-    F --> G[Fetch from source]
-    G --> H[Store in cache]
-    H --> I{Cache full?}
-    I -->|Yes| J[Evict LRU item]
-    I -->|No| K[Add to cache]
+    B -->|No - Cache Miss| F["Expensive operation"]
+    F --> G["Fetch from source"]
+    G --> H["Store in cache"]
+    H --> I{"Cache full?"}
+    I -->|Yes| J["Evict LRU item"]
+    I -->|No| K["Add to cache"]
     J --> K
-    K --> L[Return data]
+    K --> L["Return data"]
 
     style C fill:#c8e6c9
     style F fill:#ffcdd2
@@ -188,10 +188,10 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Cache Eviction Policies] --> B[LRU]
-    A --> C[FIFO]
-    A --> D[LFU]
-    A --> E[Random]
+    A["Cache Eviction Policies"] --> B[LRU]
+    A --> C["FIFO"]
+    A --> D["LFU"]
+    A --> E["Random"]
 
     B --> B1["Evict: Least recently used"]
     B --> B2["Good: Temporal locality"]
@@ -511,12 +511,12 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Get(key)] --> B{Key exists in HashMap?}
-    B -->|No| C[Return -1]
-    B -->|Yes| D[Get node reference]
-    D --> E[Remove node from current position]
-    E --> F[Move node to head (MRU)]
-    F --> G[Return node value]
+    A["Get(key)"] --> B{"Key exists in HashMap?"}
+    B -->|No| C["Return -1"]
+    B -->|Yes| D["Get node reference"]
+    D --> E["Remove node from current position"]
+    E --> F["Move node to head (MRU)"]
+    F --> G["Return node value"]
 
     style A fill:#e1f5fe
     style G fill:#c8e6c9
@@ -527,21 +527,21 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Put(key, value)] --> B{Key exists?}
-    B -->|Yes| C[Update value]
-    B -->|No| D{Cache at capacity?}
+    A["Put(key, value)"] --> B{"Key exists?"}
+    B -->|Yes| C["Update value"]
+    B -->|No| D{"Cache at capacity?"}
 
-    C --> E[Move to head]
-    C --> F[Operation complete]
+    C --> E["Move to head"]
+    C --> F["Operation complete"]
 
-    D -->|No| G[Create new node]
-    D -->|Yes| H[Remove LRU node]
+    D -->|No| G["Create new node"]
+    D -->|Yes| H["Remove LRU node"]
 
-    H --> I[Remove from HashMap]
+    H --> I["Remove from HashMap"]
     I --> G
-    G --> J[Add to head]
-    J --> K[Add to HashMap]
-    K --> L[Operation complete]
+    G --> J["Add to head"]
+    J --> K["Add to HashMap"]
+    K --> L["Operation complete"]
 
     E --> F
 
@@ -555,18 +555,18 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Before: Cache Full (capacity=3)"
-        A1[Head] --> B1["C:3 (MRU)"]
+        A1["Head"] --> B1["C:3 (MRU)"]
         B1 --> C1["A:1"]
         C1 --> D1["B:2 (LRU)"]
-        D1 --> E1[Tail]
+        D1 --> E1["Tail"]
     end
 
     subgraph "After: Put(D, 4)"
-        A2[Head] --> B2["D:4 (MRU)"]
+        A2["Head"] --> B2["D:4 (MRU)"]
         B2 --> C2["C:3"]
         C2 --> D2["A:1"]
-        D2 --> E2[Tail]
-        F2["B:2 EVICTED"]
+        D2 --> E2["Tail"]
+        F2["B:2 (EVICTED)"]
     end
 
     style B1 fill:#c8e6c9
@@ -579,11 +579,11 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Initial: Put A,B,C] --> B[Cache: C→A→B]
-    B --> C[Get(A)] --> D[Cache: A→C→B]
-    D --> E[Put(D)] --> F[Cache: D→A→C (B evicted)]
-    F --> G[Get(C)] --> H[Cache: C→D→A]
-    H --> I[Put(E)] --> J[Cache: E→C→D (A evicted)]
+    A["Initial: Put A,B,C"] --> B["Cache: C→A→B"]
+    B --> C["Get(A)"] --> D["Cache: A→C→B"]
+    D --> E["Put(D)"] --> F["Cache: D→A→C (B evicted)"]
+    F --> G["Get(C)"] --> H["Cache: C→D→A"]
+    H --> I["Put(E)"] --> J["Cache: E→C→D (A evicted)"]
 
     style A fill:#e1f5fe
     style J fill:#c8e6c9
@@ -593,10 +593,10 @@ graph TD
 
 ```mermaid
 graph TD
-    A[LRU Node] --> B[Key]
-    A --> C[Value]
-    A --> D[Prev Pointer]
-    A --> E[Next Pointer]
+    A["LRU Node"] --> B["Key"]
+    A --> C["Value"]
+    A --> D["Prev Pointer"]
+    A --> E["Next Pointer"]
 
     F[Example Node] --> G["Key: 'user123'"]
     F --> H["Value: UserData"]
@@ -611,8 +611,8 @@ graph TD
 
 ```mermaid
 graph TD
-    A[LRU Cache Operations] --> B[Get Operation]
-    A --> C[Put Operation]
+    A["LRU Cache Operations"] --> B["Get Operation"]
+    A --> C["Put Operation"]
 
     B --> B1["HashMap lookup: O(1)"]
     B --> B2["List update: O(1)"]
@@ -633,10 +633,10 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Cache Eviction Policies] --> B[LRU]
-    A --> C[FIFO]
-    A --> D[LFU]
-    A --> E[Random]
+    A["Cache Eviction Policies"] --> B["LRU"]
+    A --> C["FIFO"]
+    A --> D["LFU"]
+    A --> E["Random"]
 
     B --> B1["Evict least recently used<br/>Good temporal locality<br/>O(1) operations"]
     C --> C1["Evict first inserted<br/>Simple implementation<br/>Poor for access patterns"]
@@ -651,11 +651,11 @@ graph TD
 
 ```mermaid
 graph TD
-    A[LRU Cache Applications] --> B[CPU Caches]
-    A --> C[Operating Systems]
-    A --> D[Web Browsers]
-    A --> E[Database Management]
-    A --> F[CDN Systems]
+    A["LRU Cache Applications"] --> B["CPU Caches"]
+    A --> C["Operating Systems"]
+    A --> D["Web Browsers"]
+    A --> E["Database Management"]
+    A --> F["CDN Systems"]
 
     B --> B1["Page replacement<br/>Memory hierarchy"]
     C --> C1["Virtual memory<br/>Buffer management"]

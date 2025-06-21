@@ -30,10 +30,8 @@ This implementation demonstrates:
 
 ### Maze Format
 
-- `#` - Wall (impassable)
+- `x` - Wall (impassable)
 - ` ` - Open path (passable)
-- `S` - Start position
-- `E` - End position
 - `*` - Solution path (in visualization)
 
 ## Complexity
@@ -85,9 +83,9 @@ make bench NAME=0011-maze-with-recursion
 ```go
 // Define a maze
 maze := []string{
-    "#####E#",
-    "#     #",
-    "#S#####",
+    "xxxxx x",
+    "x     x",
+    "x xxxxx",
 }
 
 // Solve the maze
@@ -105,14 +103,14 @@ fmt.Println(solver.PrintMazeWithPath(path))
 
 ```
 Original maze:
-#####E#
-#     #
-#S#####
+xxxxx x
+x     x
+x xxxxx
 
 Solved maze:
-#####E#
-#**** #
-#S#####
+xxxxx*x
+x*****x
+x*xxxxx
 
 Path: [(2,1), (1,1), (1,2), (1,3), (1,4), (1,5), (0,5)]
 ```
@@ -123,11 +121,11 @@ Path: [(2,1), (1,1), (1,2), (1,3), (1,4), (1,5), (0,5)]
 
 ```go
 gameMap := []string{
-    "########",
-    "#S  #  #",
-    "# # # ##",
-    "# #   E#",
-    "########",
+    "xxxxxxxx",
+    "x   x  x",
+    "x x x x ",
+    "x x   x ",
+    "xxxxxxxx",
 }
 ```
 
@@ -135,11 +133,11 @@ gameMap := []string{
 
 ```go
 robotMaze := []string{
-    "##########",
-    "#S       #",
-    "# ###### #",
-    "#       E#",
-    "##########",
+    "xxxxxxxx",
+    "x   x  x",
+    "x x x x ",
+    "x x   x ",
+    "xxxxxxxx",
 }
 ```
 
@@ -147,10 +145,11 @@ robotMaze := []string{
 
 ```go
 puzzleMaze := []string{
-    "#####",
-    "#S E#",
-    "#   #",
-    "#####",
+    "xxxxxxxx",
+    "x   x  x",
+    "x x x x ",
+    "x x   x ",
+    "xxxxxxxx",
 }
 ```
 
@@ -231,7 +230,7 @@ make test NAME=0011-maze-with-recursion
 
 ```mermaid
 graph TD
-    A[Start: solveMaze(row, col)] --> B{Valid position?}
+    A["Start: solveMaze&#40;row, col&#41;"] --> B{Valid position?}
     B -->|No| C[Return false]
     B -->|Yes| D{Is wall or visited?}
     D -->|Yes| C
@@ -239,10 +238,10 @@ graph TD
     E --> F{Reached end?}
     F -->|Yes| G[Return true - FOUND!]
     F -->|No| H[Try all 4 directions]
-    H --> I[Try UP: solveMaze(row-1, col)]
-    H --> J[Try DOWN: solveMaze(row+1, col)]
-    H --> K[Try LEFT: solveMaze(row, col-1)]
-    H --> L[Try RIGHT: solveMaze(row, col+1)]
+    H --> I["Try UP: solveMaze&#40;row-1, col&#41;"]
+    H --> J["Try DOWN: solveMaze&#40;row+1, col&#41;"]
+    H --> K["Try LEFT: solveMaze&#40;row, col-1&#41;"]
+    H --> L["Try RIGHT: solveMaze&#40;row, col+1&#41;"]
     I --> M{Any direction successful?}
     J --> M
     K --> M
@@ -262,27 +261,27 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Step 1: Start at S"
-        A1["#####E#<br/>#     #<br/>#S#####"]
+        A1["xxxxx x<br/>x     x<br/>x xxxxx"]
     end
 
     subgraph "Step 2: Try Right"
-        A2["#####E#<br/># *   #<br/>#S#####"]
+        A2["xxxxx x<br/>x *   x<br/>x xxxxx"]
     end
 
     subgraph "Step 3: Continue Right"
-        A3["#####E#<br/># **  #<br/>#S#####"]
+        A3["xxxxx x<br/>x **  x<br/>x xxxxx"]
     end
 
     subgraph "Step 4: Reach Dead End, Backtrack"
-        A4["#####E#<br/># *** #<br/>#S#####"]
+        A4["xxxxx x<br/>x *** x<br/>x xxxxx"]
     end
 
     subgraph "Step 5: Try Up"
-        A5["#####E#<br/># ****#<br/>#S#####"]
+        A5["xxxxx x<br/>x ****x<br/>x xxxxx"]
     end
 
     subgraph "Step 6: Found End!"
-        A6["#####E#<br/># ****#<br/>#S#####"]
+        A6["xxxxx x<br/>x ****x<br/>x xxxxx"]
     end
 
     A1 --> A2 --> A3 --> A4 --> A5 --> A6
@@ -366,8 +365,8 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Maze Solving Comparison] --> B[DFS (Recursive)]
-    A --> C[BFS (Queue)]
+    A["Performance Comparison"] --> B["DFS (Recursive)"]
+    A --> C["BFS (Queue)"]
 
     B --> B1["Memory: O(depth)"]
     B --> B2["Stack-based recursion"]

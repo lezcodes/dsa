@@ -22,13 +22,13 @@ All functions return the index of the target element if found, or -1 if not foun
 ```mermaid
 graph TD
     A[Start: Sorted Array and Target] --> B[Set left = 0, right = length-1]
-    B --> C[Calculate middle = (left + right) / 2]
-    C --> D{array[middle] == target?}
+    B --> C["Calculate middle = (left + right) / 2"]
+    C --> D{"array[middle] == target?"}
     D -->|Yes| E[Return middle]
-    D -->|No| F{array[middle] < target?}
+    D -->|No| F{"array[middle] < target?"}
     F -->|Yes| G[Set left = middle + 1]
     F -->|No| H[Set right = middle - 1]
-    G --> I{left <= right?}
+    G --> I{"left <= right?"}
     H --> I
     I -->|Yes| C
     I -->|No| J[Return -1]

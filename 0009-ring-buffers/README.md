@@ -212,7 +212,7 @@ graph TD
     B -->|Yes| C[Return error/overwrite]
     B -->|No| D[Insert at tail position]
     D --> E[Increment tail pointer]
-    E --> F[tail = (tail + 1) % capacity]
+    E --> F["tail = (tail + 1) % capacity"]
     F --> G[Increment size]
     G --> H[Operation complete]
 
@@ -229,7 +229,7 @@ graph TD
     B -->|Yes| C[Return error]
     B -->|No| D[Get element at head]
     D --> E[Increment head pointer]
-    E --> F[head = (head + 1) % capacity]
+    E --> F["head = (head + 1) % capacity"]
     F --> G[Decrement size]
     G --> H[Return element]
 

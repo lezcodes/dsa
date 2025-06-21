@@ -112,14 +112,14 @@ graph LR
 ```mermaid
 graph TD
     subgraph "Operations"
-        A[Insert: O(log n)]
-        B[Extract: O(log n)]
-        C[Peek: O(1)]
-        D[Build: O(n)]
+        A["Insert: O(log n)"]
+        B["Extract: O(log n)"]
+        C["Peek: O(1)"]
+        D["Build: O(n)"]
     end
 
     subgraph "Tree Height"
-        E[Height = log n]
+        E["Height = log n"]
         F[Complete binary tree]
     end
 

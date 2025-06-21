@@ -36,13 +36,13 @@ graph LR
 
 ```mermaid
 flowchart TD
-    A[Initialize Flow Network<br/>All flows = 0] --> B{Find Augmenting Path<br/>using DFS or BFS}
-    B -->|Path Found| C[Find Bottleneck<br/>min capacity along path]
-    C --> D[Augment Flow<br/>along the path]
-    D --> E[Update Residual Graph<br/>forward & backward edges]
+    A["Initialize Flow Network<br/>All flows = 0"] --> B{Find Augmenting Path<br/>using DFS or BFS}
+    B -->|Path Found| C["Find Bottleneck<br/>min capacity along path"]
+    C --> D["Augment Flow<br/>along the path"]
+    D --> E["Update Residual Graph<br/>forward & backward edges"]
     E --> B
-    B -->|No Path Found| F[Maximum Flow Found<br/>Compute Min-Cut]
-    F --> G[Return Result<br/>Max Flow = Min Cut]
+    B -->|No Path Found| F["Maximum Flow Found<br/>Compute Min-Cut"]
+    F --> G["Return Result<br/>Max Flow = Min Cut"]
 
     style A fill:#e1f5fe
     style G fill:#c8e6c9
@@ -147,10 +147,10 @@ graph LR
 ```mermaid
 graph TB
     subgraph "Ford-Fulkerson Variants"
-        A[Ford-Fulkerson<br/>with DFS] --> A1[Time: O(E × f)<br/>Can be exponential]
-        B[Edmonds-Karp<br/>with BFS] --> B1[Time: O(V × E²)<br/>Polynomial guarantee]
-        C[Dinic's Algorithm] --> C1[Time: O(V² × E)<br/>Best for dense graphs]
-        D[Push-Relabel] --> D1[Time: O(V³)<br/>Good for sparse graphs]
+        A["Ford-Fulkerson<br/>with DFS"] --> A1["Time: O(E × f)<br/>Can be exponential"]
+        B["Edmonds-Karp<br/>with BFS"] --> B1["Time: O(V × E²)<br/>Polynomial guarantee"]
+        C["Dinic's Algorithm"] --> C1["Time: O(V² × E)<br/>Best for dense graphs"]
+        D["Push-Relabel"] --> D1["Time: O(V³)<br/>Good for sparse graphs"]
     end
 
     style A fill:#fff3e0

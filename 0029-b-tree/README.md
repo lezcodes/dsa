@@ -40,9 +40,9 @@ graph TD
 
 ```mermaid
 graph TD
-    A[B-Tree Properties] --> B[Node Constraints]
-    A --> C[Balance Property]
-    A --> D[Ordering Property]
+    A["B-Tree Properties"] --> B["Node Constraints"]
+    A --> C["Balance Property"]
+    A --> D["Ordering Property"]
 
     B --> B1["Min degree t ≥ 2"]
     B --> B2["Root: 1 to 2t-1 keys"]
@@ -91,16 +91,16 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Search(key, node)] --> B{node is null?}
-    B -->|Yes| C[Key not found]
-    B -->|No| D[Binary search in node]
+    A["Search(key, node)"] --> B{"node is null?"}
+    B -->|Yes| C["Key not found"]
+    B -->|No| D["Binary search in node"]
     D --> E{Key found?}
-    E -->|Yes| F[Return success]
+    E -->|Yes| F["Return success"]
     E -->|No| G{Is leaf node?}
     G -->|Yes| C
-    G -->|No| H[Find child to search]
-    H --> I[Recursively search child]
-    I --> J[Return result]
+    G -->|No| H["Find child to search"]
+    H --> I["Recursively search child"]
+    I --> J["Return result"]
 
     K[Binary Search in Node] --> L["left = 0, right = keyCount-1"]
     L --> M["while left <= right"]
@@ -118,18 +118,18 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Insert(key)] --> B{Root is full?}
-    B -->|Yes| C[Split root]
-    B -->|No| D[Insert into non-full root]
-    C --> E[Create new root]
+    A["Insert(key)"] --> B{"Root is full?"}
+    B -->|Yes| C["Split root"]
+    B -->|No| D["Insert into non-full root"]
+    C --> E["Create new root"]
     E --> D
-    D --> F[Find appropriate leaf]
-    F --> G[Insert key in leaf]
-    G --> H{Leaf is full?}
-    H -->|No| I[Insertion complete]
-    H -->|Yes| J[Split leaf]
-    J --> K[Propagate split upward]
-    K --> L{Parent is full?}
+    D --> F["Find appropriate leaf"]
+    F --> G["Insert key in leaf"]
+    G --> H{"Leaf is full?"}
+    H -->|No| I["Insertion complete"]
+    H -->|Yes| J["Split leaf"]
+    J --> K["Propagate split upward"]
+    K --> L{"Parent is full?"}
     L -->|No| I
     L -->|Yes| M[Split parent]
     M --> K
@@ -171,27 +171,27 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Delete(key)] --> B[Find key location]
-    B --> C{Key in leaf?}
-    C -->|Yes| D[Case 1: Delete from leaf]
-    C -->|No| E[Case 2: Delete from internal]
+    A["Delete(key)"] --> B["Find key location"]
+    B --> C{"Key in leaf?"}
+    C -->|Yes| D["Case 1: Delete from leaf"]
+    C -->|No| E["Case 2: Delete from internal"]
 
     D --> F{Leaf has >= t keys?}
-    F -->|Yes| G[Simply remove key]
-    F -->|No| H[Case 3: Borrow or merge]
+    F -->|Yes| G["Simply remove key"]
+    F -->|No| H["Case 3: Borrow or merge"]
 
-    E --> I[Replace with predecessor/successor]
-    I --> J[Delete predecessor/successor]
+    E --> I["Replace with predecessor/successor"]
+    I --> J["Delete predecessor/successor"]
     J --> H
 
-    H --> K{Sibling has >= t keys?}
-    K -->|Yes| L[Borrow from sibling]
-    K -->|No| M[Merge with sibling]
+    H --> K{"Sibling has >= t keys?"}
+    K -->|Yes| L["Borrow from sibling"]
+    K -->|No| M["Merge with sibling"]
 
-    L --> N[Deletion complete]
-    M --> O{Parent underflows?}
+    L --> N["Deletion complete"]
+    M --> O{"Parent underflows?"}
     O -->|No| N
-    O -->|Yes| P[Recursively fix parent]
+    O -->|Yes| P["Recursively fix parent"]
     P --> O
 
     style A fill:#e1f5fe
@@ -259,8 +259,8 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Comparison] --> B[B-Tree]
-    A --> C[B+ Tree]
+    A["Comparison"] --> B["B-Tree"]
+    A --> C["B+ Tree"]
 
     B --> B1["Data in all nodes"]
     B --> B2["Smaller tree height"]
@@ -285,9 +285,9 @@ graph TD
 
 ```mermaid
 graph TD
-    A[B-Tree Performance] --> B[Time Complexity]
-    A --> C[Space Complexity]
-    A --> D[I/O Complexity]
+    A["B-Tree Performance"] --> B["Time Complexity"]
+    A --> C["Space Complexity"]
+    A --> D["I/O Complexity"]
 
     B --> B1["Search: O(log_t n)"]
     B --> B2["Insert: O(log_t n)"]
@@ -407,10 +407,10 @@ graph LR
 
 ```mermaid
 graph TD
-    A[B-Tree Family] --> B[Standard B-Tree]
-    A --> C[B+ Tree]
-    A --> D[B* Tree]
-    A --> E[Counted B-Tree]
+    A["B-Tree Family"] --> B["Standard B-Tree"]
+    A --> C["B+ Tree"]
+    A --> D["B* Tree"]
+    A --> E["Counted B-Tree"]
 
     B --> B1["Data in all nodes"]
     B --> B2["Direct access to keys"]

@@ -20,9 +20,9 @@ graph LR
     J --> K[55]
 
     subgraph "Rule: F(n) = F(n-1) + F(n-2)"
-        L[F(0) = 0] --> M[F(1) = 1]
-        M --> N[F(2) = F(1) + F(0) = 1]
-        N --> O[F(3) = F(2) + F(1) = 2]
+        L["F(0) = 0"] --> M["F(1) = 1"]
+        M --> N["F(2) = F(1) + F(0) = 1"]
+        N --> O["F(3) = F(2) + F(1) = 2"]
     end
 
     style A fill:#e1f5fe
@@ -35,26 +35,26 @@ graph LR
 
 ```mermaid
 graph TD
-    A[fib(5)] --> B[fib(4)]
-    A --> C[fib(3)]
-    B --> D[fib(3)]
-    B --> E[fib(2)]
-    C --> F[fib(2)]
-    C --> G[fib(1)]
-    D --> H[fib(2)]
-    D --> I[fib(1)]
-    E --> J[fib(1)]
-    E --> K[fib(0)]
-    F --> L[fib(1)]
-    F --> M[fib(0)]
-    H --> N[fib(1)]
-    H --> O[fib(0)]
+    A["fib(5)"] --> B["fib(4)"]
+    A --> C["fib(3)"]
+    B --> D["fib(3)"]
+    B --> E["fib(2)"]
+    C --> F["fib(2)"]
+    C --> G["fib(1)"]
+    D --> H["fib(2)"]
+    D --> I["fib(1)"]
+    E --> J["fib(1)"]
+    E --> K["fib(0)"]
+    F --> L["fib(1)"]
+    F --> M["fib(0)"]
+    H --> N["fib(1)"]
+    H --> O["fib(0)"]
 
     subgraph "Overlapping Subproblems"
-        P[fib(3) computed 2 times]
-        Q[fib(2) computed 3 times]
-        R[fib(1) computed 5 times]
-        S[fib(0) computed 3 times]
+        P["fib(3) computed 2 times"]
+        Q["fib(2) computed 3 times"]
+        R["fib(1) computed 5 times"]
+        S["fib(0) computed 3 times"]
     end
 
     style A fill:#e1f5fe
@@ -77,23 +77,23 @@ graph TD
 ```mermaid
 graph TD
     subgraph "Iterative O(n) - Optimal Space"
-        A1[a = 0, b = 1] --> A2[For i = 2 to n]
-        A2 --> A3[temp = a + b<br/>a = b, b = temp]
-        A3 --> A4{i < n?}
+        A1["a = 0, b = 1"] --> A2["For i = 2 to n"]
+        A2 --> A3["temp = a + b<br/>a = b, b = temp"]
+        A3 --> A4{"i < n?"}
         A4 -->|Yes| A3
-        A4 -->|No| A5[Return b]
+        A4 -->|No| A5["Return b"]
     end
 
     subgraph "Dynamic Programming O(n)"
-        B1[dp[0] = 0<br/>dp[1] = 1] --> B2[For i = 2 to n]
-        B2 --> B3[dp[i] = dp[i-1] + dp[i-2]]
-        B3 --> B4[Return dp[n]]
+        B1["dp[0] = 0<br/>dp[1] = 1"] --> B2["For i = 2 to n"]
+        B2 --> B3["dp[i] = dp[i-1] + dp[i-2]"]
+        B3 --> B4["Return dp[n]"]
     end
 
     subgraph "Matrix Exponentiation O(log n)"
-        C1[Matrix = [[1,1],[1,0]]] --> C2[Fast matrix power]
-        C2 --> C3[Matrix^n in O(log n)]
-        C3 --> C4[Extract F(n) from result]
+        C1["Matrix = [[1,1],[1,0]]"] --> C2["Fast matrix power"]
+        C2 --> C3["Matrix^n in O(log n)"]
+        C3 --> C4["Extract F(n) from result"]
     end
 
     style A1 fill:#e1f5fe
@@ -109,19 +109,19 @@ graph TD
 ```mermaid
 graph TD
     subgraph "Matrix Formula"
-        A["[F(n+1)]   [1 1]^n   [1]<br/>[F(n)  ] = [1 0]   × [0]"] --> B[Fast Matrix Power]
+        A["[F(n+1)]   [1 1]^n   [1]<br/>[F(n)  ] = [1 0]   × [0]"] --> B["Fast Matrix Power"]
     end
 
     subgraph "Power Calculation Example: n=5"
-        C[Matrix^5] --> D[Matrix^4 × Matrix^1]
-        D --> E[Matrix^2 × Matrix^2 × Matrix^1]
-        E --> F[(Matrix^1)² × (Matrix^1)² × Matrix^1]
-        F --> G[Binary: 5 = 101₂]
-        G --> H[Use only positions with 1 bits]
+        C["Matrix^5"] --> D["Matrix^4 × Matrix^1"]
+        D --> E["Matrix^2 × Matrix^2 × Matrix^1"]
+        E --> F["(Matrix^1)² × (Matrix^1)² × Matrix^1"]
+        F --> G["Binary: 5 = 101₂"]
+        G --> H["Use only positions with 1 bits"]
     end
 
     subgraph "Matrix Multiplication"
-        I["[a b]   [e f]   [ae+bg af+bh]<br/>[c d] × [g h] = [ce+dg cf+dh]"] --> J[Time: O(1) for 2×2]
+        I["[a b]   [e f]   [ae+bg af+bh]<br/>[c d] × [g h] = [ce+dg cf+dh]"] --> J["Time: O(1) for 2×2"]
     end
 
     style A fill:#e1f5fe
@@ -134,19 +134,19 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Time Complexity"
-        A[Recursive: O(2ⁿ)] --> A1[Exponential - very slow]
-        B[Iterative: O(n)] --> B1[Linear - good for most cases]
-        C[DP: O(n)] --> C1[Linear with O(n) space]
-        D[Matrix: O(log n)] --> D1[Logarithmic - best for large n]
-        E[Memoized: O(n)] --> E1[Linear first call, O(1) after]
+        A["Recursive: O(2ⁿ)"] --> A1["Exponential - very slow"]
+        B["Iterative: O(n)"] --> B1["Linear - good for most cases"]
+        C["DP: O(n)"] --> C1["Linear with O(n) space"]
+        D["Matrix: O(log n)"] --> D1["Logarithmic - best for large n"]
+        E["Memoized: O(n)"] --> E1["Linear first call, O(1) after"]
     end
 
     subgraph "Space Complexity"
-        F[Recursive: O(n)] --> F1[Call stack depth]
-        G[Iterative: O(1)] --> G1[Constant space - optimal]
-        H[DP: O(n)] --> H1[Array storage]
-        I[Matrix: O(log n)] --> I1[Recursion for power]
-        J[Memoized: O(n)] --> J1[Cache storage]
+        F["Recursive: O(n)"] --> F1["Call stack depth"]
+        G["Iterative: O(1)"] --> G1["Constant space - optimal"]
+        H["DP: O(n)"] --> H1["Array storage"]
+        I["Matrix: O(log n)"] --> I1["Recursion for power"]
+        J["Memoized: O(n)"] --> J1["Cache storage"]
     end
 
     style A fill:#ffcdd2
@@ -159,18 +159,18 @@ graph LR
 ```mermaid
 graph TD
     subgraph "Lucas Numbers: L(n) = L(n-1) + L(n-2)"
-        A[L(0) = 2, L(1) = 1] --> B[2, 1, 3, 4, 7, 11, 18, 29, 47...]
-        B --> C[Relation: L(n) = F(n-1) + F(n+1)]
+        A["L(0) = 2, L(1) = 1"] --> B["2, 1, 3, 4, 7, 11, 18, 29, 47..."]
+        B --> C["Relation: L(n) = F(n-1) + F(n+1)"]
     end
 
     subgraph "Tribonacci: T(n) = T(n-1) + T(n-2) + T(n-3)"
-        D[T(0)=0, T(1)=1, T(2)=1] --> E[0, 1, 1, 2, 4, 7, 13, 24, 44...]
+        D["T(0)=0, T(1)=1, T(2)=1"] --> E["0, 1, 1, 2, 4, 7, 13, 24, 44..."]
     end
 
     subgraph "Golden Ratio φ"
-        F[φ = (1 + √5) / 2] --> G[φ ≈ 1.618033988...]
-        G --> H[Binet's Formula: F(n) = (φⁿ - ψⁿ)/√5]
-        H --> I[where ψ = -1/φ]
+        F["φ = (1 + √5) / 2"] --> G["φ ≈ 1.618033988..."]
+        G --> H["Binet's Formula: F(n) = (φⁿ - ψⁿ)/√5"]
+        H --> I["where ψ = -1/φ"]
     end
 
     style A fill:#e1f5fe
@@ -184,17 +184,17 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Fibonacci Properties] --> B[GCD Property]
-    A --> C[Sum Formula]
-    A --> D[Identity Relations]
-    A --> E[Divisibility Rules]
+    A["Fibonacci Properties"] --> B["GCD Property"]
+    A --> C["Sum Formula"]
+    A --> D["Identity Relations"]
+    A --> E["Divisibility Rules"]
 
-    B --> B1[gcd(F(m), F(n)) = F(gcd(m, n))]
-    C --> C1[F(1) + F(2) + ... + F(n) = F(n+2) - 1]
-    D --> D1[F(n+m) = F(n)×F(m+1) + F(n-1)×F(m)]
-    D --> D2[F(2n) = F(n)×(2F(n+1) - F(n))]
-    E --> E1[F(n) divides F(kn) for any positive k]
-    E --> E2[3 divides F(n) iff 4 divides n]
+    B --> B1["gcd(F(m), F(n)) = F(gcd(m, n))"]
+    C --> C1["F(1) + F(2) + ... + F(n) = F(n+2) - 1"]
+    D --> D1["F(n+m) = F(n)×F(m+1) + F(n-1)×F(m)"]
+    D --> D2["F(2n) = F(n)×(2F(n+1) - F(n))"]
+    E --> E1["F(n) divides F(kn) for any positive k"]
+    E --> E2["3 divides F(n) if and only if 4 divides n"]
 
     style A fill:#e1f5fe
     style B1 fill:#c8e6c9
@@ -209,26 +209,26 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Fibonacci in Nature & Science] --> B[Biology]
-    A --> C[Art & Architecture]
-    A --> D[Computer Science]
-    A --> E[Financial Markets]
+    A["Fibonacci in Nature & Science"] --> B["Biology"]
+    A --> C["Art & Architecture"]
+    A --> D["Computer Science"]
+    A --> E["Financial Markets"]
 
-    B --> B1[Flower petals (3, 5, 8, 13, 21)]
-    B --> B2[Pine cone spirals]
-    B --> B3[Population growth models]
+    B --> B1["Flower petals (3, 5, 8, 13, 21)"]
+    B --> B2["Pine cone spirals"]
+    B --> B3["Population growth models"]
 
-    C --> C1[Golden ratio in design]
-    C --> C2[Spiral patterns in art]
-    C --> C3[Architecture proportions]
+    C --> C1["Golden ratio in design"]
+    C --> C2["Spiral patterns in art"]
+    C --> C3["Architecture proportions"]
 
-    D --> D1[Algorithm optimization]
-    D --> D2[Data structure analysis]
-    D --> D3[Recursive algorithm design]
+    D --> D1["Algorithm optimization"]
+    D --> D2["Data structure analysis"]
+    D --> D3["Recursive algorithm design"]
 
-    E --> E1[Technical analysis]
-    E --> E2[Fibonacci retracements]
-    E --> E3[Trading strategies]
+    E --> E1["Technical analysis"]
+    E --> E2["Fibonacci retracements"]
+    E --> E3["Trading strategies"]
 
     style A fill:#e1f5fe
     style B1 fill:#c8e6c9

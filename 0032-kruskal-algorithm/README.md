@@ -167,7 +167,7 @@ graph TD
     A[Sort all edges by weight] --> B[Initialize Union-Find structure]
     B --> C[For each edge in sorted order]
     C --> D{Do endpoints belong to same component?}
-    D -->|Yes| E[Skip edge (would create cycle)]
+    D -->|Yes| E["Skip edge (would create cycle)"]
     D -->|No| F[Add edge to MST]
     F --> G[Union the components]
     G --> H{MST has V-1 edges?}

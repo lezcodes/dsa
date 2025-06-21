@@ -26,9 +26,9 @@ graph TD
     end
 
     subgraph "Cycles Found"
-        H[Cycle 1: 0 → 1 → 2 → 0]
-        I[Cycle 2: 3 → 4 → 3]
-        J[No cycle: 5 → 6]
+        H["Cycle 1: 0 → 1 → 2 → 0"]
+        I["Cycle 2: 3 → 4 → 3"]
+        J["No cycle: 5 → 6"]
     end
 
     style A fill:#ffcdd2
@@ -47,23 +47,23 @@ graph TD
 ```mermaid
 graph TD
     subgraph "Color States"
-        W[WHITE: Unvisited] --> G[GRAY: In current path]
-        G --> B[BLACK: Completely processed]
+        W["WHITE: Unvisited"] --> G["GRAY: In current path"]
+        G --> B["BLACK: Completely processed"]
 
         W2[Color = 0] --> G2[Color = 1]
         G2 --> B2[Color = 2]
     end
 
     subgraph "Cycle Detection Logic"
-        A[Visit node] --> B[Mark as GRAY]
-        B --> C[Explore neighbors]
-        C --> D{Neighbor color?}
-        D -->|WHITE| E[Recursive DFS]
-        D -->|GRAY| F[Back edge found - CYCLE!]
-        D -->|BLACK| G[Cross edge - continue]
-        E --> H[Mark as BLACK]
-        F --> I[Extract cycle path]
-        G --> J[Check next neighbor]
+        A["Visit node"] --> B["Mark as GRAY"]
+        B --> C["Explore neighbors"]
+        C --> D{"Neighbor color?"}
+        D -->|WHITE| E["Recursive DFS"]
+        D -->|GRAY| F["Back edge found - CYCLE!"]
+        D -->|BLACK| G["Cross edge - continue"]
+        E --> H["Mark as BLACK"]
+        F --> I["Extract cycle path"]
+        G --> J["Check next neighbor"]
         H --> J
     end
 
@@ -79,32 +79,32 @@ graph TD
 
 ```mermaid
 flowchart TD
-    A[Initialize: All nodes WHITE] --> B[Start DFS from unvisited node]
-    B --> C[Mark current node GRAY]
-    C --> D[For each neighbor]
+    A["Initialize: All nodes WHITE"] --> B["Start DFS from unvisited node"]
+    B --> C["Mark current node GRAY"]
+    C --> D["For each neighbor"]
 
     D --> E{Neighbor color?}
-    E -->|WHITE| F[Recursive DFS on neighbor]
-    E -->|GRAY| G[Back edge - Cycle detected!]
-    E -->|BLACK| H[Cross edge - Continue]
+    E -->|WHITE| F["Recursive DFS on neighbor"]
+    E -->|GRAY| G["Back edge - Cycle detected!"]
+    E -->|BLACK| H["Cross edge - Continue"]
 
     F --> I{Cycle found in recursion?}
-    I -->|Yes| J[Propagate cycle info]
-    I -->|No| K[Continue with next neighbor]
+    I -->|Yes| J["Propagate cycle info"]
+    I -->|No| K["Continue with next neighbor"]
 
     G --> L[Extract cycle from current path]
     H --> M[Check next neighbor]
     K --> M
     J --> M
-    L --> N[Add cycle to results]
+    L --> N["Add cycle to results"]
 
     M --> O{More neighbors?}
     O -->|Yes| D
-    O -->|No| P[Mark current node BLACK]
+    O -->|No| P["Mark current node BLACK"]
 
     P --> Q{More unvisited nodes?}
     Q -->|Yes| B
-    Q -->|No| R[Return all cycles]
+    Q -->|No| R["Return all cycles"]
 
     style A fill:#e1f5fe
     style G fill:#ffcdd2
@@ -123,14 +123,14 @@ graph TD
     end
 
     subgraph "Cycle Extraction"
-        A[Back edge: 2 → 0] --> B[Find 0 in current path]
-        B --> C[Extract path from 0 to 2]
-        C --> D[Cycle: 0 → 1 → 2 → 0]
+        A["Back edge: 2 → 0"] --> B["Find 0 in current path"]
+        B --> C["Extract path from 0 to 2"]
+        C --> D["Cycle: 0 → 1 → 2 → 0"]
     end
 
     subgraph "Parent Tracking"
-        E[parent[1] = 0] --> F[parent[2] = 1]
-        F --> G[Use parent array to rebuild path]
+        E["parent[1] = 0"] --> F["parent[2] = 1"]
+        F --> G["Use parent array to rebuild path"]
     end
 
     style S4 fill:#ffcdd2
@@ -155,7 +155,7 @@ graph LR
     end
 
     subgraph "Step 4: Back edge detected"
-        A4[0 is GRAY - Back edge!] --> B4[Cycle: 0→1→2→0]
+        A4["0 is GRAY - Back edge!"] --> B4["Cycle: 0→1→2→0"]
     end
 
     style A1 fill:#e1f5fe
@@ -170,19 +170,19 @@ graph LR
 ```mermaid
 graph TD
     subgraph "Raw Cycles Found"
-        R1[Cycle: 0→1→2→0]
-        R2[Cycle: 1→2→0→1]
-        R3[Cycle: 2→0→1→2]
+        R1["Cycle: 0→1→2→0"]
+        R2["Cycle: 1→2→0→1"]
+        R3["Cycle: 2→0→1→2"]
     end
 
     subgraph "Normalization Process"
-        N1[Find minimum node in cycle] --> N2[Rotate cycle to start with min]
-        N2 --> N3[Canonical form: 0→1→2→0]
+        N1["Find minimum node in cycle"] --> N2["Rotate cycle to start with min"]
+        N2 --> N3["Canonical form: 0→1→2→0"]
     end
 
     subgraph "Duplicate Removal"
-        D1[Use Set/Map for uniqueness] --> D2[Only keep canonical forms]
-        D2 --> D3[Result: [0→1→2→0]]
+        D1["Use Set/Map for uniqueness"] --> D2["Only keep canonical forms"]
+        D2 --> D3["Result: [0→1→2→0]"]
     end
 
     style R1 fill:#fff3e0
@@ -197,21 +197,21 @@ graph TD
 ```mermaid
 graph TD
     subgraph "Time Complexity"
-        T1[DFS: O(V + E)] --> T2[Each node visited once]
-        T2 --> T3[Each edge explored once]
-        T3 --> T4[Cycle extraction: O(V) per cycle]
+        T1["DFS: O(V + E)"] --> T2["Each node visited once"]
+        T2 --> T3["Each edge explored once"]
+        T3 --> T4["Cycle extraction: O(V) per cycle"]
     end
 
     subgraph "Space Complexity"
-        S1[Color array: O(V)] --> S2[Parent array: O(V)]
-        S2 --> S3[Recursion stack: O(V)]
-        S3 --> S4[Total: O(V)]
+        S1["Color array: O(V)"] --> S2["Parent array: O(V)"]
+        S2 --> S3["Recursion stack: O(V)"]
+        S3 --> S4["Total: O(V)"]
     end
 
     subgraph "Practical Performance"
-        P1[Best case: O(V + E) - No cycles]
-        P2[Worst case: O(V + E) - Many cycles]
-        P3[Space efficient compared to other methods]
+        P1["Best case: O(V + E) - No cycles"]
+        P2["Worst case: O(V + E) - Many cycles"]
+        P3["Space efficient compared to other methods"]
     end
 
     style T1 fill:#e1f5fe

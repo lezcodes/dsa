@@ -285,16 +285,16 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Search(key, node)] --> B{node is null?}
-    B -->|Yes| C[Key not found]
-    B -->|No| D[Search keys in node]
-    D --> E{Key found?}
-    E -->|Yes| F[Return success]
-    E -->|No| G[Find appropriate child pointer]
-    G --> H[Recursively search child]
-    H --> I[Return result]
+    A["Search(key, node)"] --> B{"node is null?"}
+    B -->|Yes| C["Key not found"]
+    B -->|No| D["Search keys in node"]
+    D --> E{"Key found?"}
+    E -->|Yes| F["Return success"]
+    E -->|No| G["Find appropriate child pointer"]
+    G --> H["Recursively search child"]
+    H --> I["Return result"]
 
-    J[Linear Search in Node] --> K["for i = 0 to node.keyCount-1"]
+    J["Linear Search in Node"] --> K["for i = 0 to node.keyCount-1"]
     K --> L["  if key == node.keys[i]: return found"]
     L --> M["  if key < node.keys[i]: child = node.children[i]"]
     M --> N["child = node.children[node.keyCount] // rightmost"]
@@ -308,23 +308,18 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Insert(key)] --> B[Find leaf node position]
-    B --> C[Insert key in sorted order]
-    C --> D{Node overflow? (keys > M-1)}
-    D -->|No| E[Insertion complete]
-    D -->|Yes| F[Split node]
-    F --> G[Promote middle key to parent]
-    G --> H{Parent overflow?}
-    H -->|No| I[Insertion complete]
-    H -->|Yes| J[Split parent recursively]
-    J --> K{Reached root?}
-    K -->|No| H
-    K -->|Yes| L[Create new root]
-    L --> I
+    A["Insert(key)"] --> B["Find leaf node for insertion"]
+    B --> C{"Node full?"}
+    C -->|Yes| D["Split node"]
+    C -->|No| E["Insert key into node"]
+    D --> F["Promote middle key to parent"]
+    E --> G["Insertion complete"]
+    F --> G
+    G --> H["Check parent (recursive call)"]
 
     style A fill:#e1f5fe
-    style E fill:#c8e6c9
-    style I fill:#c8e6c9
+    style G fill:#c8e6c9
+    style D fill:#fff3e0
 ```
 
 ### Node Splitting Example (M=4)
@@ -333,7 +328,7 @@ graph TD
 graph LR
     subgraph "Before Split"
         A["[10, 20, 30, 40]"]
-        B["Overflow! 4 keys in M=4 tree"]
+        B["Overflow! 4 keys in M=4 tree"] --> C["Split node"]
     end
 
     subgraph "After Split"
@@ -359,24 +354,24 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Delete(key)] --> B[Find key location]
-    B --> C{Key in leaf node?}
-    C -->|Yes| D[Remove key directly]
-    C -->|No| E[Find inorder successor/predecessor]
-    E --> F[Replace key with successor]
-    F --> G[Delete successor from leaf]
+    A["Delete(key)"] --> B["Find key location"]
+    B --> C{"Key in leaf node?"}
+    C -->|Yes| D["Remove key directly"]
+    C -->|No| E["Find inorder successor/predecessor"]
+    E --> F["Replace key with successor"]
+    F --> G["Delete successor from leaf"]
 
-    D --> H{Node underflow?}
+    D --> H{"Node underflow?"}
     G --> H
-    H -->|No| I[Deletion complete]
-    H -->|Yes| J[Try borrowing from sibling]
-    J --> K{Sibling has extra keys?}
-    K -->|Yes| L[Borrow key through parent]
-    K -->|No| M[Merge with sibling]
+    H -->|No| I["Deletion complete"]
+    H -->|Yes| J["Try borrowing from sibling"]
+    J --> K{"Sibling has extra keys?"}
+    K -->|Yes| L["Borrow key through parent"]
+    K -->|No| M["Merge with sibling"]
     L --> I
-    M --> N{Parent underflow?}
+    M --> N{"Parent underflow?"}
     N -->|No| I
-    N -->|Yes| O[Fix parent recursively]
+    N -->|Yes| O["Fix parent recursively"]
     O --> N
 
     style A fill:#e1f5fe
@@ -418,8 +413,8 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Comparison] --> B[M-Way Tree]
-    A --> C[Binary Tree]
+    A["Comparison"] --> B["M-Way Tree"]
+    A --> C["Binary Tree"]
 
     B --> B1["Height: O(log_M n)"]
     B --> B2["More keys per node"]
@@ -445,10 +440,10 @@ graph TD
 
 ```mermaid
 graph TD
-    A[M-Way Tree Applications] --> B[Database Systems]
-    A --> C[File Systems]
-    A --> D[B-Tree Foundation]
-    A --> E[External Memory]
+    A["M-Way Tree Applications"] --> B["Database Systems"]
+    A --> C["File Systems"]
+    A --> D["B-Tree Foundation"]
+    A --> E["External Memory"]
 
     B --> B1["Index structures"]
     B --> B2["Range queries"]
@@ -504,9 +499,9 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Implementation Details] --> B[Node Design]
-    A --> C[Memory Management]
-    A --> D[Optimization]
+    A["Implementation Details"] --> B["Node Design"]
+    A --> C["Memory Management"]
+    A --> D["Optimization"]
 
     B --> B1["Fixed vs variable size arrays"]
     B --> B2["Key and pointer arrays"]
@@ -533,10 +528,10 @@ graph TD
 
 ```mermaid
 graph TD
-    A[M-Way Tree Variants] --> B[B-Trees]
-    A --> C[B+ Trees]
-    A --> D[B* Trees]
-    A --> E[Specialized Trees]
+    A["M-Way Tree Variants"] --> B["B-Trees"]
+    A --> C["B+ Trees"]
+    A --> D["B* Trees"]
+    A --> E["Specialized Trees"]
 
     B --> B1["Minimum degree constraints"]
     B --> B2["Balanced height guarantee"]

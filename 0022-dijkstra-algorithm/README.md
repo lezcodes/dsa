@@ -83,12 +83,12 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Priority Queue in Dijkstra] --> B[Min-Heap Implementation]
-    B --> C[Extract-Min: O(log V)]
-    B --> D[Decrease-Key: O(log V)]
+    A["Priority Queue in Dijkstra"] --> B[Min-Heap Implementation]
+    B --> C["Extract-Min: O(log V)"]
+    B --> D["Decrease-Key: O(log V)"]
 
-    E[Alternative: Simple Array] --> F[Extract-Min: O(V)]
-    E --> G[Decrease-Key: O(1)]
+    E[Alternative: Simple Array] --> F["Extract-Min: O(V)"]
+    E --> G["Decrease-Key: O(1)"]
 
     H[Total Complexity] --> I["Heap: O((V + E) log V)"]
     H --> J["Array: O(V²)"]
@@ -115,8 +115,8 @@ graph LR
     end
 
     subgraph "After Relaxation"
-        G[Source] -->|3| H[Via: dist=3]
-        H -->|2| I[Updated: dist=5]
+        G["Source"] -->|3| H["Via: dist=3"]
+        H -->|2| I["Updated: dist=5"]
     end
 
     style F fill:#c8e6c9
@@ -127,12 +127,12 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Dijkstra Complete] --> B[Backtrack from destination]
+    A["Dijkstra Complete"] --> B[Backtrack from destination]
     B --> C[Follow parent pointers]
     C --> D[Build path in reverse]
     D --> E[Reverse to get final path]
 
-    F[Example: A to F] --> G["F ← E ← D ← B ← A"]
+    F["Example: A to F"] --> G["F ← E ← D ← B ← A"]
     G --> H["Path: A → B → D → E → F"]
 
     style A fill:#e1f5fe
@@ -143,7 +143,7 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Shortest Path Algorithms] --> B[Dijkstra]
+    A["Shortest Path Algorithms"] --> B[Dijkstra]
     A --> C[Bellman-Ford]
     A --> D[Floyd-Warshall]
     A --> E[A*]
@@ -162,15 +162,15 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Dijkstra Limitations"
-        A[Negative Weights] --> A1["Cannot handle<br/>negative edge weights"]
-        B[Single Source] --> B1["Only one source<br/>at a time"]
-        C[Memory Usage] --> C1["O(V) space for<br/>distances and queue"]
+        A["Negative Weights"] --> A1["Cannot handle<br/>negative edge weights"]
+        B["Single Source"] --> B1["Only one source<br/>at a time"]
+        C["Memory Usage"] --> C1["O(V) space for<br/>distances and queue"]
     end
 
     subgraph "When to Use Alternatives"
-        D[Negative weights] --> E[Use Bellman-Ford]
-        F[All pairs] --> G[Use Floyd-Warshall]
-        H[Known target] --> I[Use A* with heuristic]
+        D["Negative weights"] --> E[Use Bellman-Ford]
+        F["All pairs"] --> G[Use Floyd-Warshall]
+        H["Known target"] --> I[Use A* with heuristic]
     end
 
     style A1 fill:#ffcdd2
@@ -183,7 +183,7 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Dijkstra Applications] --> B[GPS Navigation]
+    A["Dijkstra Applications"] --> B[GPS Navigation]
     A --> C[Network Routing]
     A --> D[Social Networks]
     A --> E[Game Development]

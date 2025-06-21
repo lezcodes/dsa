@@ -12,23 +12,22 @@ Given an integer array, finds the contiguous subarray with the largest sum and r
 
 ```mermaid
 graph TD
-    A[Start: array, n] --> B[Initialize maxSum = arr[0]]
-    B --> C[Initialize currentSum = arr[0]]
-    C --> D[Set start = 0, end = 0, tempStart = 0]
-    D --> E[For i = 1 to n-1]
-    E --> F{currentSum < 0?}
-    F -->|Yes| G[currentSum = arr[i]]
-    F -->|No| H[currentSum += arr[i]]
-    G --> I[tempStart = i]
-    H --> J{currentSum > maxSum?}
-    I --> J
-    J -->|Yes| K[maxSum = currentSum]
-    J -->|No| L[Continue to next iteration]
-    K --> M[start = tempStart, end = i]
+    A["Start: array, n"] --> B["Initialize maxSum = arr[0]"]
+    B --> C["Initialize currentSum = arr[0]"]
+    C --> D["Set start = 0, end = 0, tempStart = 0"]
+    D --> E["For i = 1 to n-1"]
+    E --> F{"currentSum < 0?"}
+    F -->|Yes| G["currentSum = arr[i]"]
+    F -->|No| H["currentSum += arr[i]"]
+    G --> I["tempStart = i"]
+    H --> J{"currentSum > maxSum?"}
+    J -->|Yes| K["maxSum = currentSum"]
+    J -->|No| L["Continue to next iteration"]
+    K --> M["start = tempStart, end = i"]
     M --> L
-    L --> N{More elements?}
+    L --> N{"More elements?"}
     N -->|Yes| E
-    N -->|No| O[Return maxSum, start, end]
+    N -->|No| O["Return maxSum, start, end"]
 
     style A fill:#e1f5fe
     style O fill:#c8e6c9
@@ -40,15 +39,15 @@ graph TD
 ```mermaid
 graph TD
     subgraph "Array: [-2, 1, -3, 4, -1, 2, 1, -5, 4]"
-        A["Step 1: i=0, curr=-2, max=-2"]
-        B["Step 2: i=1, curr=1, max=1"]
-        C["Step 3: i=2, curr=-2, max=1"]
-        D["Step 4: i=3, curr=4, max=4"]
-        E["Step 5: i=4, curr=3, max=4"]
-        F["Step 6: i=5, curr=5, max=5"]
-        G["Step 7: i=6, curr=6, max=6"]
-        H["Step 8: i=7, curr=1, max=6"]
-        I["Step 9: i=8, curr=5, max=6"]
+        A["Step 1: i=0, currentSum=-2, maxSum=-2"]
+        B["Step 2: i=1, currentSum=1, maxSum=1"]
+        C["Step 3: i=2, currentSum=-2, maxSum=1"]
+        D["Step 4: i=3, currentSum=4, maxSum=4"]
+        E["Step 5: i=4, currentSum=3, maxSum=4"]
+        F["Step 6: i=5, currentSum=5, maxSum=5"]
+        G["Step 7: i=6, currentSum=6, maxSum=6"]
+        H["Step 8: i=7, currentSum=1, maxSum=6"]
+        I["Step 9: i=8, currentSum=5, maxSum=6"]
     end
 
     A --> B --> C --> D --> E --> F --> G --> H --> I
@@ -64,10 +63,10 @@ graph TD
 ```mermaid
 graph LR
     subgraph "Key Decision at Each Step"
-        A[Current element: arr[i]]
-        B{currentSum + arr[i] vs arr[i]}
-        C[Extend existing subarray]
-        D[Start new subarray]
+        A["Current element: arr[i]"]
+        B{"currentSum + arr[i] vs arr[i]"}
+        C["Extend existing subarray"]
+        D["Start new subarray"]
     end
 
     subgraph "Conditions"
@@ -76,8 +75,8 @@ graph LR
     end
 
     A --> B
-    B -->|currentSum + arr[i] > arr[i]| C
-    B -->|currentSum + arr[i] ≤ arr[i]| D
+    B -->|"currentSum + arr[i] > arr[i]"| C
+    B -->|"currentSum + arr[i] ≤ arr[i]"| D
 
     style A fill:#e1f5fe
     style C fill:#c8e6c9
@@ -124,9 +123,9 @@ graph LR
 
 ```mermaid
 graph TD
-    A[Maximum Subarray Approaches] --> B[Kadane's Algorithm]
-    A --> C[Brute Force]
-    A --> D[Divide & Conquer]
+    A["Maximum Subarray Approaches"] --> B["Kadane's Algorithm"]
+    A --> C["Brute Force"]
+    A --> D["Divide & Conquer"]
 
     B --> B1["Time: O(n)"]
     B --> B2["Space: O(1)"]
@@ -153,12 +152,12 @@ graph TD
 
 ```mermaid
 graph TD
-    A[DP State Definition] --> B["dp[i] = maximum sum ending at index i"]
-    B --> C[Recurrence Relation]
+    A["DP State Definition"] --> B["dp[i] = maximum sum ending at index i"]
+    B --> C["Recurrence Relation"]
     C --> D["dp[i] = max(arr[i], dp[i-1] + arr[i])"]
-    D --> E[Optimization]
+    D --> E["Optimization"]
     E --> F["Only need previous value, not entire array"]
-    F --> G[Space Optimized to O(1)]
+    F --> G["Space Optimized to O(1)"]
 
     subgraph "State Transition"
         H["If dp[i-1] > 0: Add to current"]
@@ -175,18 +174,18 @@ graph TD
 
 ```mermaid
 graph TD
-    A[Maximum Subarray Applications] --> B[Stock Trading]
-    A --> C[Image Processing]
-    A --> D[Genomics]
-    A --> E[Data Analysis]
+    A["Maximum Subarray Applications"] --> B["Stock Trading"]
+    A --> C["Image Processing"]
+    A --> D["Genomics"]
+    A --> E["Data Analysis"]
 
-    B --> B1["Maximum profit period<br/>Buy low, sell high<br/>Best trading window"]
+    B --> B1["Maximum profit period<br/>Buy low, sell high<br/>Best trading window"] --> B2["Buy low, sell high"] --> B3["Best trading window"]
 
-    C --> C1["Brightest region detection<br/>Image enhancement<br/>Pattern recognition"]
+    C --> C1["Brightest region detection<br/>Image enhancement<br/>Pattern recognition"] --> C2["Brightest region detection"] --> C3["Image enhancement"] --> C4["Pattern recognition"]
 
-    D --> D1["Gene expression analysis<br/>DNA sequence patterns<br/>Protein folding"]
+    D --> D1["Gene expression analysis<br/>DNA sequence patterns<br/>Protein folding"] --> D2["DNA sequence patterns"] --> D3["Protein folding"]
 
-    E --> E1["Time series analysis<br/>Anomaly detection<br/>Performance metrics"]
+    E --> E1["Time series analysis<br/>Anomaly detection<br/>Performance metrics"] --> E2["Time series analysis"] --> E3["Anomaly detection"] --> E4["Performance metrics"]
 
     style A fill:#e1f5fe
     style B1 fill:#c8e6c9

@@ -78,10 +78,10 @@ graph TD
 ```mermaid
 graph TD
     A[Two Sorted Arrays] --> B[Initialize pointers: i=0, j=0]
-    B --> C[Compare arr1[i] vs arr2[j]]
-    C --> D{arr1[i] <= arr2[j]?}
-    D -->|Yes| E[Add arr1[i] to result, i++]
-    D -->|No| F[Add arr2[j] to result, j++]
+    B --> C["Compare arr1[i] vs arr2[j]"]
+    C --> D{"arr1[i] <= arr2[j]?"}
+    D -->|Yes| E["Add arr1[i] to result, i++"]
+    D -->|No| F["Add arr2[j] to result, j++"]
     E --> G{More elements?}
     F --> G
     G -->|Yes| C
@@ -96,13 +96,13 @@ graph TD
 
 ```mermaid
 graph TD
-    A[mergeSort(array)] --> B{array.length <= 1?}
+    A["mergeSort(array)"] --> B{"array.length <= 1?"}
     B -->|Yes| C[Return array]
     B -->|No| D[Find middle point]
     D --> E[Split into left and right halves]
-    E --> F[mergeSort(left)]
-    E --> G[mergeSort(right)]
-    F --> H[merge(left, right)]
+    E --> F["mergeSort(left)"]
+    E --> G["mergeSort(right)"]
+    F --> H["merge(left, right)"]
     G --> H
     H --> I[Return merged array]
 
@@ -137,13 +137,13 @@ graph TD
 graph LR
     subgraph "Merge Sort Advantages"
         A1[Stable sorting]
-        A2[Guaranteed O(n log n)]
+        A2["Guaranteed O(n log n)"]
         A3[Predictable performance]
         A4[Good for large datasets]
     end
 
     subgraph "Merge Sort Disadvantages"
-        B1[O(n) extra space]
+        B1["O(n) extra space"]
         B2[Not in-place]
         B3[Overhead for small arrays]
     end
@@ -253,44 +253,6 @@ make test NAME=0013-merge-sort
 
 ## Benchmarking
 
-```bash
-go test -bench=. -benchmem
 ```
 
-## Implementation Details
-
-### Functions Available:
-
-- `MergeSort(arr []int) []int` - Standard top-down merge sort
-- `MergeSortBottomUp(arr []int) []int` - Iterative bottom-up approach
-- `MergeSortStable(arr []int) []int` - Explicitly stable merge sort
-- `MergeSortOptimized(arr []int) []int` - Optimized with insertion sort
-- `MergeSortInPlace(arr []int)` - In-place sorting
-- `IsSorted(arr []int) bool` - Utility to check if array is sorted
-
-### When to Use Merge Sort:
-
-- **Good for**: Large datasets, when stability is required, guaranteed O(n log n) performance
-- **Excellent for**: External sorting, parallel processing, linked lists
-- **Consider alternatives when**: Memory is very limited, working with small arrays
-
-### Comparison with Other Sorting Algorithms:
-
-- **vs Quick Sort**: More predictable performance, stable, but uses more memory
-- **vs Heap Sort**: Stable and better cache performance, but uses more memory
-- **vs Insertion Sort**: Much faster for large arrays, but slower for very small arrays
-- **vs Radix Sort**: More general (works with any comparable type), but slower for integers
-
-## Advantages
-
-- **Guaranteed O(n log n)**: No worst-case degradation
-- **Stable**: Preserves relative order of equal elements
-- **Predictable**: Performance doesn't depend on input distribution
-- **Parallelizable**: Easy to implement parallel versions
-- **External**: Can sort data larger than available memory
-
-## Disadvantages
-
-- **Space Complexity**: Requires O(n) additional memory
-- **Not In-Place**: Cannot sort with O(1) extra space
-- **Overhead**: Slower than quicksort for small arrays due to merge overhead
+```
